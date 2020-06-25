@@ -1,0 +1,23 @@
+Package: doudpackage
+Title: Parse table for article
+Version: 0.0.0.9000
+Authors@R: 
+    person("Edouard", "Baudouin",
+           role = c("aut", "cre"),
+           email = "edouardpierre.baudouin@aphp.fr")
+Description: This package allows user to extract univariate analysis into a kable parsed object
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.0
+Suggests: 
+    rmarkdown
+VignetteBuilder: knitr
+Imports: 
+    graphics,
+    kableExtra,
+    knitr,
+    stats
+Depends: 
+    tidyverse
