@@ -4,7 +4,6 @@
 #' @param data An object of dataframe type
 #' @import graphics
 #' @export
-#'
 #' @examples library(doudpackage)
 #' @examples par(mfrow=c(3,3))
 #' @examples ft_distrib(cars)

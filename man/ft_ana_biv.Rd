@@ -14,7 +14,7 @@ ft_ana_biv(data, var, signi = 0.2)
 \item{signi}{Significance levels}
 }
 \value{
-
+Return a dataframe with univariate analaysis
 }
 \description{
 Function that allows you to compute a p value according to a binary variable; default tests are Wilcoxon for quantitative variables, chisq or fisher wether chisq.test returns a warning

@@ -6,7 +6,8 @@
 #' @param signi Significance levels
 #' @import tidyverse
 #' @import stats
-#' @return
+#' @import lubridate
+#' @return Return a dataframe with univariate analaysis
 #' @export
 ## peut etre clairement opti ##
 ft_ana_biv<-function(data, var, signi=0.20){
