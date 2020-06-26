@@ -2,16 +2,18 @@
 % Please edit documentation in R/ft_univ_tab.R
 \name{ft_univ_tab}
 \alias{ft_univ_tab}
-\title{Generic function to create a table of descriptive analysis of you dataset}
+\title{Generic function to create a table of descriptive analysis of a dataset}
 \usage{
 ft_univ_tab(
   data,
   group = NULL,
   complete = TRUE,
-  min.max = FALSE,
-  digits.opt = 1,
   quanti = FALSE,
-  quali = FALSE
+  quali = FALSE,
+  na.print = FALSE,
+  p.value = TRUE,
+  min.max = FALSE,
+  digits.opt = 1
 )
 }
 \arguments{
@@ -19,15 +21,19 @@ ft_univ_tab(
 
 \item{group}{your variable of interest for you univariate analylisis to be splited}
 
-\item{complete}{wether or not you want your table to be parsed into a kable object and p value displayed; default = TRUE}
-
-\item{min.max}{wether or not youd want to display min and max value for quantitative variables; default is false}
-
-\item{digits.opt}{How many numbers after the "." you'd like for the proportions of qualitative variables; default is 1}
+\item{complete}{Wether to print quantitative and qualitative variables; default = TRUE}
 
 \item{quanti}{To be used only if complete is FALSE. If TRUE, returns only the univariate analysis for quantitative variables}
 
 \item{quali}{To be used only if complete is FALSE. If TRUE returns only the univariate analysis for qualitative variables}
+
+\item{na.print}{Wether to print NAs n(\%), default = FALSE}
+
+\item{p.value}{Print p value. Group needs to be set; default = TRUE}
+
+\item{min.max}{Display min and max value for quantitative variables; default is false}
+
+\item{digits.opt}{How many numbers after the "." you'd like for the proportions of qualitative variables; default is 1}
 }
 \value{
 the object returned depends on the complete option:either a dataframe or a kable oject

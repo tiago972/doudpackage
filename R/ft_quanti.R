@@ -17,27 +17,49 @@ ft_tab_quanti<-function(data, i, group=NULL, group_level=NULL)
   return(tmp_mat)
 }
 
-ft_univ_quanti_complete_true<-function(data, group, min.max=FALSE, tab_tmp)
+ft_parse_quanti_opt<-function(data, min.max, na.print)
+{
+  if (!isTRUE(min.max))
+    data<-data[,!names(data) %in% "Min-Max"]
+  if (!isTRUE(na.print))
+  {
+    data<-data[,!names(data) %in% "NAs"]
+    for (i in 1:nrow(data))
+      data[i,1]<-paste(data[i,1], "(median(IQR))", sep = " ")
+  }
+  else
+  {
+    data[,'median(IQR)']<-paste(data[,'median(IQR)'], data[,'NAs'], sep = "; ")
+    data<-data[,!names(data) %in% "NAs"]
+    for (i in 1:nrow(data))
+      data[i,1]<-paste(data[i,1], "(median(IQR); NAs(%))", sep = " ")
+  }
+  return(data)
+}
+
+ft_univ_quanti_p.value<-function(data, group, min.max, na.print,tab_tmp)
 {
   dicho<-tab_tmp
-  total<-ft_quanti.group_false(data)
+  total<-ft_quanti(data, NULL, NULL, min.max, na.print)
   biv<-ft_ana_biv(data, group)
   total$Group <- "Total"
   total<-merge(total, dicho, all=TRUE)
-  if (min.max==FALSE)
-    total<-select(total, -"Min-Max")
-  total<-mutate(total, 'median(IQR)' = paste(total$`median(IQR)`, total$NAs, sep = "; ")) %>%
-    select(-NAs)
-  total<-merge(total, biv, all.x=TRUE, by.x="var", by.y="nom") %>%
-    select(-test, -signi) %>%
-    pivot_wider(names_from = Group, values_from = `median(IQR)`)
+  total<-ft_parse_quanti_opt(total, min.max, na.print)
+  total<-merge(total, biv, all.x=TRUE, by.x="var", by.y="nom")
+  total<-total[,!names(total) %in% c("test", "signi")]
+  if (isTRUE(min.max) && isTRUE(na.print))
+    total<-pivot_wider(total, names_from = Group, values_from = c("median(IQR)", "Min-Max", "NAs"))
+  else if (isTRUE(min.max) && !isTRUE(na.print))
+    total<-pivot_wider(total, names_from = Group, values_from = c("median(IQR)", "Min-Max"))
+  else if (!isTRUE(min.max) && isTRUE(na.print))
+    total<-pivot_wider(total, names_from = Group, values_from = c("median(IQR)", "NAs"))
+  else if (!isTRUE(min.max) && !isTRUE(na.print))
+    total<-pivot_wider(total, names_from = Group, values_from = c("median(IQR)"))
   total$p<-ifelse(as.numeric(total$p) < 0.001, "< .001", round(as.numeric(total$p), digits = 3))
-  for (i in 1:nrow(total))
-    total[i,1]<-paste(total[i,1], "(median(IQR); NAs(%))", sep = " ")
   return(total)
 }
 
-ft_univ_quanti_complete_false<-function(data, group, complete, min.max=FALSE){
+ft_univ_quanti_2<-function(data, group, p.value, min.max, na.print){
   for (i in 1:ncol(data))
   {
     if (colnames(data)[i]==group || !is.numeric(data[,i]))
@@ -60,13 +82,16 @@ ft_univ_quanti_complete_false<-function(data, group, complete, min.max=FALSE){
     else
       tmp<-merge(tmp, analyse, all=TRUE)
   }
-  if (!isTRUE(complete))
+  if (!isTRUE(p.value))
+  {
+    tmp<-ft_parse_quanti_opt(tmp, min.max, na.print)
     return (tmp)
+  }
   else
-    return (ft_univ_quanti_complete_true(data, group, min.max, tmp))
+    return (ft_univ_quanti_p.value(data, group, min.max, na.print,tmp))
 }
 
-ft_quanti.group_false<-function(data, group=NULL, complete=TRUE, min.max=FALSE){
+ft_quanti<-function(data, group=NULL, p.value, min.max, na.print){
   if (is.null(group))
   {
     for (i in 1:ncol(data))
@@ -80,8 +105,9 @@ ft_quanti.group_false<-function(data, group=NULL, complete=TRUE, min.max=FALSE){
     analyse<-data.frame(mget(ls(pattern = "tab_")))
     analyse<-as.data.frame(t(analyse))
     rownames(analyse) <- c()
-    return(as.data.frame(analyse))
+    analyse<-ft_parse_quanti_opt(as.data.frame(analyse), min.max, na.print)
+    return(analyse)
   }
   else
-    return(ft_univ_quanti_complete_false(data, group, complete))
+    return(ft_univ_quanti_2(data, group, p.value, min.max, na.print))
 }
