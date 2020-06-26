@@ -1,3 +1,5 @@
+###  A optimiser avant de repasser aux quali
+
 ft_tab_quanti<-function(data, i, group=NULL, group_level=NULL)
 {
   if (!is.null(group))
