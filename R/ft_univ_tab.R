@@ -1,7 +1,6 @@
-##### Il faut rajouter en fait une option pour afficher ou non ou les Nas dans le tableau
-#### Il faut changer le nom de l option complete en parsed et rajouter une option pour la p-value
-### L'option complete devra en faite retourner les tableau concatener
-
+#### Il rajouter l option parsed
+### Il faut refaire quali avec le nouvelles options et en plus opti
+### Il faut opti la biv
 
 #' Generic function to create a table of descriptive analysis of a dataset
 #'

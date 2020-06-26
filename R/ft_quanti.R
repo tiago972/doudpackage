@@ -37,6 +37,7 @@ ft_parse_quanti_opt<-function(data, min.max, na.print, group)
   return(data)
 }
 
+#' @import tidyr
 ft_univ_quanti_p.value<-function(data, group, min.max, na.print,tab_tmp)
 {
   dicho<-ft_parse_quanti_opt(tab_tmp, min.max, na.print, group)
@@ -47,6 +48,7 @@ ft_univ_quanti_p.value<-function(data, group, min.max, na.print,tab_tmp)
   biv<-ft_parse_quanti_opt(biv, min.max, na.print, group)
   total<-merge(total, biv, all.x=TRUE, by.x="var", by.y="nom")
   total<-total[,!names(total) %in% c("test", "signi")]
+  Group=NULL
   if (isTRUE(min.max) && isTRUE(na.print))
     total<-pivot_wider(total, names_from = Group, values_from = c("median(IQR)", "Min-Max", "NAs"))
   else if (isTRUE(min.max) && !isTRUE(na.print))
@@ -72,14 +74,10 @@ ft_univ_quanti_2<-function(data, group, p.value, min.max, na.print){
     j = j + 1
     tmp_1<-ft_tab_quanti(data, i, group, levels(data[,group])[1])
     tmp_2<-ft_tab_quanti(data, i, group, levels(data[,group])[2])
-    tab_1[j,1]<-tmp_1[1]
-    tab_1[j,2]<-tmp_1[2]
-    tab_1[j,3]<-tmp_1[3]
-    tab_1[j,4]<-tmp_1[4]
-    tab_2[j,1]<-tmp_2[1]
-    tab_2[j,2]<-tmp_2[2]
-    tab_2[j,3]<-tmp_2[3]
-    tab_2[j,4]<-tmp_2[4]
+    for (k in 1:4)
+      tab_1[j,k]<-tmp_1[k]
+    for (k in 1:4)
+      tab_2[j,k]<-tmp_2[k]
   }
   tab_1$Group=levels(data[,group])[1]
   tab_2$Group=levels(data[,group])[2]
