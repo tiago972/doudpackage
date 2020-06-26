@@ -11,7 +11,7 @@ ft_ana_biv(data, var, signi = 0.2)
 
 \item{var}{Variable from which groups are made to compute p values}
 
-\item{signi}{Significance levels}
+\item{signi}{Significance levels (def = 0.20)}
 }
 \value{
 Return a dataframe with univariate analaysis

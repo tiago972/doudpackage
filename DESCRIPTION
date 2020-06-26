@@ -19,6 +19,6 @@ Imports:
     kableExtra,
     knitr,
     stats,
-    lubridate
-Depends: 
-    tidyverse
+    lubridate,
+    tidyr,
+    base

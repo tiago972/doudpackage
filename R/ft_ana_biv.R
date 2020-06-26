@@ -3,8 +3,7 @@
 #' Function that allows you to compute a p value according to a binary variable; default tests are Wilcoxon for quantitative variables, chisq or fisher wether chisq.test returns a warning
 #' @param data A database, dataframe object
 #' @param var Variable from which groups are made to compute p values
-#' @param signi Significance levels
-#' @import tidyverse
+#' @param signi Significance levels (def = 0.20)
 #' @import stats
 #' @import lubridate
 #' @return Return a dataframe with univariate analaysis

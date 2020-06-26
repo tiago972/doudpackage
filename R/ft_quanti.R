@@ -1,7 +1,7 @@
 ft_tab_quanti<-function(data, i, group=NULL, group_level=NULL)
 {
   if (!is.null(group))
-    subset<-data %>% filter(get(group)==as.character(group_level))
+    subset<-data[which(data[,group]==group_level),]
   else
     subset<-data
   "Min"<-round(min(subset[,i], na.rm=TRUE), 1)
@@ -12,7 +12,7 @@ ft_tab_quanti<-function(data, i, group=NULL, group_level=NULL)
   "prop_NAs"<-ifelse(is.na(table(is.na(subset[,i]))[2]), 0, round(prop.table(table(is.na(subset[,i])))[2] * 100, digits = 2))
   "NNAs"<-ifelse(is.na(table(is.na(subset[,i]))[2]), 0,table(is.na(subset[,i]))[2])
   tmp_mat<-c(var = colnames(data)[i], "Min-Max"=paste(Min, Max, sep="-"),
-             "median(IQR)"=gsub(" ", "", paste(mediane, "(", first_quartile, "-", third_quartile, ")")), 
+             "median(IQR)"=gsub(" ", "", paste(mediane, "(", first_quartile, "-", third_quartile, ")")),
              NAs=gsub(" ", "", paste(NNAs, "(", prop_NAs, ")")))
   return(tmp_mat)
 }
@@ -28,8 +28,8 @@ ft_univ_quanti_complete_true<-function(data, group, min.max=FALSE, tab_tmp)
     total<-select(total, -"Min-Max")
   total<-mutate(total, 'median(IQR)' = paste(total$`median(IQR)`, total$NAs, sep = "; ")) %>%
     select(-NAs)
-  total<-merge(total, biv, all.x=TRUE, by.x="var", by.y="nom") %>% 
-    select(-test, -signi) %>% 
+  total<-merge(total, biv, all.x=TRUE, by.x="var", by.y="nom") %>%
+    select(-test, -signi) %>%
     pivot_wider(names_from = Group, values_from = `median(IQR)`)
   total$p<-ifelse(as.numeric(total$p) < 0.001, "< .001", round(as.numeric(total$p), digits = 3))
   for (i in 1:nrow(total))
@@ -40,7 +40,7 @@ ft_univ_quanti_complete_true<-function(data, group, min.max=FALSE, tab_tmp)
 ft_univ_quanti_complete_false<-function(data, group, complete, min.max=FALSE){
   for (i in 1:ncol(data))
   {
-    if (colnames(bdd)[i]==group || !is.numeric(data[,i]))
+    if (colnames(data)[i]==group || !is.numeric(data[,i]))
       next ;
     for (j in 1:2)
     {
