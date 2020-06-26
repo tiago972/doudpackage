@@ -2,50 +2,48 @@
 #'
 #' Function that allows you to compute a p value according to a binary variable; default tests are Wilcoxon for quantitative variables, chisq or fisher wether chisq.test returns a warning
 #' @param data A database, dataframe object
-#' @param var Variable from which groups are made to compute p values
+#' @param group Variable from which sub-groups are made to compute p values
 #' @param signi Significance levels (def = 0.20)
 #' @import stats
 #' @import lubridate
 #' @return Return a dataframe with univariate analaysis
 #' @export
-## peut etre clairement opti ##
-ft_ana_biv<-function(data, var, signi=0.20){
+ft_ana_biv<-function(data, group, signi=0.20){
+  tmp<-as.data.frame(matrix(NA, ncol(data)-1, 4))
+  colnames(tmp)<-c("var", "test", "p", "signi")
   options(warn=0)
   my_env<-environment()
   for (i in 1:ncol(data)){
-    if (colnames(data)[i]==var)
+    if (colnames(data)[i]==group)
       next;
     if((is.numeric(data[,i])||is.integer(data[,i])) &&
        (min(data[,i], na.rm = TRUE) != max(data[,i], na.rm = TRUE))){
-      nom<-colnames(data)[i]
-      w<-wilcox.test(data[,i]~data[,var])
-      signi<-ifelse(w$p.value<signi,"OUI","non")
-      analyse<-c(nom=nom, test='wilcoxon',p=round(w$p.value, digits =7), signi=signi)
-      nomtest<-paste("analyse",i,sep="_")
-      assign(nomtest,analyse, envir = my_env)
+      tmp[i,"var"]<-colnames(data)[i]
+      tmp[i,"test"]<-"wilcoxon"
+      tmp[i,"p"]<-round(wilcox.test(data[,i]~data[,group])$p.value, digits = 7)
+      tmp[i, "signi"]<-ifelse(tmp[i,"p"]<signi,"OUI","non")
     }else if (is.factor(data[,i]) && !is.Date(data[,i]) && nlevels(data[,i]) > 1){
-      nom<-colnames(data)[i]
       tryCatch(
         {
-          c<-c(chisq.test(data[,i], data[,var], correct=FALSE), test_name = "chi2")
+          c<-c(chisq.test(data[,i], data[,group], correct=FALSE), test_name = "chi2")
         },
         warning=function(w){
-          my_env$c<-c(fisher.test(data[,i], data[,var], simulate.p.value = TRUE), test_name = "fisher")
+          my_env$c<-c(fisher.test(data[,i], data[,group], simulate.p.value = TRUE), test_name = "fisher")
         },
         finally = {
-          signi<-ifelse(c$p.value<signi,"OUI","non")
-          analyse<-c(nom=nom, test=my_env$c$test_name,p=round(c$p.value,digits =7), signi=signi)
-          nomtest<-paste("analyse",i,sep="_")
-          assign(nomtest,analyse, envir = my_env)
+          tmp[i,"var"]<-colnames(data)[i]
+          tmp[i,"test"]<-my_env$c$test_name
+          tmp[i,"p"]<-round(c$p.value,digits =7)
+          tmp[i, "signi"]<-ifelse(c$p.value<signi,"OUI","non")
         })
     } else
     {
-      analyse<-(paste(colnames(data)[i], 'no test', sep=" "))
-      nomtest<-paste("analyse",i,sep="_")
-      assign(nomtest,analyse)
+      tmp[i,"var"]<-colnames(data)[i]
+      tmp[i,"test"]<-"not conformed to be tested"
+      tmp[i,"p"]<-NA
+      tmp[i, "signi"]<-NA
     }
   }
-  analyse<-data.frame(mget(ls(pattern = "analyse_", envir = my_env), envir = my_env))
-  analyse<-as.data.frame(t(analyse))
-  return (analyse)
+  tmp<-tmp[complete.cases(tmp$var),]
+  return (tmp)
 }

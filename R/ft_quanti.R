@@ -46,7 +46,7 @@ ft_univ_quanti_p.value<-function(data, group, min.max, na.print,tab_tmp)
   total$Group <- "Total"
   total<-merge(total, dicho, all=TRUE)
   biv<-ft_parse_quanti_opt(biv, min.max, na.print, group)
-  total<-merge(total, biv, all.x=TRUE, by.x="var", by.y="nom")
+  total<-merge(total, biv, all.x=TRUE)
   total<-total[,!names(total) %in% c("test", "signi")]
   Group=NULL
   if (isTRUE(min.max) && isTRUE(na.print))
@@ -103,10 +103,8 @@ ft_quanti<-function(data, group=NULL, p.value, min.max, na.print){
         next;
       j = j + 1
       tmp<-ft_tab_quanti(data,i)
-      tab[j,"var"]<-tmp[1]
-      tab[j,"Min-Max"]<-tmp[2]
-      tab[j,"median(IQR)"]<-tmp[3]
-      tab[j,"NAs"]<-tmp[4]
+      for (k in 1:4)
+        tab[j,k]<-tmp[k]
     }
     tab<-ft_parse_quanti_opt(tab, min.max, na.print)
     return(tab)

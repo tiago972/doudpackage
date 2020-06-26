@@ -4,12 +4,12 @@
 \alias{ft_ana_biv}
 \title{Bivariate analysis}
 \usage{
-ft_ana_biv(data, var, signi = 0.2)
+ft_ana_biv(data, group, signi = 0.2)
 }
 \arguments{
 \item{data}{A database, dataframe object}
 
-\item{var}{Variable from which groups are made to compute p values}
+\item{group}{Variable from which sub-groups are made to compute p values}
 
 \item{signi}{Significance levels (def = 0.20)}
 }
