@@ -6,7 +6,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "edouardpierre.baudouin@aphp.fr")
 Description: This is for dataset descriptions. It can extract univariate analysis into a kable
-    parsed object. It can give you p value of common bivariates analysis, and perform them in subgroup.
+    parsed object in subgroup or not. It can give you p value of common bivariates analysis.
     It can also give you graphical distribution of the variables.
 License: GPL-3
 Encoding: UTF-8
