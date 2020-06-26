@@ -17,9 +17,9 @@ ft_univ_tab(
 )
 }
 \arguments{
-\item{data}{your dataset, needs to be a dataframe object}
+\item{data}{A dataset, needs to be a dataframe object}
 
-\item{group}{your variable of interest for you univariate analylisis to be splited}
+\item{group}{The variable of interest for you univariate analylisis to sub-grouped by.}
 
 \item{complete}{Wether to print quantitative and qualitative variables; default = TRUE}
 
@@ -36,8 +36,8 @@ ft_univ_tab(
 \item{digits.opt}{How many numbers after the "." you'd like for the proportions of qualitative variables; default is 1}
 }
 \value{
-the object returned depends on the complete option:either a dataframe or a kable oject
+The object returned depends on the "parse" option:either a dataframe or a kable oject
 }
 \description{
-This function allows you to display all together all univariate analysis (min-max; median; IQR; proportions) and bivariates analysis (wilcoxon, chisq or fisher). The univariate analysis can be grouped by a viariable of interest (binary viarble)
+This function allows you to display all together all univariate analysis (min-max; median; IQR; proportions) and bivariates analysis (wilcoxon, chisq or fisher). The univariate analysis can be sub-grouped by a viariable of interest (binary variable)
 }

@@ -1,5 +1,3 @@
-###  A optimiser avant de repasser aux quali
-
 ft_tab_quanti<-function(data, i, group=NULL, group_level=NULL)
 {
   if (!is.null(group))
@@ -19,7 +17,7 @@ ft_tab_quanti<-function(data, i, group=NULL, group_level=NULL)
   return(tmp_mat)
 }
 
-ft_parse_quanti_opt<-function(data, min.max, na.print)
+ft_parse_quanti_opt<-function(data, min.max, na.print, group)
 {
   if (!isTRUE(min.max))
     data<-data[,!names(data) %in% "Min-Max"]
@@ -29,7 +27,7 @@ ft_parse_quanti_opt<-function(data, min.max, na.print)
     for (i in 1:nrow(data))
       data[i,1]<-paste(data[i,1], "(median(IQR))", sep = " ")
   }
-  else
+  else if (!isTRUE(na.print) && !is.null(group))
   {
     data[,'median(IQR)']<-paste(data[,'median(IQR)'], data[,'NAs'], sep = "; ")
     data<-data[,!names(data) %in% "NAs"]
@@ -41,12 +39,12 @@ ft_parse_quanti_opt<-function(data, min.max, na.print)
 
 ft_univ_quanti_p.value<-function(data, group, min.max, na.print,tab_tmp)
 {
-  dicho<-tab_tmp
+  dicho<-ft_parse_quanti_opt(tab_tmp, min.max, na.print, group)
   total<-ft_quanti(data, NULL, NULL, min.max, na.print)
   biv<-ft_ana_biv(data, group)
   total$Group <- "Total"
   total<-merge(total, dicho, all=TRUE)
-  total<-ft_parse_quanti_opt(total, min.max, na.print)
+  biv<-ft_parse_quanti_opt(biv, min.max, na.print, group)
   total<-merge(total, biv, all.x=TRUE, by.x="var", by.y="nom")
   total<-total[,!names(total) %in% c("test", "signi")]
   if (isTRUE(min.max) && isTRUE(na.print))
@@ -62,31 +60,33 @@ ft_univ_quanti_p.value<-function(data, group, min.max, na.print,tab_tmp)
 }
 
 ft_univ_quanti_2<-function(data, group, p.value, min.max, na.print){
+  tab_1<-data.frame("var"=NA, "Min-Max"=NA, "median(IQR)"=NA, "NAs"=NA)
+  colnames(tab_1)=c("var", "Min-Max", "median(IQR)", "NAs")
+  tab_2<-data.frame("var"=NA, "Min-Max"=NA, "median(IQR)"=NA, "NAs"=NA)
+  colnames(tab_2)=c("var", "Min-Max", "median(IQR)", "NAs")
+  j = 0;
   for (i in 1:ncol(data))
   {
     if (colnames(data)[i]==group || !is.numeric(data[,i]))
       next ;
-    for (j in 1:2)
-    {
-      tab<-ft_tab_quanti(data, i, group, levels(data[,group])[j])
-      nomtest<-paste("tab", levels(data[,group])[j], i,sep="_")
-      assign(nomtest, tab)
-    }
+    j = j + 1
+    tmp_1<-ft_tab_quanti(data, i, group, levels(data[,group])[1])
+    tmp_2<-ft_tab_quanti(data, i, group, levels(data[,group])[2])
+    tab_1[j,1]<-tmp_1[1]
+    tab_1[j,2]<-tmp_1[2]
+    tab_1[j,3]<-tmp_1[3]
+    tab_1[j,4]<-tmp_1[4]
+    tab_2[j,1]<-tmp_2[1]
+    tab_2[j,2]<-tmp_2[2]
+    tab_2[j,3]<-tmp_2[3]
+    tab_2[j,4]<-tmp_2[4]
   }
-  for (j in 1:2)
-  {
-    analyse<-data.frame(mget(ls(pattern = paste("tab", levels(data[,group])[j], sep = "_"))))
-    analyse<-as.data.frame(t(analyse))
-    rownames(analyse) <- c()
-    analyse<-analyse %>% mutate(Group = levels(data[,group])[j])
-    if (j == 1)
-      tmp<-analyse
-    else
-      tmp<-merge(tmp, analyse, all=TRUE)
-  }
+  tab_1$Group=levels(data[,group])[1]
+  tab_2$Group=levels(data[,group])[2]
+  tmp<-merge(tab_1, tab_2, all=TRUE)
   if (!isTRUE(p.value))
   {
-    tmp<-ft_parse_quanti_opt(tmp, min.max, na.print)
+    tmp<-ft_parse_quanti_opt(tmp, min.max, na.print, group)
     return (tmp)
   }
   else
@@ -96,19 +96,22 @@ ft_univ_quanti_2<-function(data, group, p.value, min.max, na.print){
 ft_quanti<-function(data, group=NULL, p.value, min.max, na.print){
   if (is.null(group))
   {
+    tab<-data.frame("var"=NA, "Min-Max"=NA, "median(IQR)"=NA, "NAs"=NA)
+    colnames(tab)=c("var", "Min-Max", "median(IQR)", "NAs")
+    j = 0
     for (i in 1:ncol(data))
     {
       if (!is.numeric(data[,i]))
         next;
-      tab<-ft_tab_quanti(data,i)
-      nomtest<-paste("tab",i,sep="_")
-      assign(nomtest,tab)
+      j = j + 1
+      tmp<-ft_tab_quanti(data,i)
+      tab[j,"var"]<-tmp[1]
+      tab[j,"Min-Max"]<-tmp[2]
+      tab[j,"median(IQR)"]<-tmp[3]
+      tab[j,"NAs"]<-tmp[4]
     }
-    analyse<-data.frame(mget(ls(pattern = "tab_")))
-    analyse<-as.data.frame(t(analyse))
-    rownames(analyse) <- c()
-    analyse<-ft_parse_quanti_opt(as.data.frame(analyse), min.max, na.print)
-    return(analyse)
+    tab<-ft_parse_quanti_opt(tab, min.max, na.print)
+    return(tab)
   }
   else
     return(ft_univ_quanti_2(data, group, p.value, min.max, na.print))
