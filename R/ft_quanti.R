@@ -1,3 +1,20 @@
+#### Fonction annexe pour renommer la var contene dans biv comme celles du dataframe de sortie ###
+ft_rename_quanti_biv<-function(biv, na.print)
+{
+  if (!isTRUE(na.print))
+  {
+    for (i in 1:nrow(biv))
+      biv[i,1]<-paste(biv[i,1], "(median(IQR))", sep = " ")
+  }
+  else if (isTRUE(na.print))
+  {
+    for (i in 1:nrow(biv))
+      biv[i,1]<-paste(biv[i,1], "(median(IQR); NAs(%))", sep = " ")
+  }
+  return(biv)
+}
+
+#### Fonction principale pour les differents elements de l analyse univariee ####
 ft_tab_quanti<-function(data, i, group=NULL, group_level=NULL)
 {
   if (!is.null(group))
@@ -17,6 +34,7 @@ ft_tab_quanti<-function(data, i, group=NULL, group_level=NULL)
   return(tmp_mat)
 }
 
+#### Fonction pour le filtrage des elements selon les options choisies ####
 ft_parse_quanti_opt<-function(data, min.max, na.print, group)
 {
   if (!isTRUE(min.max))
@@ -27,7 +45,7 @@ ft_parse_quanti_opt<-function(data, min.max, na.print, group)
     for (i in 1:nrow(data))
       data[i,1]<-paste(data[i,1], "(median(IQR))", sep = " ")
   }
-  else if (!isTRUE(na.print) && !is.null(group))
+  else if (isTRUE(na.print) && !is.null(group))
   {
     data[,'median(IQR)']<-paste(data[,'median(IQR)'], data[,'NAs'], sep = "; ")
     data<-data[,!names(data) %in% "NAs"]
@@ -37,6 +55,7 @@ ft_parse_quanti_opt<-function(data, min.max, na.print, group)
   return(data)
 }
 
+#### si pvalue est true #####
 #' @import tidyr
 ft_univ_quanti_p.value<-function(data, group, min.max, na.print,tab_tmp)
 {
@@ -45,22 +64,18 @@ ft_univ_quanti_p.value<-function(data, group, min.max, na.print,tab_tmp)
   biv<-ft_ana_biv(data, group)
   total$Group <- "Total"
   total<-merge(total, dicho, all=TRUE)
-  biv<-ft_parse_quanti_opt(biv, min.max, na.print, group)
+  biv<-ft_rename_quanti_biv(biv, na.print)
   total<-merge(total, biv, all.x=TRUE)
   total<-total[,!names(total) %in% c("test", "signi")]
-  Group=NULL
-  if (isTRUE(min.max) && isTRUE(na.print))
-    total<-pivot_wider(total, names_from = Group, values_from = c("median(IQR)", "Min-Max", "NAs"))
-  else if (isTRUE(min.max) && !isTRUE(na.print))
-    total<-pivot_wider(total, names_from = Group, values_from = c("median(IQR)", "Min-Max"))
-  else if (!isTRUE(min.max) && isTRUE(na.print))
-    total<-pivot_wider(total, names_from = Group, values_from = c("median(IQR)", "NAs"))
-  else if (!isTRUE(min.max) && !isTRUE(na.print))
-    total<-pivot_wider(total, names_from = Group, values_from = c("median(IQR)"))
+  if (isTRUE(min.max))
+    total<-pivot_wider(total, names_from = "Group", values_from = c("median(IQR)", "Min-Max"))
+  else
+    total<-pivot_wider(total, names_from = "Group", values_from = c("median(IQR)"))
   total$p<-ifelse(as.numeric(total$p) < 0.001, "< .001", round(as.numeric(total$p), digits = 3))
   return(total)
 }
 
+### simple fonction coupee ####
 ft_univ_quanti_2<-function(data, group, p.value, min.max, na.print){
   tab_1<-data.frame("var"=NA, "Min-Max"=NA, "median(IQR)"=NA, "NAs"=NA)
   colnames(tab_1)=c("var", "Min-Max", "median(IQR)", "NAs")
@@ -85,6 +100,10 @@ ft_univ_quanti_2<-function(data, group, p.value, min.max, na.print){
   if (!isTRUE(p.value))
   {
     tmp<-ft_parse_quanti_opt(tmp, min.max, na.print, group)
+    if (!isTRUE(min.max))
+      tmp<-pivot_wider(tmp, names_from = "Group", values_from = "median(IQR)")
+    else
+      tmp<-pivot_wider(tmp, names_from = "Group", values_from = c("median(IQR)", "Min-Max"))
     return (tmp)
   }
   else
@@ -106,7 +125,7 @@ ft_quanti<-function(data, group=NULL, p.value, min.max, na.print){
       for (k in 1:4)
         tab[j,k]<-tmp[k]
     }
-    tab<-ft_parse_quanti_opt(tab, min.max, na.print)
+    tab<-ft_parse_quanti_opt(tab, min.max, na.print, NULL)
     return(tab)
   }
   else

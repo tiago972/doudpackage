@@ -13,7 +13,7 @@ ft_univ_tab(
   na.print = FALSE,
   p.value = TRUE,
   min.max = FALSE,
-  digits.opt = 1
+  digits.opt = 0
 )
 }
 \arguments{
@@ -27,13 +27,13 @@ ft_univ_tab(
 
 \item{quali}{To be used only if complete is FALSE. If TRUE returns only the univariate analysis for qualitative variables}
 
-\item{na.print}{Wether to print NAs n(\%), default = FALSE}
+\item{na.print}{Wether to print NAs n(\%), default = FALSE. Note that if true, "Total" will also be printed. This will be change in a futur version}
 
-\item{p.value}{Print p value. Group needs to be set; default = TRUE}
+\item{p.value}{Print p value. Group needs to be set; default = TRUE. If TRUE, "Total" will also be printed}
 
 \item{min.max}{Display min and max value for quantitative variables; default is false}
 
-\item{digits.opt}{How many numbers after the "." you'd like for the proportions of qualitative variables; default is 1}
+\item{digits.opt}{How many numbers after the "." you'd like for the proportions of qualitative variables; default is 0}
 }
 \value{
 The object returned depends on the "parse" option:either a dataframe or a kable oject

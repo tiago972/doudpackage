@@ -1,6 +1,5 @@
 #### Il rajouter l option parsed
-### Il faut refaire quali avec le nouvelles options et en plus opti
-### Il faut opti la biv
+### Mettre le n total de chaque groupe dans le titre
 
 #' Generic function to create a table of descriptive analysis of a dataset
 #'
@@ -10,13 +9,13 @@
 #' @param complete Wether to print quantitative and qualitative variables; default = TRUE
 #' @param quanti To be used only if complete is FALSE. If TRUE, returns only the univariate analysis for quantitative variables
 #' @param quali To be used only if complete is FALSE. If TRUE returns only the univariate analysis for qualitative variables
-#' @param na.print Wether to print NAs n(%), default = FALSE
-#' @param p.value Print p value. Group needs to be set; default = TRUE
+#' @param na.print Wether to print NAs n(%), default = FALSE. Note that if true, "Total" will also be printed. This will be change in a futur version
+#' @param p.value Print p value. Group needs to be set; default = TRUE. If TRUE, "Total" will also be printed
 #' @param min.max Display min and max value for quantitative variables; default is false
-#' @param digits.opt How many numbers after the "." you'd like for the proportions of qualitative variables; default is 1
+#' @param digits.opt How many numbers after the "." you'd like for the proportions of qualitative variables; default is 0
 #' @return The object returned depends on the "parse" option:either a dataframe or a kable oject
 #' @export
-ft_univ_tab<-function(data, group=NULL, complete = TRUE, quanti=FALSE, quali=FALSE, na.print = FALSE, p.value=TRUE, min.max=FALSE, digits.opt=1){
+ft_univ_tab<-function(data, group=NULL, complete = TRUE, quanti=FALSE, quali=FALSE, na.print = FALSE, p.value=TRUE, min.max=FALSE, digits.opt=0){
   if (!is.null(group) && (!is.factor(data[,group]) || nlevels(data[,group]) > 3))
   {
     write("Grouping error dude, check if the variable is a binary factor", stderr())
@@ -26,8 +25,8 @@ ft_univ_tab<-function(data, group=NULL, complete = TRUE, quanti=FALSE, quali=FAL
     complete=FALSE
   if (isTRUE(complete) || isTRUE(quanti))
     quanti_tab<-ft_quanti(data, group, p.value, min.max, na.print)
-  # if (isTRUE(complete) || isTRUE(quali))
-  #   quali_tab<-ft_quali.group_false(data, p.value, complete, digits.opt)
+   if (isTRUE(complete) || isTRUE(quali))
+     quali_tab<-ft_quali(data, group, p.value, na.print, digits.opt)
   if (!isTRUE(complete) && isTRUE(quanti))
     return(quanti_tab)
   else if (!isTRUE(complete) && isTRUE(quali))
