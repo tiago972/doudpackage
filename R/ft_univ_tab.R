@@ -1,6 +1,7 @@
 #### Il rajouter l option parsed
 ### Mettre le n total de chaque groupe dans le titre
-
+## Attention, la colonne NAs reste a cause de quanti si na.print is true (le merge se fait bien il faut juste la virer)
+## Attention, la colonne total ne sort pas si p.value is false
 #' Generic function to create a table of descriptive analysis of a dataset
 #'
 #' This function allows you to display all together all univariate analysis (min-max; median; IQR; proportions) and bivariates analysis (wilcoxon, chisq or fisher). The univariate analysis can be sub-grouped by a viariable of interest (binary variable)
