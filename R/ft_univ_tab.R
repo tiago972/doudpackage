@@ -7,7 +7,7 @@
 #'
 #' This function allows you to display all together all univariate analysis (min-max; median; IQR; proportions) and bivariates analysis (wilcoxon, chisq or fisher). The univariate analysis can be sub-grouped by a viariable of interest (binary variable)
 #' @param data A dataset, needs to be a dataframe object
-#' @param group The variable of interest for you univariate analylisis to sub-grouped by.
+#' @param group The variable of interest for you univariate analysis to sub-grouped by.
 #' @param complete Wether to print quantitative and qualitative variables; default = TRUE
 #' @param quanti To be used only if complete is FALSE. If TRUE, returns only the univariate analysis for quantitative variables
 #' @param quali To be used only if complete is FALSE. If TRUE returns only the univariate analysis for qualitative variables
