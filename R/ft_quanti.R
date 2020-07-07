@@ -15,7 +15,7 @@ ft_rename_quanti_biv<-function(biv, na.print)
 }
 
 #### Fonction principale pour les differents elements de l analyse univariee ####
-ft_tab_quanti<-function(data, i, group=NULL, group_level=NULL)
+ft_tab_quanti<-function(data, i, group=NULL, group_level=NULL, digits.opt)
 {
   if (!is.null(group))
     subset<-data[which(data[,group]==group_level),]
@@ -26,7 +26,7 @@ ft_tab_quanti<-function(data, i, group=NULL, group_level=NULL)
   "mediane"<-round(quantile(subset[,i], probs = seq(0,1,0.5),na.rm=TRUE)[2], 1)
   "first_quartile"<-round(quantile(subset[,i], probs = seq(0,1,0.25),na.rm=TRUE)[2], 1)
   "third_quartile"<-round(quantile(subset[,i], probs = seq(0,1,0.25),na.rm=TRUE)[4], 1)
-  "prop_NAs"<-ifelse(is.na(table(is.na(subset[,i]))[2]), 0, round(prop.table(table(is.na(subset[,i])))[2] * 100, digits = 2))
+  "prop_NAs"<-ifelse(is.na(table(is.na(subset[,i]))[2]), 0, round(prop.table(table(is.na(subset[,i])))[2] * 100, digits = digits.opt))
   "NNAs"<-ifelse(is.na(table(is.na(subset[,i]))[2]), 0,table(is.na(subset[,i]))[2])
   tmp_mat<-c(var = colnames(data)[i], "Min-Max"=paste(Min, Max, sep="-"),
              "median(IQR)"=gsub(" ", "", paste(mediane, "(", first_quartile, "-", third_quartile, ")")),
@@ -76,7 +76,7 @@ ft_univ_quanti_p.value<-function(data, group, min.max, na.print,tab_tmp)
 }
 
 ### simple fonction coupee ####
-ft_univ_quanti_2<-function(data, group, p.value, min.max, na.print){
+ft_univ_quanti_2<-function(data, group, p.value, min.max, na.print, digits.opt){
   tab_1<-data.frame("var"=NA, "Min-Max"=NA, "median(IQR)"=NA, "NAs"=NA)
   colnames(tab_1)=c("var", "Min-Max", "median(IQR)", "NAs")
   tab_2<-data.frame("var"=NA, "Min-Max"=NA, "median(IQR)"=NA, "NAs"=NA)
@@ -87,8 +87,8 @@ ft_univ_quanti_2<-function(data, group, p.value, min.max, na.print){
     if (colnames(data)[i]==group || !is.numeric(data[,i]))
       next ;
     j = j + 1
-    tmp_1<-ft_tab_quanti(data, i, group, levels(data[,group])[1])
-    tmp_2<-ft_tab_quanti(data, i, group, levels(data[,group])[2])
+    tmp_1<-ft_tab_quanti(data, i, group, levels(data[,group])[1], digits.opt)
+    tmp_2<-ft_tab_quanti(data, i, group, levels(data[,group])[2], digits.opt)
     for (k in 1:4)
       tab_1[j,k]<-tmp_1[k]
     for (k in 1:4)
@@ -110,7 +110,7 @@ ft_univ_quanti_2<-function(data, group, p.value, min.max, na.print){
     return (ft_univ_quanti_p.value(data, group, min.max, na.print,tmp))
 }
 
-ft_quanti<-function(data, group=NULL, p.value, min.max, na.print){
+ft_quanti<-function(data, group=NULL, p.value, min.max, na.print, digits.opt){
   if (is.null(group))
   {
     tab<-data.frame("var"=NA, "Min-Max"=NA, "median(IQR)"=NA, "NAs"=NA)
@@ -121,7 +121,7 @@ ft_quanti<-function(data, group=NULL, p.value, min.max, na.print){
       if (!is.numeric(data[,i]))
         next;
       j = j + 1
-      tmp<-ft_tab_quanti(data,i)
+      tmp<-ft_tab_quanti(data,i, digits.opt)
       for (k in 1:4)
         tab[j,k]<-tmp[k]
     }
@@ -129,5 +129,5 @@ ft_quanti<-function(data, group=NULL, p.value, min.max, na.print){
     return(tab)
   }
   else
-    return(ft_univ_quanti_2(data, group, p.value, min.max, na.print))
+    return(ft_univ_quanti_2(data, group, p.value, min.max, na.print, digits.opt))
 }

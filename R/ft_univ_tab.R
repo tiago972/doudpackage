@@ -2,7 +2,6 @@
 ### Mettre le n total de chaque groupe dans le titre
 ## Attention, la colonne NAs reste a cause de quanti si na.print is true (le merge se fait bien il faut juste la virer); ca vient du nom contenu dans la colonne var (total n'est pas parse)
 ## Attention, la colonne total ne sort pas si p.value is false
-## Attention, l'option digits doit etre prise en compte pour le % des NAs
 
 #' Generic function to create a table of descriptive analysis of a dataset
 #'
@@ -18,7 +17,7 @@
 #' @param digits.opt How many numbers after the "." you'd like for the proportions of qualitative variables; default is 0
 #' @return The object returned depends on the "parse" option:either a dataframe or a kable oject
 #' @export
-ft_univ_tab<-function(data, group=NULL, complete = TRUE, quanti=FALSE, quali=FALSE, na.print = FALSE, p.value=TRUE, min.max=FALSE, digits.opt=0){
+ft_desc_tab<-function(data, group=NULL, complete = TRUE, quanti=FALSE, quali=FALSE, na.print = FALSE, p.value=TRUE, min.max=FALSE, digits.opt=0){
   if (!is.null(group) && (!is.factor(data[,group]) || nlevels(data[,group]) > 3))
   {
     write("Grouping error dude, check if the variable is a binary factor", stderr())
@@ -27,7 +26,7 @@ ft_univ_tab<-function(data, group=NULL, complete = TRUE, quanti=FALSE, quali=FAL
   if (isTRUE(quanti)||isTRUE(quali))
     complete=FALSE
   if (isTRUE(complete) || isTRUE(quanti))
-    quanti_tab<-ft_quanti(data, group, p.value, min.max, na.print)
+    quanti_tab<-ft_quanti(data, group, p.value, min.max, na.print, digits.opt)
    if (isTRUE(complete) || isTRUE(quali))
      quali_tab<-ft_quali(data, group, p.value, na.print, digits.opt)
   if (!isTRUE(complete) && isTRUE(quanti))
