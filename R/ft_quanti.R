@@ -21,11 +21,11 @@ ft_tab_quanti<-function(data, i, group=NULL, group_level=NULL, digits.opt)
     subset<-data[which(data[,group]==group_level),]
   else
     subset<-data
-  "Min"<-round(min(subset[,i], na.rm=TRUE), 1)
-  "Max"<-round(max(subset[,i], na.rm=TRUE), 1)
-  "mediane"<-round(quantile(subset[,i], probs = seq(0,1,0.5),na.rm=TRUE)[2], 1)
-  "first_quartile"<-round(quantile(subset[,i], probs = seq(0,1,0.25),na.rm=TRUE)[2], 1)
-  "third_quartile"<-round(quantile(subset[,i], probs = seq(0,1,0.25),na.rm=TRUE)[4], 1)
+  "Min"<-min(subset[,i], na.rm=TRUE)
+  "Max"<-max(subset[,i], na.rm=TRUE)
+  "mediane"<-quantile(subset[,i], probs = seq(0,1,0.5),na.rm=TRUE)[2]
+  "first_quartile"<-quantile(subset[,i], probs = seq(0,1,0.25),na.rm=TRUE)[2]
+  "third_quartile"<-quantile(subset[,i], probs = seq(0,1,0.25),na.rm=TRUE)[4]
   "prop_NAs"<-ifelse(is.na(table(is.na(subset[,i]))[2]), 0, round(prop.table(table(is.na(subset[,i])))[2] * 100, digits = digits.opt))
   "NNAs"<-ifelse(is.na(table(is.na(subset[,i]))[2]), 0,table(is.na(subset[,i]))[2])
   tmp_mat<-c(var = colnames(data)[i], "Min-Max"=paste(Min, Max, sep="-"),
@@ -121,7 +121,7 @@ ft_quanti<-function(data, group=NULL, p.value, min.max, na.print, digits.opt){
       if (!is.numeric(data[,i]))
         next;
       j = j + 1
-      tmp<-ft_tab_quanti(data,i, digits.opt)
+      tmp<-ft_tab_quanti(data,i, NULL, NULL, digits.opt)
       for (k in 1:4)
         tab[j,k]<-tmp[k]
     }
