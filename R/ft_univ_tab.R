@@ -2,6 +2,7 @@
 ### Mettre le n total de chaque groupe dans le titre
 ## Attention, la colonne NAs reste a cause de quanti si na.print is true (le merge se fait bien il faut juste la virer); ca vient du nom contenu dans la colonne var (total n'est pas parse)
 ## Attention, la colonne total ne sort pas si p.value is false
+## Attention il faut set group = NULL ou mettre un message d erreur si complete = F et group est precise
 
 #' Generic function to create a table of descriptive analysis of a dataset
 #'
