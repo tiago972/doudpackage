@@ -127,6 +127,7 @@ ft_quanti<-function(data, group=NULL, p.value, min.max, na.print, digits.opt){
         tab[j,k]<-tmp[k]
     }
     tab<-ft_parse_quanti_opt(tab, min.max, na.print, NULL)
+    # colnames(wich(colnamanes(tab))=="median(IQR)")<-"Total"
     return(tab)
   }
   else
