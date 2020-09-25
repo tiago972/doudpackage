@@ -63,7 +63,7 @@ ft_univ_quanti_p.value<-function(data, group, min.max, na.print,tab_tmp)
   total<-ft_quanti(data, NULL, NULL, min.max, na.print)
   biv<-ft_ana_biv(data, group)
   total$Group <- "Total"
-  total<-ft_parse_quanti_opt(total, min.max, na.print, "Total")
+  # total<-ft_parse_quanti_opt(total, min.max, na.print, "Total")
   total<-merge(total, dicho, all=TRUE)
   biv<-ft_rename_quanti_biv(biv, na.print)
   total<-merge(total, biv, all.x=TRUE)
@@ -119,9 +119,9 @@ ft_quanti<-function(data, group=NULL, p.value, min.max, na.print, digits.opt){
     j = 0
     for (i in 1:ncol(data))
     {
-      j = j + 1
       if (!is.numeric(data[,i]))
         next;
+      j = j + 1
       tmp<-ft_tab_quanti(data,i, NULL, NULL, digits.opt)
       for (k in 1:4)
         tab[j,k]<-tmp[k]
