@@ -1,10 +1,13 @@
 #### Il rajouter l option parsed
 ### Mettre le n total de chaque groupe dans le titre
-## Attention, la colonne NAs reste a cause de quanti si na.print is true (le merge se fait bien il faut juste la virer); ca vient du nom contenu dans la colonne var (total n'est pas parse)
+## Attention, si complete = T et na.print = T, les var quanti ne sont pas renommées (median(IQR); Nas(%))
+## et du coup il y a deux colonnes à cause des var quanti
+
 ## Attention, la colonne total ne sort pas si p.value is false
 ## Attention il faut set group = NULL ou mettre un message d erreur si complete = F et group est precise
 ## Il faut rajouter la possibilite d'avoir ou SD ou l'IQR
 ## Il faut changer l'affichage en mettant les Nas en dessous si il y en a
+## Il faut rajouter les anova si groupe à > 2 classes; ça implique de revoir les remplissage des tableaux selon la modalité de groupe
 
 #' Generic function to create a table of descriptive analysis of a dataset
 #'
