@@ -63,7 +63,6 @@ ft_univ_quanti_p.value<-function(data, group, min.max, na.print,tab_tmp)
   total<-ft_quanti(data, NULL, NULL, min.max, na.print)
   biv<-ft_ana_biv(data, group)
   total$Group <- "Total"
-  # total<-ft_parse_quanti_opt(total, min.max, na.print, "Total")
   total<-merge(total, dicho, all=TRUE)
   biv<-ft_rename_quanti_biv(biv, na.print)
   total<-merge(total, biv, all.x=TRUE)
@@ -127,7 +126,6 @@ ft_quanti<-function(data, group=NULL, p.value, min.max, na.print, digits.opt){
         tab[j,k]<-tmp[k]
     }
     tab<-ft_parse_quanti_opt(tab, min.max, na.print, NULL)
-    # colnames(wich(colnamanes(tab))=="median(IQR)")<-"Total"
     return(tab)
   }
   else
