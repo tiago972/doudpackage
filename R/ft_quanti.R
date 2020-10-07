@@ -45,10 +45,15 @@ ft_parse_quanti_opt<-function(data, min.max, na.print, group)
     for (i in 1:nrow(data))
       data[i,1]<-paste(data[i,1], "(median(IQR))", sep = " ")
   }
-  else if (isTRUE(na.print))
+  else
   {
+    ### Pour les Nas a la ligne c est ici qu il faudra agir
+    print(head(data, 2))
     data[,'Total']<-paste(data[,'Total'], data[,'NAs'], sep = "; ")
+    print(head(data, 2))
     data<-data[,!names(data) %in% "NAs"]
+    print(head(data, 2))
+
     for (i in 1:nrow(data))
       data[i,1]<-paste(data[i,1], "(median(IQR); NAs(%))", sep = " ")
   }
