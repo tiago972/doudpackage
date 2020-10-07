@@ -1,6 +1,6 @@
+######## il faut faire une ft_error #####
 #### Il rajouter l option parsed
-### Mettre le n total de chaque groupe dans le titre
-## Attention il faut set group = NULL ou mettre un message d erreur si complete = F et group est precise
+### Mettre le n(%) de chaque groupe dans le titre
 ## Il faut rajouter la possibilite d'avoir ou SD ou l'IQR
 ## Il faut changer l'affichage en mettant les Nas en dessous si il y en a et lvl dans le nom de var
 ## Il faut rajouter les anova si groupe à > 2 classes; ça implique de revoir les remplissage des tableaux selon la modalité de groupe
@@ -24,6 +24,11 @@ ft_desc_tab<-function(data, group=NULL, complete = TRUE, quanti=FALSE, quali=FAL
   {
     write("Grouping error dude, check if the variable is a binary factor", stderr())
     return (-1)
+  }
+  if (isFALSE(complete) && isFALSE(quanti) && isFALSE(quali))
+  {
+    write("Error, if complete is FALSE, quanti or quali must be TRUE", stderr())
+    return(-1)
   }
   if (isTRUE(quanti)||isTRUE(quali))
     complete=FALSE
