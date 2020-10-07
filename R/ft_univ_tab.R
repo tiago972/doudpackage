@@ -1,6 +1,5 @@
 #### Il rajouter l option parsed
 ### Mettre le n total de chaque groupe dans le titre
-## Attention, la colonne total est a creer si pas de groupe
 ## Attention il faut set group = NULL ou mettre un message d erreur si complete = F et group est precise
 ## Il faut rajouter la possibilite d'avoir ou SD ou l'IQR
 ## Il faut changer l'affichage en mettant les Nas en dessous si il y en a et lvl dans le nom de var

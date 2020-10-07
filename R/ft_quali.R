@@ -18,6 +18,7 @@ ft_parse_quali_opt<-function(tmp, opt, v_group=NULL, na.print)
       tmp[,"n(%)"]<-paste(tmp[,"n(%)"], tmp[,"NAs(%)"], sep=";")
       tmp<-tmp[,!names(tmp) %in% "NAs(%)"]
     }
+    colnames(tmp)[colnames(tmp)=="n(%)"]<-"Total"
   }
   else if (opt == 2)
     colnames(tmp)[colnames(tmp)=="n(%)"]<-"Total"
@@ -61,7 +62,7 @@ ft_quali_grouped<-function(data, group, p.value, na.print, digits.opt)
   tmp_2<-ft_quali(tmp_2, group=NULL, p.value, na.print, digits.opt)
   tmp_2$Group=levels(data[,group])[2]
   res<-merge(tmp_1, tmp_2, all=TRUE)
-  res<-pivot_wider(res, names_from = "Group", values_from =  "n(%)")
+  res<-pivot_wider(res, names_from = "Group", values_from =  "Total")
   if (isFALSE(p.value))
     return(res)
   else

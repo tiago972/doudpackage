@@ -62,26 +62,25 @@ ft_univ_quanti_p.value<-function(data, group, min.max, na.print,tab_tmp)
   dicho<-ft_parse_quanti_opt(tab_tmp, min.max, na.print, group)
   total<-ft_quanti(data, NULL, NULL, min.max, na.print)
   biv<-ft_ana_biv(data, group)
-  colnames(total)[which(colnames(total)=="Total")]<-"median(IQR)"
   total$Group <- "Total"
   total<-merge(total, dicho, all=TRUE)
   biv<-ft_rename_quanti_biv(biv, na.print)
   total<-merge(total, biv, all.x=TRUE)
   total<-total[,!names(total) %in% c("test", "signi")]
   if (isTRUE(min.max))
-    total<-pivot_wider(total, names_from = "Group", values_from = c("median(IQR)", "Min-Max"))
+    total<-pivot_wider(total, names_from = "Group", values_from = c("Total", "Min-Max"))
   else
-    total<-pivot_wider(total, names_from = "Group", values_from = c("median(IQR)"))
+    total<-pivot_wider(total, names_from = "Group", values_from = c("Total"))
   total$p<-ifelse(as.numeric(total$p) < 0.001, "< .001", round(as.numeric(total$p), digits = 3))
   return(total)
 }
 
 ### simple fonction coupee ####
 ft_univ_quanti_2<-function(data, group, p.value, min.max, na.print, digits.opt){
-  tab_1<-data.frame("var"=NA, "Min-Max"=NA, "median(IQR)"=NA, "NAs"=NA)
-  colnames(tab_1)=c("var", "Min-Max", "median(IQR)", "NAs")
-  tab_2<-data.frame("var"=NA, "Min-Max"=NA, "median(IQR)"=NA, "NAs"=NA)
-  colnames(tab_2)=c("var", "Min-Max", "median(IQR)", "NAs")
+  tab_1<-data.frame("var"=NA, "Min-Max"=NA, "Total"=NA, "NAs"=NA)
+  colnames(tab_1)=c("var", "Min-Max", "Total", "NAs")
+  tab_2<-data.frame("var"=NA, "Min-Max"=NA, "Total"=NA, "NAs"=NA)
+  colnames(tab_2)=c("var", "Min-Max", "Total", "NAs")
   j = 0;
   for (i in 1:ncol(data))
   {
@@ -102,9 +101,10 @@ ft_univ_quanti_2<-function(data, group, p.value, min.max, na.print, digits.opt){
   {
     tmp<-ft_parse_quanti_opt(tmp, min.max, na.print, group)
     if (!isTRUE(min.max))
-      tmp<-pivot_wider(tmp, names_from = "Group", values_from = "median(IQR)")
+      tmp<-pivot_wider(tmp, names_from = "Group", values_from = "Total")
     else
-      tmp<-pivot_wider(tmp, names_from = "Group", values_from = c("median(IQR)", "Min-Max"))
+      tmp<-pivot_wider(tmp, names_from = "Group", values_from = c("Total", "Min-Max"))
+    print("debug 5")
     return (tmp)
   }
   else
