@@ -47,7 +47,7 @@ ft_parse_quanti_opt<-function(data, min.max, na.print, group)
   }
   else if (isTRUE(na.print))
   {
-    data[,'median(IQR)']<-paste(data[,'median(IQR)'], data[,'NAs'], sep = "; ")
+    data[,'Total']<-paste(data[,'Total'], data[,'NAs'], sep = "; ")
     data<-data[,!names(data) %in% "NAs"]
     for (i in 1:nrow(data))
       data[i,1]<-paste(data[i,1], "(median(IQR); NAs(%))", sep = " ")
@@ -62,6 +62,7 @@ ft_univ_quanti_p.value<-function(data, group, min.max, na.print,tab_tmp)
   dicho<-ft_parse_quanti_opt(tab_tmp, min.max, na.print, group)
   total<-ft_quanti(data, NULL, NULL, min.max, na.print)
   biv<-ft_ana_biv(data, group)
+  colnames(total)[which(colnames(total)=="Total")]<-"median(IQR)"
   total$Group <- "Total"
   total<-merge(total, dicho, all=TRUE)
   biv<-ft_rename_quanti_biv(biv, na.print)
@@ -113,8 +114,8 @@ ft_univ_quanti_2<-function(data, group, p.value, min.max, na.print, digits.opt){
 ft_quanti<-function(data, group=NULL, p.value, min.max, na.print, digits.opt){
   if (is.null(group))
   {
-    tab<-data.frame("var"=NA, "Min-Max"=NA, "median(IQR)"=NA, "NAs"=NA)
-    colnames(tab)=c("var", "Min-Max", "median(IQR)", "NAs")
+    tab<-data.frame("var"=NA, "Min-Max"=NA, "Total"=NA, "NAs"=NA)
+    colnames(tab)=c("var", "Min-Max", "Total", "NAs")
     j = 0
     for (i in 1:ncol(data))
     {
