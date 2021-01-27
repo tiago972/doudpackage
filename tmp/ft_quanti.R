@@ -34,7 +34,7 @@ ft_tab_quanti<-function(data, i, group=NULL, group_level=NULL, digits.opt)
   }
   tmp_mat<-c(var = colnames(data)[i],
              "mean(SD)"=gsub(" ", "", paste(mediane, "(",  sd,")")), "Min-Max"=paste(Min, Max, sep="-"))
-  tmp_NA <-c(paste(colnames(data)[i], "Missing values (%)", sep = " "), gsub(" ", "", paste(NNAs, "(", prop_NAs, ")")),
+  tmp_NA <-c("Missing values (%)", gsub(" ", "", paste(NNAs, "(", prop_NAs, ")")),
              gsub(" ", "", paste(NNAs, "(", prop_NAs, ")")))
   tmp_mat<-rbind(tmp_mat, tmp_NA)
   rownames(tmp_mat)<-NULL
@@ -45,20 +45,24 @@ ft_tab_quanti<-function(data, i, group=NULL, group_level=NULL, digits.opt)
 ft_parse_quanti_opt<-function(data, min.max, na.print, group)
 {
   i = 1;
-  while (i < nrow(data))
+  while (i <= nrow(data))
   {
     data[i,1]<-paste(data[i,1], "(mean(SD))", sep = " ")
-    i = i + 2;
+    if (is.null(group))
+    {
+      i = i + 2; ## Syntax bug, do not change
+    }
+    else
+      i = i + 1;
   }
+  print("data")
+  print(data)
   if (!isTRUE(min.max))
     data<-data[,!names(data) %in% "Min-Max"]
   if (!isTRUE(na.print))
-  {
-    print(grep("^.*values*.*", data[,"var"])) ### Pb de REGEX
-    data<-data[!grepl("^.*values \(\%\)$", data[,"var"], fixed = F),]
-  }
+    data<-data[!grepl("Missing Values n(%)", data[,"var"], fixed = T),]
   else
-    data<-data[!grepl("^NA\(NA\)", data[,"Total"], fixed = F),]
+    data<-data[!grepl("NA(NA)", data[,"Total"], fixed = T),]
   return(data)
 }
 
@@ -67,10 +71,16 @@ ft_parse_quanti_opt<-function(data, min.max, na.print, group)
 ft_univ_quanti_p.value<-function(data, group, min.max, na.print,tab_tmp, digits.opt)
 {
   dicho<-ft_parse_quanti_opt(tab_tmp, min.max, na.print, group)
+  print("dicho")
+  print(dicho)
   total<-ft_quanti(data, NULL, NULL, min.max, na.print, digits.opt)
   biv<-ft_ana_biv(data, group)
   total$Group <- "Total"
+  print(total)
+  print(dicho)
   total<-merge(total, dicho, all=TRUE)
+  print("total")
+  print(total)
   biv<-ft_rename_quanti_biv(biv, na.print)
   total<-merge(total, biv, all.x=TRUE)
   total<-total[,!names(total) %in% c("test", "signi")]
@@ -105,12 +115,9 @@ ft_univ_quanti_2<-function(data, group, p.value, min.max, na.print, digits.opt){
     j = j + 2
   }
   tab_1$Group=levels(data[,group])[1]
-  print(tab_1)
   tab_2$Group=levels(data[,group])[2]
-  print(tab_2)
-  tmp<-merge(tab_1, tab_2, all = T) # Pb de parsing de l'un des deux groupe sur le nom de la var(mean(SD))
-  print("after merge")
-  print(tmp)
+  tab_2<-tab_2[c(rep(T, 1),F),]
+  tmp<-ft_merge(tab_1, tab_2)
   if (!isTRUE(p.value))
   {
     tmp<-ft_parse_quanti_opt(tmp, min.max, na.print, group)
@@ -121,7 +128,11 @@ ft_univ_quanti_2<-function(data, group, p.value, min.max, na.print, digits.opt){
     return (tmp)
   }
   else
+  {
+    print("avant le return")
+    print(tmp)
     return (ft_univ_quanti_p.value(data, group, min.max, na.print,tmp, digits.opt))
+  }
 }
 
 ft_quanti<-function(data, group=NULL, p.value, min.max, na.print, digits.opt){
