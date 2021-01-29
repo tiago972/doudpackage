@@ -13,9 +13,9 @@ for(i in 1:nrow(ref)){
   tmp <- rbind(tmp, tmp2)
 }
 
-test_map1<-data.frame("nom" = rep(LETTERS[1:10], each=2, length.out=20), 
-                                      "num" = rep(1:10, each=2, length.out=20), 
-                      group = rep("1", each=2, length.out = 1))
+test_map1<-data.frame("nom" = rep(LETTERS[1:10], each=2, length.out=20),
+                                      "num" = rep(1:10, each=2, length.out=20),
+                      group = rep(seq(from = 0, to = 1, by = 1)))
 test_map1
 test_map2<-data.frame("nom" = rep(LETTERS[1:10]), "num" = rep(11:20), group = rep("0", 10))
 test_map2
