@@ -34,10 +34,13 @@ ft_tab_quanti<-function(data, i, group=NULL, group_level=NULL, digits.opt)
   }
   tmp_mat<-c(var = colnames(data)[i],
              "mean(SD)"=gsub(" ", "", paste(mediane, "(",  sd,")")), "Min-Max"=paste(Min, Max, sep="-"))
-  tmp_NA <-c("Missing values (%)", gsub(" ", "", paste(NNAs, "(", prop_NAs, ")")),
+  if (is.null(group))
+  {
+    tmp_NA <-c("Missing values (%)", gsub(" ", "", paste(NNAs, "(", prop_NAs, ")")),
              gsub(" ", "", paste(NNAs, "(", prop_NAs, ")")))
-  tmp_mat<-rbind(tmp_mat, tmp_NA)
-  rownames(tmp_mat)<-NULL
+    tmp_mat<-rbind(tmp_mat, tmp_NA)
+    rownames(tmp_mat)<-NULL
+  }
   return(tmp_mat)
 }
 
@@ -55,8 +58,6 @@ ft_parse_quanti_opt<-function(data, min.max, na.print, group)
     else
       i = i + 1;
   }
-  print("data")
-  print(data)
   if (!isTRUE(min.max))
     data<-data[,!names(data) %in% "Min-Max"]
   if (!isTRUE(na.print))
@@ -68,18 +69,15 @@ ft_parse_quanti_opt<-function(data, min.max, na.print, group)
 
 #### si pvalue est true #####
 #' @import tidyr
+#' @import plyr
 ft_univ_quanti_p.value<-function(data, group, min.max, na.print,tab_tmp, digits.opt)
 {
   dicho<-ft_parse_quanti_opt(tab_tmp, min.max, na.print, group)
-  print("dicho")
-  print(dicho)
   total<-ft_quanti(data, NULL, NULL, min.max, na.print, digits.opt)
   biv<-ft_ana_biv(data, group)
   total$Group <- "Total"
-  print(total)
-  print(dicho)
-  total<-merge(total, dicho, all=TRUE)
-  print("total")
+  total<-ft_merge_tot(dicho, total)
+  print("après")
   print(total)
   biv<-ft_rename_quanti_biv(biv, na.print)
   total<-merge(total, biv, all.x=TRUE)
@@ -107,16 +105,14 @@ ft_univ_quanti_2<-function(data, group, p.value, min.max, na.print, digits.opt){
     tmp_2<-ft_tab_quanti(data, i, group, levels(data[,group])[2], digits.opt)
     for (k in 1:3)
     {
-      tab_1[j,k]<-tmp_1[1,k]
-      tab_1[j+1,k]<-tmp_1[2,k]
-      tab_2[j,k]<-tmp_2[1,k]
-      tab_2[j+1,k]<-tmp_2[2,k]
+      tab_1[j,k]<-tmp_1[k]
+      tab_2[j,k]<-tmp_2[k]
     }
-    j = j + 2
+    j = j + 1
   }
   tab_1$Group=levels(data[,group])[1]
   tab_2$Group=levels(data[,group])[2]
-  tab_2<-tab_2[c(rep(T, 1),F),]
+  # tab_2<-tab_2[c(rep(T, 1),F),]
   tmp<-ft_merge(tab_1, tab_2)
   if (!isTRUE(p.value))
   {
@@ -128,11 +124,7 @@ ft_univ_quanti_2<-function(data, group, p.value, min.max, na.print, digits.opt){
     return (tmp)
   }
   else
-  {
-    print("avant le return")
-    print(tmp)
     return (ft_univ_quanti_p.value(data, group, min.max, na.print,tmp, digits.opt))
-  }
 }
 
 ft_quanti<-function(data, group=NULL, p.value, min.max, na.print, digits.opt){
