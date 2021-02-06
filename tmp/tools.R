@@ -2,39 +2,26 @@ ft_merge<-function(tab_1, tab_2)
 {
   i = 1;
   tmp<-c()
-  while (i <= nrow(tab_1))
+  while ((i + 1) <= nrow(tab_1))
   {
-    if (i <= nrow(tab_2))
-      tmp2<-rbind(tab_1[i,], tab_2[i,])
-    else
-      tmp2<-tab_1[i,]
+    tmp2<-rbind(tab_1[i:(i+1),], tab_2[i:(i+1),])
     tmp<-rbind(tmp, tmp2)
-    i = i + 1;
+    i = i + 2;
   }
   return(tmp)
 }
 
-ft_merge_tot<-function(dicho, tot)
+ft_merge_tot<-function(tab_1, tab_2)
 {
   i = 1;
   j = 1;
   tmp<-c()
-  while ((i + 1) <= nrow(dicho))
+  while ((i + 3) <= nrow(tab_1))
   {
-    if (j+1 <= nrow(tot) && grepl(pattern = "^Missing*.", tot[j+1, "var"]))
-    {
-      tmp2<-rbind(dicho[i:(i+1),], tot[j:(j+1),])
-      j = j + 2
-    }
-    else if (j <= nrow(tot))
-    {
-      tmp2<-rbind(dicho[i:(i+1),], tot[j,])
-      j = j + 1;
-    }
-    else
-      tmp2<-rbind(dicho[i:(i+1),])
+    tmp2<-rbind(tab_1[i:(i+3),], tab_2[j:(j+1),])
     tmp<-rbind(tmp, tmp2)
-    i = i + 2;
+    i = i + 4;
+    j = j + 2;
   }
   return(tmp)
 }
