@@ -13,7 +13,7 @@ ft_tab_quanti<-function(data, i, group=NULL, group_level=NULL, digits.opt)
   "NNAs"<-ifelse(is.na(table(is.na(subset[,i]))[2]), 0,table(is.na(subset[,i]))[2])
   tmp_mat<-c(var = colnames(data)[i],
              "Total"=gsub(" ", "", paste(mean, "(",  sd,")")), "Min-Max"=paste(Min, Max, sep="-"))
-  tmp_NA <-c("Missing values (%)", gsub(" ", "", paste(NNAs, "(", prop_NAs, ")")),
+  tmp_NA <-c("Missing values, n(%)", gsub(" ", "", paste(NNAs, "(", prop_NAs, ")")),
              gsub(" ", "", paste(NNAs, "(", prop_NAs, ")")))
     tmp_mat<-rbind(tmp_mat, tmp_NA)
     rownames(tmp_mat)<-NULL
