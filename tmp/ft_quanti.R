@@ -64,13 +64,13 @@ ft_univ_quanti_p.value<-function(data, group, min.max, na.print,tab_tmp, digits.
   total$Group <- "Total"
   total<-ft_merge_tot(dicho, total)
   biv<-ft_parse_quanti_opt(biv, min.max, na.print, group=NULL, biv.opt = T)
-  total<-merge(total, biv, all.x=TRUE)
-  total<-total[,!names(total) %in% c("test", "signi")]
+  biv<-biv[biv$var %in% total$var,]
+  biv<-biv[,!names(biv) %in% c("test", "signi")]
+  total<-plyr::join(total, biv, by = "var")
   if (isTRUE(min.max))
     total<-pivot_wider(total, names_from = "Group", values_from = c("Total", "Min-Max"))
   else
     total<-pivot_wider(total, names_from = "Group", values_from = c("Total"))
-  total$p<-ifelse(as.numeric(total$p) < 0.001, "< .001", round(as.numeric(total$p), digits = 3))
   return(total)
 }
 
