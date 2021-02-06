@@ -30,5 +30,7 @@ while (i < nrow(test_map1))
   i = i + 2;
   j = j +1;
 }
-
+grepl(pattern = "^Missing values.*", test3$var)
+test4<-test3[!grepl(pattern = "^Missing values.*", test3$var) && test3$Total=="0(0)",]
+view(test4)
 
