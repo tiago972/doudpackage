@@ -1,19 +1,3 @@
-#### Fonction annexe pour renommer la var contene dans biv comme celles du dataframe de sortie ###
-ft_rename_quanti_biv<-function(biv, na.print)
-{
-  if (!isTRUE(na.print))
-  {
-    for (i in 1:nrow(biv))
-      biv[i,1]<-paste(biv[i,1], "(mean(SD))", sep = " ")
-  }
-  else if (isTRUE(na.print))
-  {
-    for (i in 1:nrow(biv))
-      biv[i,1]<-paste(biv[i,1], "(mean(SD); NAs(%))", sep = " ")
-  }
-  return(biv)
-}
-
 #### Fonction principale pour les differents elements de l analyse univariee ####
 ft_tab_quanti<-function(data, i, group=NULL, group_level=NULL, digits.opt)
 {
@@ -23,7 +7,7 @@ ft_tab_quanti<-function(data, i, group=NULL, group_level=NULL, digits.opt)
     subset<-data
   "Min"<-min(subset[,i], na.rm=TRUE)
   "Max"<-max(subset[,i], na.rm=TRUE)
-  "mediane"<-round(mean(subset[,i], na.rm = T), digits = digits.opt)
+  "mean"<-round(mean(subset[,i], na.rm = T), digits = digits.opt)
   "sd"<-round(sd(subset[,i], na.rm = T), digits = digits.opt)
   "prop_NAs"<-ifelse(is.na(table(is.na(subset[,i]))[2]), 0, round(prop.table(table(is.na(subset[,i])))[2] * 100, digits = digits.opt))
   "NNAs"<-ifelse(is.na(table(is.na(subset[,i]))[2]), 0,table(is.na(subset[,i]))[2])
@@ -33,7 +17,7 @@ ft_tab_quanti<-function(data, i, group=NULL, group_level=NULL, digits.opt)
     prop_NAs = NA;
   }
   tmp_mat<-c(var = colnames(data)[i],
-             "mean(SD)"=gsub(" ", "", paste(mediane, "(",  sd,")")), "Min-Max"=paste(Min, Max, sep="-"))
+             "mean(SD)"=gsub(" ", "", paste(mean, "(",  sd,")")), "Min-Max"=paste(Min, Max, sep="-"))
   if (is.null(group))
   {
     tmp_NA <-c("Missing values (%)", gsub(" ", "", paste(NNAs, "(", prop_NAs, ")")),
@@ -45,19 +29,21 @@ ft_tab_quanti<-function(data, i, group=NULL, group_level=NULL, digits.opt)
 }
 
 #### Fonction pour le filtrage des elements selon les options choisies ####
-ft_parse_quanti_opt<-function(data, min.max, na.print, group)
+ft_parse_quanti_opt<-function(data, min.max, na.print, group, biv.opt = F)
 {
   i = 1;
   while (i <= nrow(data))
   {
-    data[i,1]<-paste(data[i,1], "(mean(SD))", sep = " ")
-    if (is.null(group))
+    data[i,1]<-paste(data[i,1], ", mean(SD)", sep = "")
+    if (is.null(group) && isFALSE(biv.opt))
     {
-      i = i + 2; ## Syntax bug, do not change
+      i = i + 2; ## Syntax bug, do not change the {}
     }
     else
       i = i + 1;
   }
+  if (isTRUE(biv.opt))
+    return(data)
   if (!isTRUE(min.max))
     data<-data[,!names(data) %in% "Min-Max"]
   if (!isTRUE(na.print))
@@ -72,15 +58,12 @@ ft_parse_quanti_opt<-function(data, min.max, na.print, group)
 #' @import plyr
 ft_univ_quanti_p.value<-function(data, group, min.max, na.print,tab_tmp, digits.opt)
 {
-  # print(tab_tmp)
   dicho<-ft_parse_quanti_opt(tab_tmp, min.max, na.print, group)
   total<-ft_quanti(data, NULL, NULL, min.max, na.print, digits.opt)
   biv<-ft_ana_biv(data, group)
   total$Group <- "Total"
   total<-ft_merge_tot(dicho, total)
-  print("après")
-  print(total)
-  biv<-ft_rename_quanti_biv(biv, na.print)
+  biv<-ft_parse_quanti_opt(biv, min.max, na.print, group=NULL, biv.opt = T)
   total<-merge(total, biv, all.x=TRUE)
   total<-total[,!names(total) %in% c("test", "signi")]
   if (isTRUE(min.max))
