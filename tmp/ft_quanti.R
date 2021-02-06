@@ -20,44 +20,24 @@ ft_tab_quanti<-function(data, i, group=NULL, group_level=NULL, digits.opt)
   return(tmp_mat)
 }
 
-#### Fonction pour le filtrage des elements selon les options choisies ####
-ft_parse_quanti_opt<-function(data, min.max, na.print, group, biv.opt = F)
-{
-  i = 1;
-  while (i <= nrow(data))
-  {
-    data[i,1]<-paste(data[i,1], ", mean(SD)", sep = "")
-      i = i + 2;
-  }
-  if (!isTRUE(min.max))
-    data<-data[,!names(data) %in% "Min-Max"]
-  if (!isTRUE(na.print))
-    data<-data[!grepl("Missing Values n(%)", data[,"var"], fixed = T),]
-  else
-    data<-data[!grepl("NA(NA)", data[,"Total"], fixed = T),]
-  return(data)
-}
-
 #### si pvalue est true #####
 #' @import tidyr
 #' @import plyr
 ft_univ_quanti_p.value<-function(data, group, min.max, na.print,tab_tmp, digits.opt)
 {
-  # dicho<-ft_parse_quanti_opt(tab_tmp, min.max, na.print, group)
   total<-ft_quanti(data, NULL, NULL, min.max, na.print, digits.opt)
   biv<-ft_ana_biv(data, group)
   total$Group <- "Total"
   total<-ft_merge_tot(tab_tmp, total)
-  print(total)
-  # biv<-ft_parse_quanti_opt(biv, min.max, na.print, group=NULL, biv.opt = T)
   biv<-biv[biv$var %in% total$var,]
   biv<-biv[,!names(biv) %in% c("test", "signi")]
   total<-plyr::join(total, biv, by = "var")
-  # total<-ft_parse_quanti_opt(total, min.max, na.print, group)
+  total<-ft_parse_quanti_opt(total, min.max, na.print)
+  print(total)
   if (isTRUE(min.max))
     total<-pivot_wider(total, names_from = "Group", values_from = c("Total", "Min-Max"))
-  # else
-  #   total<-pivot_wider(total, names_from = "Group", values_from = c("Total"))
+  else
+    total<-pivot_wider(total, names_from = "Group", values_from = c("Total"))
   return(total)
 }
 
@@ -81,7 +61,6 @@ ft_univ_quanti_2<-function(data, group, p.value, min.max, na.print, digits.opt){
   }
   tab_1$Group=levels(data[,group])[1]
   tab_2$Group=levels(data[,group])[2]
-  # tab_2<-tab_2[c(rep(T, 1),F),]
   tmp<-ft_merge(tab_1, tab_2)
   if (!isTRUE(p.value))
   {
