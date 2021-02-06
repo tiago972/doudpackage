@@ -32,12 +32,6 @@ ft_univ_quanti_p.value<-function(data, group, min.max, na.print,tab_tmp, digits.
   biv<-biv[biv$var %in% total$var,]
   biv<-biv[,!names(biv) %in% c("test", "signi")]
   total<-plyr::join(total, biv, by = "var")
-  total<-ft_parse_quanti_opt(total, min.max, na.print)
-  print(total)
-  if (isTRUE(min.max))
-    total<-pivot_wider(total, names_from = "Group", values_from = c("Total", "Min-Max"))
-  else
-    total<-pivot_wider(total, names_from = "Group", values_from = c("Total"))
   return(total)
 }
 
@@ -93,7 +87,6 @@ ft_quanti<-function(data, group=NULL, p.value, min.max, na.print, digits.opt){
       }
       j = j + 2
     }
-    # tab<-ft_parse_quanti_opt(tab, min.max, na.print, NULL)
     return(tab)
   }
   else
