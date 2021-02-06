@@ -72,6 +72,7 @@ ft_parse_quanti_opt<-function(data, min.max, na.print, group)
 #' @import plyr
 ft_univ_quanti_p.value<-function(data, group, min.max, na.print,tab_tmp, digits.opt)
 {
+  # print(tab_tmp)
   dicho<-ft_parse_quanti_opt(tab_tmp, min.max, na.print, group)
   total<-ft_quanti(data, NULL, NULL, min.max, na.print, digits.opt)
   biv<-ft_ana_biv(data, group)
