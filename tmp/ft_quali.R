@@ -2,7 +2,6 @@ ft_parse_p_quali<-function(biv, total)
 {
   i = 0;
   tmp<-c()
-  rownames(total)<-1:nrow(total)
 
   while (i < nrow(biv))
   {
@@ -24,7 +23,6 @@ ft_parse_p_quali<-function(biv, total)
   }
   if (nrow(tmp) > nrow(total))
     print(paste("MAX ", i))
-  assign("total", total, envir = globalenv())
   return(tmp)
 }
 
@@ -35,6 +33,10 @@ ft_quali.pvalue<-function(data, res, group, na.print, digits.opt){
   res_tot<-res_tot[-c(remove_group:(remove_group + nlevels(data[,group]))),]
   total<-ft_merge(res, res_tot)
   biv<-ft_ana_biv(data, group)
+  ## debug
+  rownames(total)<-1:nrow(total)
+  assign("total", total, envir = globalenv())
+  ##
   total<-ft_parse_p_quali(biv, total)
   p<-p[,!names(p) %in% c("signi", "test")]
   p$p<-ifelse(as.numeric(p$p) < 0.001, '<.001', round(as.numeric(p$p), digits=3))
