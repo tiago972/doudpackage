@@ -1,3 +1,4 @@
+### Function ton repeate p value k times for lines ##
 ft_parse_p_quali<-function(biv, total)
 {
   i = 0;
@@ -6,23 +7,16 @@ ft_parse_p_quali<-function(biv, total)
   while (i < nrow(biv))
   {
     i = i + 1;
-    while (i <= nrow(biv) && length(grep(pattern = paste(biv[i, "var"], ".*", sep = ""), total$var)) == 0)
+    while (i <= nrow(biv) && length(grep(pattern = paste(biv[i, "var"], ",.*", sep = ""), total$var)) == 0)
       i = i + 1;
-    patt = paste("^", biv[i,"var"], ".*",sep = "")
+    patt = paste("^", biv[i,"var"], ",.*",sep = "")
     k = table(grepl(pattern = patt, total$var))[2]
-    k = k + 2
-    # if (i == 9)
-    # {
-    #   grep_tmp<-grep(pattern = patt, total$var)
-    #   print(k)
-    #   print(paste("k = ", k))
-    # }
     tmp2<-data.frame("p" = rep(biv[i, "p"], k), "var" = rep(biv[i, "var"], k))
-    tmp<-rbind(tmp, tmp2, NA)
-    print(paste("nrow tmp ", nrow(tmp)))
+    tmp3<-data.frame("p" = rep(NA, 3), "var" = rep(biv[i, "var"], 3))
+    tmp2<-rbind(tmp2, tmp3)
+    tmp<-rbind(tmp, tmp2)
   }
-  if (nrow(tmp) > nrow(total))
-    print(paste("MAX ", i))
+  tmp<-tmp[order(tmp$var),]
   return(tmp)
 }
 
@@ -31,17 +25,12 @@ ft_quali.pvalue<-function(data, res, group, na.print, digits.opt){
   res_tot$Group="Total"
   remove_group = min(grep(pattern = paste(group, ".*", sep = ""), res_tot$var))
   res_tot<-res_tot[-c(remove_group:(remove_group + nlevels(data[,group]))),]
-  total<-ft_merge(res, res_tot)
+  total<-merge(res, res_tot, all = T)
   biv<-ft_ana_biv(data, group)
-  ## debug
-  rownames(total)<-1:nrow(total)
-  assign("total", total, envir = globalenv())
-  ##
-  total<-ft_parse_p_quali(biv, total)
-  p<-p[,!names(p) %in% c("signi", "test")]
-  p$p<-ifelse(as.numeric(p$p) < 0.001, '<.001', round(as.numeric(p$p), digits=3))
-  res<-merge(res, p, all.x=TRUE)
-  return(res)
+  biv<-ft_parse_p_quali(biv, total)
+  total<-total[order(total$var),]
+  total$p<-biv[,"p"]
+  return(total)
 }
 
 #' @import tidyr
@@ -57,12 +46,8 @@ ft_quali_grouped<-function(data, group, p.value, na.print, digits.opt)
     nametab<-paste("tmp", i,sep="_")
     assign(nametab,tmp, envir = my_env)
   }
-  res<-ft_merge(tmp_1, tmp_2)
-  # res<-tidyr::pivot_wider(res, names_from = "Group", values_from =  "Total")
-  if (isFALSE(p.value))
-    return(res)
-  else
-    return (ft_quali.pvalue(data, res, group, na.print, digits.opt))
+  res<-merge(tmp_1, tmp_2, all=T)
+  return (ft_quali.pvalue(data, res, group, na.print, digits.opt))
 }
 
 ft_quali<-function(data, group=NULL, p.value, na.print, digits.opt){
@@ -84,13 +69,11 @@ ft_quali<-function(data, group=NULL, p.value, na.print, digits.opt){
             j = j + k
       }
       j = j + 1
-      # tmp[j, "var"]<-paste("Missing values, n(%)", colnames(data)[i], sep = ":")
-      tmp[j, "var"]<-"Missing values, n(%)"
+      tmp[j, "var"]<-paste(colnames(data)[i], "Missing values, n(%)", sep = ".")
       tmp[j, "Total"]<-paste(table(data[,i], useNA = "always")[nlevels(data[,i]) + 1], "(",
                         round(prop.table(table(data[,i], useNA = "always"))[nlevels(data[,i]) + 1] * 100, digits = digits.opt),
                         ")", sep = "")
     }
-    # tmp = ft_parse_quali_opt(tmp, 1, group, na.print)
     return (tmp)
   }
     else

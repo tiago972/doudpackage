@@ -13,7 +13,7 @@ ft_tab_quanti<-function(data, i, group=NULL, group_level=NULL, digits.opt)
   "NNAs"<-ifelse(is.na(table(is.na(subset[,i]))[2]), 0,table(is.na(subset[,i]))[2])
   tmp_mat<-c(var = colnames(data)[i],
              "Total"=gsub(" ", "", paste(mean, "(",  sd,")")), "Min-Max"=paste(Min, Max, sep="-"))
-  tmp_NA <-c("Missing values, n(%)", gsub(" ", "", paste(NNAs, "(", prop_NAs, ")")),
+  tmp_NA <-c(paste(colnames(data)[i], "Missing values, n(%)", sep = "."), gsub(" ", "", paste(NNAs, "(", prop_NAs, ")")),
              gsub(" ", "", paste(NNAs, "(", prop_NAs, ")")))
     tmp_mat<-rbind(tmp_mat, tmp_NA)
     rownames(tmp_mat)<-NULL
@@ -27,7 +27,7 @@ ft_univ_quanti_p.value<-function(data, group, min.max, na.print,tab_tmp, digits.
   total<-ft_quanti(data, NULL, NULL, min.max, na.print, digits.opt)
   biv<-ft_ana_biv(data, group)
   total$Group <- "Total"
-  total<-ft_merge(tab_tmp, total)
+  total<-merge(tab_tmp, total, all = T)
   biv<-biv[biv$var %in% total$var,]
   biv<-biv[,!names(biv) %in% c("test", "signi")]
   total<-plyr::join(total, biv, by = "var")
@@ -54,7 +54,7 @@ ft_univ_quanti_2<-function(data, group, p.value, min.max, na.print, digits.opt){
   }
   tab_1$Group=levels(data[,group])[1]
   tab_2$Group=levels(data[,group])[2]
-  tmp<-ft_merge(tab_1, tab_2)
+  tmp<-merge(tab_1, tab_2, all = T)
   return (ft_univ_quanti_p.value(data, group, min.max, na.print,tmp, digits.opt))
 }
 

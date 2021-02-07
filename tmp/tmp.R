@@ -11,8 +11,6 @@ grepl(pattern = "^Genre*.", test3$var)
 sub = gsub(pattern = ",.*", "", x = test3[1, "var"])
 patt = paste("^",  gsub(pattern = ",.*", "", x = test3[1, "var"]), sep = "")
 patt
-a<-grepl(pattern = patt, test3$var)
- if (length(a) == 0)
-   print("ok")
+
 
 

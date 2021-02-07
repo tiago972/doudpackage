@@ -1,59 +1,46 @@
-### Remove all corresponding NA lines if there are no NA in total group
-ft_remove_null_na<-function(data)
+### Parse NA to remove Null NA rows and to get rid of the temp label
+ft_parse_na<-function(data)
 {
-  i = 1;
-  tmp<-c();
-  while (i <= nrow(data))
-  {
-    if ((i + 5) <= nrow(data) && grepl(pattern = "0(0)", data[(i+5), "Total"], fixed = T))
-      tmp2<-rbind(data[i,], data[(i+2),], data[(i+4),])
-    else
-      tmp2<-rbind(data[i:(i+5),])
-    i = i + 6
-    tmp<-rbind(tmp, tmp2)
-  }
-  return(tmp)
+  col<-intersect(grep(pattern = ".*.Missing values, n\\(%\\)", data$var), grep("0\\(0\\)", data$Total))
+  data<-data[-c(col),]
+  data$var<-gsub(pattern = ".*.Missing values, n\\(%\\)", "Missing values, n(%)", data$var)
+  return(data)
 }
 
-#### Fonction pour le filtrage des elements selon les options choisies ####
+#### Fuction to select what to print according to options (quanti) ####
+#' @import tidyr
 ft_parse_quanti_opt<-function(data, min.max, na.print, p.value)
 {
   i = 1;
+  if(isFALSE(min.max)) ### A Changer +++ il faudra en faite les mettre à la ligne de mean, sd
+    data<-data[,!names(data) %in% "Min-Max"]
+  data<-tidyr::pivot_wider(data, names_from = "Group", values_from = c("Total"))
   while (i <= nrow(data))
   {
     data[i,1]<-paste(data[i,1], ", mean(SD)", sep = "")
     i = i + 2;
   }
-  if (!isTRUE(min.max))
-    data<-data[,!names(data) %in% "Min-Max"]
   if (!isTRUE(na.print))
-    data<-data[!grepl("Missing values, n(%)", data[,"var"], fixed = T),]
+    data<-data[!grepl("Missing values, n(%)", data$var, fixed = T),]
   else
-    data<-ft_remove_null_na(data)
+    data<-ft_parse_na(data)
   if (!isTRUE(p.value))
     data<-data[,!names(data) %in% "p"]
   return(data)
 }
 
-ft_merge<-function(tab_1, tab_2)
+#### Fuction to select what to print according to options (quali) ####
+#' @import tidyr
+ft_parse_quali_opt<-function(data, na.print, p.value)
 {
-  i = 1;
-  j = 1;
-  k = 1
-  l = 1;
-  tmp<-c()
-
-  while (i <= nrow(tab_1))
-  {
-    patt = paste("^",  gsub(pattern = ",.*", "", x = tab_1[i, "var"]), sep = "")
-    k = max(grep(pattern = patt, tab_1$var)) + 1
-    j = max(grep(pattern = patt, tab_2$var)) + 1
-    tmp2<-rbind(tab_1[i:k,], tab_2[l:j,])
-    tmp<-rbind(tmp, tmp2)
-    i =  k + 1;
-    l = j + 1;
-  }
-  return(tmp)
+  data<-tidyr::pivot_wider(data, names_from = "Group", values_from =  "Total")
+  if (!isTRUE(na.print))
+    data<-data[!grepl(".*Missing values, n\\(%\\)", data$var),]
+  else
+    data<-ft_parse_na(data)
+  if (!isTRUE(p.value))
+    data<-data[,!names(data) %in% "p"]
+  return(data)
 }
 
 ### Error to be checked at the begening of the function (need to be completed)
