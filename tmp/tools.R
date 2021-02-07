@@ -27,7 +27,7 @@ ft_parse_quanti_opt<-function(data, min.max, na.print)
   if (!isTRUE(min.max))
     data<-data[,!names(data) %in% "Min-Max"]
   if (!isTRUE(na.print))
-    data<-data[!grepl("Missing Values n(%)", data[,"var"], fixed = T),]
+    data<-data[!grepl("Missing values, n(%)", data[,"var"], fixed = T),]
   else
     data<-ft_remove_null_na(data)
   return(data)

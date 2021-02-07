@@ -17,6 +17,7 @@
 #' @param p.value Print p value. Group needs to be set; default = TRUE. If TRUE, "Total" will also be printed
 #' @param min.max Display min and max value for quantitative variables; default is false
 #' @param digits.opt How many numbers after the "." you'd like for the proportions of qualitative variables; default is 0
+#' @import tidyr
 #' @return The object returned depends on the "parse" option:either a dataframe or a kable oject
 #' @export
 ft_desc_tab<-function(data, group=NULL, complete = TRUE, quanti=FALSE, quali=FALSE, na.print = FALSE, p.value=TRUE, min.max=FALSE, digits.opt=0){
@@ -36,9 +37,9 @@ ft_desc_tab<-function(data, group=NULL, complete = TRUE, quanti=FALSE, quali=FAL
   {
     quanti_tab<-ft_parse_quanti_opt(ft_quanti(data, group, p.value, min.max, na.print, digits.opt), min.max, na.print)
     if (isTRUE(min.max))
-      quanti_tab<-pivot_wider(quanti_tab, names_from = "Group", values_from = c("Total", "Min-Max"))
+      quanti_tab<-tidyr::pivot_wider(quanti_tab, names_from = "Group", values_from = c("Total", "Min-Max"))
     else
-      quanti_tab<-pivot_wider(quanti_tab, names_from = "Group", values_from = c("Total"))
+      quanti_tab<-tidyr::pivot_wider(quanti_tab, names_from = "Group", values_from = c("Total"))
   }
    if (isTRUE(complete) || isTRUE(quali))
      quali_tab<-ft_quali(data, group, p.value, na.print, digits.opt)

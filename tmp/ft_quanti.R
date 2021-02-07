@@ -21,7 +21,6 @@ ft_tab_quanti<-function(data, i, group=NULL, group_level=NULL, digits.opt)
 }
 
 #### si pvalue est true #####
-#' @import tidyr
 #' @import plyr
 ft_univ_quanti_p.value<-function(data, group, min.max, na.print,tab_tmp, digits.opt)
 {
@@ -57,14 +56,7 @@ ft_univ_quanti_2<-function(data, group, p.value, min.max, na.print, digits.opt){
   tab_2$Group=levels(data[,group])[2]
   tmp<-ft_merge(tab_1, tab_2)
   if (!isTRUE(p.value))
-  {
-    tmp<-ft_parse_quanti_opt(tmp, min.max, na.print, group)
-    if (!isTRUE(min.max))
-      tmp<-pivot_wider(tmp, names_from = "Group", values_from = "Total")
-    else
-      tmp<-pivot_wider(tmp, names_from = "Group", values_from = c("Total", "Min-Max"))
     return (tmp)
-  }
   else
     return (ft_univ_quanti_p.value(data, group, min.max, na.print,tmp, digits.opt))
 }

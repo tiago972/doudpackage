@@ -25,7 +25,7 @@ ft_ana_biv<-function(data, group, signi=3){
         tmp[i,"p"]<-"< .001"
       else
         tmp[i,"p"]<-round(t, digits = signi)
-    }else if (is.factor(data[,i]) && !is.Date(data[,i]) && nlevels(data[,i]) > 1){
+    }else if (is.factor(data[,i]) && !lubridate::is.Date(data[,i]) && nlevels(data[,i]) > 1){
       tryCatch(
         {
           c<-c(chisq.test(data[,i], data[,group], correct=FALSE), test_name = "chi2")
