@@ -55,10 +55,7 @@ ft_univ_quanti_2<-function(data, group, p.value, min.max, na.print, digits.opt){
   tab_1$Group=levels(data[,group])[1]
   tab_2$Group=levels(data[,group])[2]
   tmp<-ft_merge(tab_1, tab_2)
-  if (!isTRUE(p.value))
-    return (tmp)
-  else
-    return (ft_univ_quanti_p.value(data, group, min.max, na.print,tmp, digits.opt))
+  return (ft_univ_quanti_p.value(data, group, min.max, na.print,tmp, digits.opt))
 }
 
 ft_quanti<-function(data, group=NULL, p.value, min.max, na.print, digits.opt){

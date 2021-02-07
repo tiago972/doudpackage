@@ -1,4 +1,3 @@
-######## il faut faire une ft_error #####
 #### Il rajouter l option parsed
 ### Mettre le n(%) de chaque groupe dans le titre
 ## Il faut rajouter la possibilite d'avoir ou SD ou l'IQR
@@ -20,22 +19,15 @@
 #' @import tidyr
 #' @return The object returned depends on the "parse" option:either a dataframe or a kable oject
 #' @export
-ft_desc_tab<-function(data, group=NULL, complete = TRUE, quanti=FALSE, quali=FALSE, na.print = FALSE, p.value=TRUE, min.max=FALSE, digits.opt=0){
-  if (!is.null(group) && (!is.factor(data[,group]) || nlevels(data[,group]) > 3))
-  {
-    write("Grouping error dude, check if the variable is a binary factor", stderr())
-    return (-1)
-  }
-  if (isFALSE(complete) && isFALSE(quanti) && isFALSE(quali))
-  {
-    write("Error, if complete is FALSE, quanti or quali must be TRUE", stderr())
+ft_desc_tab<-function(data, group=NULL, complete = TRUE, quanti=FALSE, quali=FALSE, na.print = FALSE, p.value=TRUE, min.max=FALSE, digits.opt=0)
+{
+  if ((ft_error(data, group, complete, quanti, quali)) == -1)
     return(-1)
-  }
   if (isTRUE(quanti)||isTRUE(quali))
     complete=FALSE
   if (isTRUE(complete) || isTRUE(quanti))
   {
-    quanti_tab<-ft_parse_quanti_opt(ft_quanti(data, group, p.value, min.max, na.print, digits.opt), min.max, na.print)
+    quanti_tab<-ft_parse_quanti_opt(ft_quanti(data, group, p.value, min.max, na.print, digits.opt), min.max, na.print, p.value)
     if (isTRUE(min.max))
       quanti_tab<-tidyr::pivot_wider(quanti_tab, names_from = "Group", values_from = c("Total", "Min-Max"))
     else

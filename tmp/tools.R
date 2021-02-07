@@ -16,7 +16,7 @@ ft_remove_null_na<-function(data)
 }
 
 #### Fonction pour le filtrage des elements selon les options choisies ####
-ft_parse_quanti_opt<-function(data, min.max, na.print)
+ft_parse_quanti_opt<-function(data, min.max, na.print, p.value)
 {
   i = 1;
   while (i <= nrow(data))
@@ -30,6 +30,8 @@ ft_parse_quanti_opt<-function(data, min.max, na.print)
     data<-data[!grepl("Missing values, n(%)", data[,"var"], fixed = T),]
   else
     data<-ft_remove_null_na(data)
+  if (!isTRUE(p.value))
+    data<-data[,!names(data) %in% "p"]
   return(data)
 }
 
@@ -60,4 +62,19 @@ ft_merge_tot<-function(tab_1, tab_2)
     j = j + 2;
   }
   return(tmp)
+}
+
+ft_error<-function(data, group, complete, quanti, quali)
+{
+  if (!is.null(group) && (!is.factor(data[,group]) || nlevels(data[,group]) > 3))
+  {
+    write("Grouping error dude, check if the variable is a binary factor", stderr())
+    return (-1)
+  }
+  if (isFALSE(complete) && isFALSE(quanti) && isFALSE(quali))
+  {
+    write("Error, if complete is FALSE, quanti or quali must be TRUE", stderr())
+    return(-1)
+  }
+  return(0)
 }
