@@ -7,7 +7,12 @@ test_map1
 test_map2<-data.frame("nom" = rep(LETTERS[1:10]), "num" = rep(11:20), group = rep("0", 10))
 test_map2
 ################ Test pour htmlTable ######
-output <- matrix(1:4,ncol=2,dimnames = list(list("Row 1", "Row 2"),list("Column 1", "Column 2")))
+grepl(pattern = "^Genre*.", test3$var)
+sub = gsub(pattern = ",.*", "", x = test3[1, "var"])
+patt = paste("^",  gsub(pattern = ",.*", "", x = test3[1, "var"]), sep = "")
+patt
+a<-grepl(pattern = patt, test3$var)
+ if (length(a) == 0)
+   print("ok")
 
-class(htmlTable(output))
 

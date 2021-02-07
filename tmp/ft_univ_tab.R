@@ -28,7 +28,7 @@ ft_desc_tab<-function(data, group=NULL, complete = TRUE, quanti=FALSE, quali=FAL
   if (isTRUE(complete) || isTRUE(quanti))
   {
     quanti_tab<-ft_parse_quanti_opt(ft_quanti(data, group, p.value, min.max, na.print, digits.opt), min.max, na.print, p.value)
-    if (isTRUE(min.max))
+    if (isTRUE(min.max)) ## A changer ++
       quanti_tab<-tidyr::pivot_wider(quanti_tab, names_from = "Group", values_from = c("Total", "Min-Max"))
     else
       quanti_tab<-tidyr::pivot_wider(quanti_tab, names_from = "Group", values_from = c("Total"))

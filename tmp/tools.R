@@ -35,35 +35,28 @@ ft_parse_quanti_opt<-function(data, min.max, na.print, p.value)
   return(data)
 }
 
-## iterates rbind to conserve row order for merging
 ft_merge<-function(tab_1, tab_2)
 {
   i = 1;
-  tmp<-c()
-  while ((i + 1) <= nrow(tab_1))
-  {
-    tmp2<-rbind(tab_1[i:(i+1),], tab_2[i:(i+1),])
-    tmp<-rbind(tmp, tmp2)
-    i = i + 2;
-  }
-  return(tmp)
-}
-
-ft_merge_tot<-function(tab_1, tab_2)
-{
-  i = 1;
   j = 1;
+  k = 1
+  l = 1;
   tmp<-c()
-  while ((i + 3) <= nrow(tab_1))
+
+  while (i <= nrow(tab_1))
   {
-    tmp2<-rbind(tab_1[i:(i+3),], tab_2[j:(j+1),])
+    patt = paste("^",  gsub(pattern = ",.*", "", x = tab_1[i, "var"]), sep = "")
+    k = max(grep(pattern = patt, tab_1$var)) + 1
+    j = max(grep(pattern = patt, tab_2$var)) + 1
+    tmp2<-rbind(tab_1[i:k,], tab_2[l:j,])
     tmp<-rbind(tmp, tmp2)
-    i = i + 4;
-    j = j + 2;
+    i =  k + 1;
+    l = j + 1;
   }
   return(tmp)
 }
 
+### Error to be checked at the begening of the function (need to be completed)
 ft_error<-function(data, group, complete, quanti, quali)
 {
   if (!is.null(group) && (!is.factor(data[,group]) || nlevels(data[,group]) > 3))

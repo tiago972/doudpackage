@@ -27,7 +27,7 @@ ft_univ_quanti_p.value<-function(data, group, min.max, na.print,tab_tmp, digits.
   total<-ft_quanti(data, NULL, NULL, min.max, na.print, digits.opt)
   biv<-ft_ana_biv(data, group)
   total$Group <- "Total"
-  total<-ft_merge_tot(tab_tmp, total)
+  total<-ft_merge(tab_tmp, total)
   biv<-biv[biv$var %in% total$var,]
   biv<-biv[,!names(biv) %in% c("test", "signi")]
   total<-plyr::join(total, biv, by = "var")
