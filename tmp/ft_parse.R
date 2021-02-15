@@ -35,12 +35,11 @@ ft_parse<-function(res, data, group, col.order = NULL, group.name = NULL, digits
 res<-ft_name_col(res, data, group, digits.opt)
 ident<-grep("Missing values.*", res$var)
 colnames(res)[which(colnames(res) == "var")]<-""
-group.1<-group.name[1]
-group.2<-group.name[2]
-res<-kable(res) %>%
-  kable_classic() %>%
-  add_header_above(c(" ", "Total" = 1, group.1 = 1, group.2 = 1, " ")) %>%
-  add_indent(ident)
+res<-kableExtra::kable(res) %>%
+  kableExtra::kable_classic() %>%
+  kableExtra::add_header_above(c(" ", "Total" = 1, setNames(1, group.name[1]),
+                                 setNames(1, group.name[2]), " ")) %>%
+  kableExtra::add_indent(ident)
  return(res)
 }
 

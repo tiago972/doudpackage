@@ -12,11 +12,15 @@ source('./tools.R')
 source('./ft_ana_biv.R')
 source('./ft_quanti.R')
 source('./ft_univ_tab.R')
+source('./ft_parse.R')
 setwd("/Users/Tiago/Desktop/BF\ is\ cool/nagisa")
 source('./nagisa.R')
 ```
 
-```{r echo=FASLE, results='asis'}
-
+```{r echo=FALSE, results='asis'}
+test3<-ft_desc_tab(bdd, na.print = T, p.value = T,group = "vivant.s4")
+test4<-ft_parse(test3, bdd, "vivant.s4", 
+                col.order = c("var", "Total", "1", "0", "p"), group.name = c("Deceased", "Survivors"), digits.opt = 0)
+test4
 ```
 
