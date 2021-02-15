@@ -16,11 +16,16 @@
 #' @param p.value Print p value. Group needs to be set; default = TRUE. If TRUE, "Total" will also be printed
 #' @param min.max Display min and max value for quantitative variables; default is false
 #' @param digits.opt How many numbers after the "." you'd like for the proportions of qualitative variables; default is 0
-#' @import tidyr
+#' @import plyr
 #' @return The object returned depends on the "parse" option:either a dataframe or a kable oject
 #' @export
 ft_desc_tab<-function(data, group=NULL, complete = TRUE, quanti=FALSE, quali=FALSE, na.print = FALSE, p.value=TRUE, min.max=FALSE, digits.opt=0)
 {
+  if (!is.null(group) && table(data[,group], useNA = "always")[nlevels(data[,group]) + 1] != 0)
+  {
+    warning(paste(table(data[,group], useNA = "always")[nlevels(data[,group]) + 1], " rows have been deleted due to missing values in the defined group" ,sep = ""))
+    data<-data[!is.na(data[,group]),]
+  }
   if ((ft_error(data, group, complete, quanti, quali)) == -1)
     return(-1)
   if (isTRUE(quanti)||isTRUE(quali))
@@ -33,6 +38,6 @@ ft_desc_tab<-function(data, group=NULL, complete = TRUE, quanti=FALSE, quali=FAL
     return(quanti_tab)
   else if (!isTRUE(complete) && isTRUE(quali))
     return(quali_tab)
-  res<-merge(quanti_tab, quali_tab, all=TRUE)
+  res<-rbind(quanti_tab, quali_tab)
   return (res)
 }
