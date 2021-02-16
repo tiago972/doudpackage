@@ -36,3 +36,7 @@ colnames(test3)[which(colnames(test3) == "0")]<-paste("n = ", tmp_table[1], "(",
 
 c<-grep("Missing values.*", test4[,"test"])
 
+iris3 <- iris[c(1:2, 51:54, 101:103), ]
+kable(iris3[, 1:4], booktabs = TRUE) %>%
+  pack_rows(index = c("setosa" = 2, "versicolor" = 4, "virginica" = 3)
+)
