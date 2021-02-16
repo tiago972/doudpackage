@@ -16,7 +16,6 @@
 #' @param p.value Print p value. Group needs to be set; default = TRUE. If TRUE, "Total" will also be printed
 #' @param min.max Display min and max value for quantitative variables; default is false
 #' @param digits.opt How many numbers after the "." you'd like for the proportions of qualitative variables; default is 0
-#' @import plyr
 #' @return The object returned depends on the "parse" option:either a dataframe or a kable oject
 #' @export
 ft_desc_tab<-function(data, group=NULL, complete = TRUE, quanti=FALSE, quali=FALSE, na.print = FALSE, p.value=TRUE, min.max=FALSE, digits.opt=0)

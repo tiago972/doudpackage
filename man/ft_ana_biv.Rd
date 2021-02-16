@@ -4,7 +4,7 @@
 \alias{ft_ana_biv}
 \title{Bivariate analysis}
 \usage{
-ft_ana_biv(data, group, signi = 0.2)
+ft_ana_biv(data, group, signi = 3)
 }
 \arguments{
 \item{data}{A database, dataframe object}

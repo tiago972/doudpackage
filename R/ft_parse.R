@@ -21,11 +21,10 @@ ft_name_col<-function(res, data, group, digits.opt)
 #' @param res Outpul of ft_desc_tab
 #' @param data A database, dataframe object
 #' @param col.order A vector containing column indexes or names to use for column order
-#' @param c.name A list containing column names to use. Need to be given in the same order as col_order
 #' @param group The name of the group used in ft_desc_tab
+#' @param group.name Vector containing subgroup names
 #' @param digits.opt How many numbers to display after the ".". Should be the same as provided in ft_desc_tab, default is 0
-#' @import KableExtra
-#' @import plyr
+#' @import kableExtra
 #' @return Return a html KableExtra object.
 #' @export
 ft_parse<-function(res, data, group, col.order = NULL, group.name = NULL, digits.opt = 0)
