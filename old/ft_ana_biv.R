@@ -8,9 +8,9 @@
 #' @import lubridate
 #' @return Return a dataframe with univariate analaysis
 #' @export
-ft_ana_biv<-function(data, group, signi=3){
-  tmp<-as.data.frame(matrix(NA, ncol(data)-1, 3))
-  colnames(tmp)<-c("var", "test", "p")
+ft_ana_biv<-function(data, group, signi=0.20){
+  tmp<-as.data.frame(matrix(NA, ncol(data)-1, 4))
+  colnames(tmp)<-c("var", "test", "p", "signi")
   options(warn=0)
   my_env<-environment()
   for (i in 1:ncol(data)){
@@ -19,13 +19,10 @@ ft_ana_biv<-function(data, group, signi=3){
     if((is.numeric(data[,i])||is.integer(data[,i])) &&
        (min(data[,i], na.rm = TRUE) != max(data[,i], na.rm = TRUE))){
       tmp[i,"var"]<-colnames(data)[i]
-      tmp[i,"test"]<-"t.test"
-      t<-t.test(data[,i]~data[,group])$p.value
-      if (t < 0.001)
-        tmp[i,"p"]<-"< .001"
-      else
-        tmp[i,"p"]<-round(t, digits = signi)
-    }else if (is.factor(data[,i]) && !lubridate::is.Date(data[,i]) && nlevels(data[,i]) > 1){
+      tmp[i,"test"]<-"wilcoxon"
+      tmp[i,"p"]<-round(wilcox.test(data[,i]~data[,group])$p.value, digits = 7)
+      tmp[i, "signi"]<-ifelse(tmp[i,"p"]<signi,"OUI","non")
+    }else if (is.factor(data[,i]) && !is.Date(data[,i]) && nlevels(data[,i]) > 1){
       tryCatch(
         {
           c<-c(chisq.test(data[,i], data[,group], correct=FALSE), test_name = "chi2")
@@ -36,10 +33,8 @@ ft_ana_biv<-function(data, group, signi=3){
         finally = {
           tmp[i,"var"]<-colnames(data)[i]
           tmp[i,"test"]<-my_env$c$test_name
-          if (c$p.value < 0.001)
-            tmp[i,"p"]<-"< .001"
-          else
-            tmp[i,"p"]<-round(c$p.value,digits = signi)
+          tmp[i,"p"]<-round(c$p.value,digits =7)
+          tmp[i, "signi"]<-ifelse(c$p.value<signi,"OUI","non")
         })
     } else
     {
