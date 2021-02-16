@@ -64,7 +64,7 @@ ft_quali<-function(data, group=NULL, p.value, na.print, digits.opt){
           tmp[(j + k), "var"]<-paste(colnames(data)[i], levels(data[,i])[k], sep = ", ")
           tmp[(j + k), "Total"]<-paste(table(data[,i])[k], "(",
                                      round(prop.table(table(data[,i], useNA = "always"))[k] * 100, digits = digits.opt),
-                                     ")", sep ="")
+                                     "%)", sep ="")
           if (k == nlevels(data[,i]))
             j = j + k
       }
