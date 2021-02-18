@@ -23,20 +23,14 @@ total<-kable(test4) %>%
 
 total
 
-###### htmlTable
-htmlTable(test3[,c("var", "Total", "1", "0", "p")], cgroup = c())
-
 ### Tests de mini fonctions
-tmp_factor<-levels(bdd$vivant.s4)
-tmp_table<-table(bdd$vivant.s4, useNA = "always")
-tmp_prop.table<-round(prop.table(table(bdd$vivant.s4, useNA = "always")) * 100, digits = 1)
+col_names<-colnames(bdd)
+apply_test<-sapply(col_names, function(x){
+  if (is.factor(bdd[,x]))
+    return(x)
+  })
+apply_test<-unlist(apply_test)
 
-tmp_table[1]
-colnames(test3)[which(colnames(test3) == "0")]<-paste("n = ", tmp_table[1], "(", tmp_prop.table[1], "%)", sep = "")
-
-c<-grep("Missing values.*", test4[,"test"])
-
-iris3 <- iris[c(1:2, 51:54, 101:103), ]
-kable(iris3[, 1:4], booktabs = TRUE) %>%
-  pack_rows(index = c("setosa" = 2, "versicolor" = 4, "virginica" = 3)
-)
+# BDD pour les tests, petit echantillon de var quali
+bdd_tmp<-bdd[,c(apply_test[1:5], "vivant.s4")]
+test<-ft_desc_tab(bdd_tmp, na.print = T,quali = T, complete = F,group = "vivant.s4")
