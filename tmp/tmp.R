@@ -43,10 +43,7 @@ res<-kableExtra::kable(test) %>%
   add_indent(1, level_of_indent = 1)
 
 res
-i = 1
-while (i <= nrow(test))
-{
-  tmp_grepl<-grepl(test$var, )
+table(grepl(apply_test[1], test$var))["TRUE"]
+is.na(table(grepl("test", test$var))["TRUE"])
 
-}
 
