@@ -5,7 +5,7 @@ date: "06/02/2021"
 output: html_document
 ---
 ```{r echo=F, message=F}
-setwd("/Users/Tiago/Desktop/BF\ is\ cool/doudpackage/tmp")
+setwd("/Users/Tiago/Desktop/BF\ is\ cool/doudpackage/R")
 source('./ft_quali.R')
 source('./ft_quanti.R')
 source('./tools.R')
@@ -18,9 +18,23 @@ source('./nagisa.R')
 ```
 
 ```{r echo=FALSE, results='asis'}
-test3<-ft_desc_tab(bdd, na.print = T, p.value = T,group = "vivant.s4")
-test4<-ft_parse(test3, bdd, "vivant.s4", 
-                col.order = c("var", "Total", "1", "0", "p"), group.name = c("Deceased", "Survivors"), digits.opt = 0)
-test4
+library(kableExtra)
+col_names<-colnames(bdd)
+apply_test<-sapply(col_names, function(x){
+  if (is.factor(bdd[,x]))
+    return(x)
+  })
+apply_test<-unlist(apply_test)
+bdd_tmp<-bdd[,c(apply_test[1:5], "vivant.s4")]
+test<-ft_desc_tab(bdd_tmp, na.print = T,quali = T, complete = F,group = "vivant.s4")
+res<-kableExtra::kable(test) %>%
+  kableExtra::kable_classic() %>%
+  kableExtra::add_header_above(c(" ", "Total" = 1, setNames(1, "group.name[1]"),
+                                 setNames(1, "group.name[2]"), " ")) %>%
+  pack_rows(index = c("Genre" = 2), indent = F, label_row_css = "border-bottom: 1px solid;
+            padding-left: 4em;") %>%
+  add_indent(1, level_of_indent = 2)
+
+res
 ```
 

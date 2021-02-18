@@ -34,3 +34,19 @@ apply_test<-unlist(apply_test)
 # BDD pour les tests, petit echantillon de var quali
 bdd_tmp<-bdd[,c(apply_test[1:5], "vivant.s4")]
 test<-ft_desc_tab(bdd_tmp, na.print = T,quali = T, complete = F,group = "vivant.s4")
+res<-kableExtra::kable(test) %>%
+  kableExtra::kable_classic() %>%
+  kableExtra::add_header_above(c(" ", "Total" = 1, setNames(1, "group.name[1]"),
+                                 setNames(1, "group.name[2]"), " ")) %>%
+  pack_rows(index = c("Genre" = 2), indent = F, label_row_css = "border-bottom: 1px solid;
+            text-indent: 4%;") %>%
+  add_indent(1, level_of_indent = 1)
+
+res
+i = 1
+while (i <= nrow(test))
+{
+  tmp_grepl<-grepl(test$var, )
+
+}
+

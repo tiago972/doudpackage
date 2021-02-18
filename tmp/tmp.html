@@ -447,6 +447,15 @@ border: 0;
 }
 </style>
 
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
   pre:not([class]) {
@@ -491,6 +500,7 @@ h6 {
   text-align: left;
 }
 </style>
+
 
 
 
@@ -683,8 +693,14 @@ summary {
 ## [1] &quot;to factor:  Passage.en.reanimation&quot;
 ## [1] &quot;to factor:  Morph..Mid.&quot;
 ## [1] &quot;to factor:  Antibiotique&quot;</code></pre>
-<pre><code>## Warning in ft_desc_tab(bdd, na.print = T, p.value = T, group = &quot;vivant.s4&quot;): 6
-## rows have been deleted due to missing values in the defined group</code></pre>
+<pre><code>## 
+## Attaching package: &#39;kableExtra&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     group_rows</code></pre>
+<pre><code>## Warning in ft_desc_tab(bdd_tmp, na.print = T, quali = T, complete = F, group
+## = &quot;vivant.s4&quot;): 6 rows have been deleted due to missing values in the defined
+## group</code></pre>
 <table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -697,12 +713,12 @@ Total
 </th>
 <th style="padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="1">
 <div style="border-bottom: 1px solid #111111; margin-bottom: -1px; ">
-Deceased
+group.name[1]
 </div>
 </th>
 <th style="padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="1">
 <div style="border-bottom: 1px solid #111111; margin-bottom: -1px; ">
-Survivors
+group.name[2]
 </div>
 </th>
 <th style="empty-cells: hide;" colspan="1">
@@ -710,2298 +726,43 @@ Survivors
 </tr>
 <tr>
 <th style="text-align:left;">
-</th>
-<th style="text-align:left;">
-n = 100
-</th>
-<th style="text-align:left;">
-n = 71(71%)
-</th>
-<th style="text-align:left;">
-n = 23(23%)
+var
 </th>
 <th style="text-align:left;">
 p
 </th>
+<th style="text-align:left;">
+1
+</th>
+<th style="text-align:left;">
+Total
+</th>
+<th style="text-align:left;">
+0
+</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-Age, mean(SD)
-</td>
-<td style="text-align:left;">
-80(7)
-</td>
-<td style="text-align:left;">
-79(7)
-</td>
-<td style="text-align:left;">
-83(7)
-</td>
-<td style="text-align:left;">
-0.041
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Charlson, mean(SD)
-</td>
-<td style="text-align:left;">
-6(2)
-</td>
-<td style="text-align:left;">
-5(2)
-</td>
-<td style="text-align:left;">
-6(2)
-</td>
-<td style="text-align:left;">
-0.062
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-duree.hospit, mean(SD)
-</td>
-<td style="text-align:left;">
-10(11)
-</td>
-<td style="text-align:left;">
-11(12)
-</td>
-<td style="text-align:left;">
-7(5)
-</td>
-<td style="text-align:left;">
-0.022
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ID, mean(SD)
-</td>
-<td style="text-align:left;">
-51(29)
-</td>
-<td style="text-align:left;">
-53(30)
-</td>
-<td style="text-align:left;">
-46(28)
-</td>
-<td style="text-align:left;">
-0.299
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Nb..Comorbidites, mean(SD)
-</td>
-<td style="text-align:left;">
-3(2)
-</td>
-<td style="text-align:left;">
-2(2)
-</td>
-<td style="text-align:left;">
-3(1)
-</td>
-<td style="text-align:left;">
-0.539
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NEWS.2.score, mean(SD)
-</td>
-<td style="text-align:left;">
-3(3)
-</td>
-<td style="text-align:left;">
-3(2)
-</td>
-<td style="text-align:left;">
-5(3)
-</td>
-<td style="text-align:left;">
-&lt; .001
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Plus.haut.Q.d.O2, mean(SD)
-</td>
-<td style="text-align:left;">
-5(6)
-</td>
-<td style="text-align:left;">
-4(4)
-</td>
-<td style="text-align:left;">
-11(5)
-</td>
-<td style="text-align:left;">
-&lt; .001
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Missing values, n(%)
-</td>
-<td style="text-align:left;">
-2(2)
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Stade.OMS, mean(SD)
-</td>
-<td style="text-align:left;">
-2(1)
-</td>
-<td style="text-align:left;">
-2(1)
-</td>
-<td style="text-align:left;">
-2(1)
-</td>
-<td style="text-align:left;">
-0.192
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AAP, 0
-</td>
-<td style="text-align:left;">
-73(78)
-</td>
-<td style="text-align:left;">
-56(79)
-</td>
-<td style="text-align:left;">
-17(74)
-</td>
-<td style="text-align:left;">
-0.62
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AAP, 1
-</td>
-<td style="text-align:left;">
-21(22)
-</td>
-<td style="text-align:left;">
-15(21)
-</td>
-<td style="text-align:left;">
-6(26)
-</td>
-<td style="text-align:left;">
-0.62
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ADO, 0
-</td>
-<td style="text-align:left;">
-82(87)
-</td>
-<td style="text-align:left;">
-62(87)
-</td>
-<td style="text-align:left;">
-20(87)
-</td>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ADO, 1
-</td>
-<td style="text-align:left;">
-12(13)
-</td>
-<td style="text-align:left;">
-9(13)
-</td>
-<td style="text-align:left;">
-3(13)
-</td>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Anemie,
-</td>
-<td style="text-align:left;">
-3(3)
-</td>
-<td style="text-align:left;">
-2(3)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-0.429
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Anemie, 0
-</td>
-<td style="text-align:left;">
-77(82)
-</td>
-<td style="text-align:left;">
-56(79)
-</td>
-<td style="text-align:left;">
-21(91)
-</td>
-<td style="text-align:left;">
-0.429
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Anemie, 1
-</td>
-<td style="text-align:left;">
-12(13)
-</td>
-<td style="text-align:left;">
-11(15)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-0.429
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Anemie, NR
-</td>
-<td style="text-align:left;">
-2(2)
-</td>
-<td style="text-align:left;">
-2(3)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-0.429
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Anosmie.agueusie, 0
-</td>
-<td style="text-align:left;">
-89(95)
-</td>
-<td style="text-align:left;">
-66(93)
-</td>
-<td style="text-align:left;">
-23(100)
-</td>
-<td style="text-align:left;">
-0.329
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Anosmie.agueusie, 1
-</td>
-<td style="text-align:left;">
-5(5)
-</td>
-<td style="text-align:left;">
-5(7)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-0.329
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Antibiotique, 0
-</td>
-<td style="text-align:left;">
-29(31)
-</td>
-<td style="text-align:left;">
-28(39)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-0.001
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Antibiotique, 1
-</td>
-<td style="text-align:left;">
-64(68)
-</td>
-<td style="text-align:left;">
-42(59)
-</td>
-<td style="text-align:left;">
-22(96)
-</td>
-<td style="text-align:left;">
-0.001
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Missing values, n(%)
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Anticoagulants, 0
-</td>
-<td style="text-align:left;">
-72(77)
-</td>
-<td style="text-align:left;">
-58(82)
-</td>
-<td style="text-align:left;">
-14(61)
-</td>
-<td style="text-align:left;">
-0.04
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Anticoagulants, 1
-</td>
-<td style="text-align:left;">
-22(23)
-</td>
-<td style="text-align:left;">
-13(18)
-</td>
-<td style="text-align:left;">
-9(39)
-</td>
-<td style="text-align:left;">
-0.04
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ARA.II, 0
-</td>
-<td style="text-align:left;">
-86(91)
-</td>
-<td style="text-align:left;">
-63(89)
-</td>
-<td style="text-align:left;">
-23(100)
-</td>
-<td style="text-align:left;">
-0.193
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ARA.II, 1
-</td>
-<td style="text-align:left;">
-8(9)
-</td>
-<td style="text-align:left;">
-8(11)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-0.193
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Atteinte.bilaterale, 0
-</td>
-<td style="text-align:left;">
-5(5)
-</td>
-<td style="text-align:left;">
-4(6)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Atteinte.bilaterale, 1
-</td>
-<td style="text-align:left;">
-34(36)
-</td>
-<td style="text-align:left;">
-27(38)
-</td>
-<td style="text-align:left;">
-7(30)
-</td>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Atteinte.bilaterale, 2
-</td>
-<td style="text-align:left;">
-2(2)
-</td>
-<td style="text-align:left;">
-2(3)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Missing values, n(%)
-</td>
-<td style="text-align:left;">
-53(56)
-</td>
-<td style="text-align:left;">
-38(54)
-</td>
-<td style="text-align:left;">
-15(65)
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Autre.AHT, 0
-</td>
-<td style="text-align:left;">
-59(63)
-</td>
-<td style="text-align:left;">
-43(61)
-</td>
-<td style="text-align:left;">
-16(70)
-</td>
-<td style="text-align:left;">
-0.438
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Autre.AHT, 1
-</td>
-<td style="text-align:left;">
-35(37)
-</td>
-<td style="text-align:left;">
-28(39)
-</td>
-<td style="text-align:left;">
-7(30)
-</td>
-<td style="text-align:left;">
-0.438
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AVC, 0
-</td>
-<td style="text-align:left;">
-83(88)
-</td>
-<td style="text-align:left;">
-62(87)
-</td>
-<td style="text-align:left;">
-21(91)
-</td>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AVC, 1
-</td>
-<td style="text-align:left;">
-11(12)
-</td>
-<td style="text-align:left;">
-9(13)
-</td>
-<td style="text-align:left;">
-2(9)
-</td>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Beta.bloquants, 0
-</td>
-<td style="text-align:left;">
-74(79)
-</td>
-<td style="text-align:left;">
-53(75)
-</td>
-<td style="text-align:left;">
-21(91)
-</td>
-<td style="text-align:left;">
-0.141
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Beta.bloquants, 1
-</td>
-<td style="text-align:left;">
-20(21)
-</td>
-<td style="text-align:left;">
-18(25)
-</td>
-<td style="text-align:left;">
-2(9)
-</td>
-<td style="text-align:left;">
-0.141
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-BPCO.asthme, 0
-</td>
-<td style="text-align:left;">
-79(84)
-</td>
-<td style="text-align:left;">
-60(85)
-</td>
-<td style="text-align:left;">
-19(83)
-</td>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-BPCO.asthme, 1
-</td>
-<td style="text-align:left;">
-15(16)
-</td>
-<td style="text-align:left;">
-11(15)
-</td>
-<td style="text-align:left;">
-4(17)
-</td>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Bronchodilatateurs, 0
-</td>
-<td style="text-align:left;">
-83(88)
-</td>
-<td style="text-align:left;">
-63(89)
-</td>
-<td style="text-align:left;">
-20(87)
-</td>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Bronchodilatateurs, 1
-</td>
-<td style="text-align:left;">
-11(12)
-</td>
-<td style="text-align:left;">
-8(11)
-</td>
-<td style="text-align:left;">
-3(13)
-</td>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Cardiopathie, 0
-</td>
-<td style="text-align:left;">
-64(68)
-</td>
-<td style="text-align:left;">
-49(69)
-</td>
-<td style="text-align:left;">
-15(65)
-</td>
-<td style="text-align:left;">
-0.734
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Cardiopathie, 1
-</td>
-<td style="text-align:left;">
-30(32)
-</td>
-<td style="text-align:left;">
-22(31)
-</td>
-<td style="text-align:left;">
-8(35)
-</td>
-<td style="text-align:left;">
-0.734
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Cephalees, 0
-</td>
-<td style="text-align:left;">
-86(91)
-</td>
-<td style="text-align:left;">
-66(93)
-</td>
-<td style="text-align:left;">
-20(87)
-</td>
-<td style="text-align:left;">
-0.4
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Cephalees, 1
-</td>
-<td style="text-align:left;">
-8(9)
-</td>
-<td style="text-align:left;">
-5(7)
-</td>
-<td style="text-align:left;">
-3(13)
-</td>
-<td style="text-align:left;">
-0.4
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Cirrhose, 0
-</td>
-<td style="text-align:left;">
-93(99)
-</td>
-<td style="text-align:left;">
-70(99)
-</td>
-<td style="text-align:left;">
-23(100)
-</td>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Cirrhose, 1
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Condensation, 0
-</td>
-<td style="text-align:left;">
-28(30)
-</td>
-<td style="text-align:left;">
-23(32)
-</td>
-<td style="text-align:left;">
-5(22)
-</td>
-<td style="text-align:left;">
-0.692
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Condensation, 1
-</td>
-<td style="text-align:left;">
-13(14)
-</td>
-<td style="text-align:left;">
-10(14)
-</td>
-<td style="text-align:left;">
-3(13)
-</td>
-<td style="text-align:left;">
-0.692
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Missing values, n(%)
-</td>
-<td style="text-align:left;">
-53(56)
-</td>
-<td style="text-align:left;">
-38(54)
-</td>
-<td style="text-align:left;">
-15(65)
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Confusion, 0
-</td>
-<td style="text-align:left;">
-80(85)
-</td>
-<td style="text-align:left;">
-62(87)
-</td>
-<td style="text-align:left;">
-18(78)
-</td>
-<td style="text-align:left;">
-0.319
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Confusion, 1
-</td>
-<td style="text-align:left;">
-14(15)
-</td>
-<td style="text-align:left;">
-9(13)
-</td>
-<td style="text-align:left;">
-5(22)
-</td>
-<td style="text-align:left;">
-0.319
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Corticoides, 0
-</td>
-<td style="text-align:left;">
-87(93)
-</td>
-<td style="text-align:left;">
-67(94)
-</td>
-<td style="text-align:left;">
-20(87)
-</td>
-<td style="text-align:left;">
-0.356
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Corticoides, 1
-</td>
-<td style="text-align:left;">
-7(7)
-</td>
-<td style="text-align:left;">
-4(6)
-</td>
-<td style="text-align:left;">
-3(13)
-</td>
-<td style="text-align:left;">
-0.356
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ct_cat, 1
-</td>
-<td style="text-align:left;">
-19(20)
-</td>
-<td style="text-align:left;">
-14(20)
-</td>
-<td style="text-align:left;">
-5(22)
-</td>
-<td style="text-align:left;">
-0.795
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ct_cat, 2
-</td>
-<td style="text-align:left;">
-34(36)
-</td>
-<td style="text-align:left;">
-27(38)
-</td>
-<td style="text-align:left;">
-7(30)
-</td>
-<td style="text-align:left;">
-0.795
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ct_cat, 3
-</td>
-<td style="text-align:left;">
-13(14)
-</td>
-<td style="text-align:left;">
-11(15)
-</td>
-<td style="text-align:left;">
-2(9)
-</td>
-<td style="text-align:left;">
-0.795
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Missing values, n(%)
-</td>
-<td style="text-align:left;">
-28(30)
-</td>
-<td style="text-align:left;">
-19(27)
-</td>
-<td style="text-align:left;">
-9(39)
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-cytolyse, 0
-</td>
-<td style="text-align:left;">
-45(48)
-</td>
-<td style="text-align:left;">
-38(54)
-</td>
-<td style="text-align:left;">
-7(30)
-</td>
-<td style="text-align:left;">
-0.04
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-cytolyse, 1
-</td>
-<td style="text-align:left;">
-24(26)
-</td>
-<td style="text-align:left;">
-15(21)
-</td>
-<td style="text-align:left;">
-9(39)
-</td>
-<td style="text-align:left;">
-0.04
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Missing values, n(%)
-</td>
-<td style="text-align:left;">
-25(27)
-</td>
-<td style="text-align:left;">
-18(25)
-</td>
-<td style="text-align:left;">
-7(30)
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Demence.neurodeg., 0
-</td>
-<td style="text-align:left;">
-69(73)
-</td>
-<td style="text-align:left;">
-54(76)
-</td>
-<td style="text-align:left;">
-15(65)
-</td>
-<td style="text-align:left;">
-0.307
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Demence.neurodeg., 1
-</td>
-<td style="text-align:left;">
-25(27)
-</td>
-<td style="text-align:left;">
-17(24)
-</td>
-<td style="text-align:left;">
-8(35)
-</td>
-<td style="text-align:left;">
-0.307
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Diabete, 0
-</td>
-<td style="text-align:left;">
-71(76)
-</td>
-<td style="text-align:left;">
-56(79)
-</td>
-<td style="text-align:left;">
-15(65)
-</td>
-<td style="text-align:left;">
-0.186
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Diabete, 1
-</td>
-<td style="text-align:left;">
-23(24)
-</td>
-<td style="text-align:left;">
-15(21)
-</td>
-<td style="text-align:left;">
-8(35)
-</td>
-<td style="text-align:left;">
-0.186
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Diarrhees, 0
-</td>
-<td style="text-align:left;">
-79(84)
-</td>
-<td style="text-align:left;">
-58(82)
-</td>
-<td style="text-align:left;">
-21(91)
-</td>
-<td style="text-align:left;">
-0.345
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Diarrhees, 1
-</td>
-<td style="text-align:left;">
-15(16)
-</td>
-<td style="text-align:left;">
-13(18)
-</td>
-<td style="text-align:left;">
-2(9)
-</td>
-<td style="text-align:left;">
-0.345
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-duree.J1.PCR, -1
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-0.168
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-duree.J1.PCR, #VALEUR !
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-0.168
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-duree.J1.PCR, 0
-</td>
-<td style="text-align:left;">
-7(7)
-</td>
-<td style="text-align:left;">
-7(10)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-0.168
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-duree.J1.PCR, 1
-</td>
-<td style="text-align:left;">
-18(19)
-</td>
-<td style="text-align:left;">
-10(14)
-</td>
-<td style="text-align:left;">
-8(35)
-</td>
-<td style="text-align:left;">
-0.168
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-duree.J1.PCR, 10
-</td>
-<td style="text-align:left;">
-6(6)
-</td>
-<td style="text-align:left;">
-4(6)
-</td>
-<td style="text-align:left;">
-2(9)
-</td>
-<td style="text-align:left;">
-0.168
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-duree.J1.PCR, 13
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-0.168
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-duree.J1.PCR, 14
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-0.168
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-duree.J1.PCR, 16
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-0.168
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-duree.J1.PCR, 17
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-0.168
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-duree.J1.PCR, 18
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-0.168
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-duree.J1.PCR, 2
-</td>
-<td style="text-align:left;">
-8(9)
-</td>
-<td style="text-align:left;">
-6(8)
-</td>
-<td style="text-align:left;">
-2(9)
-</td>
-<td style="text-align:left;">
-0.168
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-duree.J1.PCR, 3
-</td>
-<td style="text-align:left;">
-7(7)
-</td>
-<td style="text-align:left;">
-4(6)
-</td>
-<td style="text-align:left;">
-3(13)
-</td>
-<td style="text-align:left;">
-0.168
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-duree.J1.PCR, 4
-</td>
-<td style="text-align:left;">
-10(11)
-</td>
-<td style="text-align:left;">
-10(14)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-0.168
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-duree.J1.PCR, 5
-</td>
-<td style="text-align:left;">
-8(9)
-</td>
-<td style="text-align:left;">
-7(10)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-0.168
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-duree.J1.PCR, 6
-</td>
-<td style="text-align:left;">
-7(7)
-</td>
-<td style="text-align:left;">
-4(6)
-</td>
-<td style="text-align:left;">
-3(13)
-</td>
-<td style="text-align:left;">
-0.168
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-duree.J1.PCR, 7
-</td>
-<td style="text-align:left;">
-6(6)
-</td>
-<td style="text-align:left;">
-5(7)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-0.168
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-duree.J1.PCR, 8
-</td>
-<td style="text-align:left;">
-4(4)
-</td>
-<td style="text-align:left;">
-3(4)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-0.168
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-duree.J1.PCR, 9
-</td>
-<td style="text-align:left;">
-2(2)
-</td>
-<td style="text-align:left;">
-2(3)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-0.168
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Missing values, n(%)
-</td>
-<td style="text-align:left;">
-4(4)
-</td>
-<td style="text-align:left;">
-4(6)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Duree.sous.O2,
-</td>
-<td style="text-align:left;">
-2(2)
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-0.073
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Duree.sous.O2, 0
-</td>
-<td style="text-align:left;">
-22(23)
-</td>
-<td style="text-align:left;">
-21(30)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-0.073
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Duree.sous.O2, 1
-</td>
-<td style="text-align:left;">
-3(3)
-</td>
-<td style="text-align:left;">
-3(4)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-0.073
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Duree.sous.O2, 10
-</td>
-<td style="text-align:left;">
-2(2)
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-0.073
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Duree.sous.O2, 11
-</td>
-<td style="text-align:left;">
-3(3)
-</td>
-<td style="text-align:left;">
-3(4)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-0.073
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Duree.sous.O2, 12
-</td>
-<td style="text-align:left;">
-4(4)
-</td>
-<td style="text-align:left;">
-3(4)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-0.073
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Duree.sous.O2, 13
-</td>
-<td style="text-align:left;">
-3(3)
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-2(9)
-</td>
-<td style="text-align:left;">
-0.073
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Duree.sous.O2, 14
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-0.073
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Duree.sous.O2, 15
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-0.073
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Duree.sous.O2, 16
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-0.073
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Duree.sous.O2, 17
-</td>
-<td style="text-align:left;">
-2(2)
-</td>
-<td style="text-align:left;">
-2(3)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-0.073
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Duree.sous.O2, 2
-</td>
-<td style="text-align:left;">
-4(4)
-</td>
-<td style="text-align:left;">
-3(4)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-0.073
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Duree.sous.O2, 21
-</td>
-<td style="text-align:left;">
-2(2)
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-0.073
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Duree.sous.O2, 3
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-0.073
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Duree.sous.O2, 4
-</td>
-<td style="text-align:left;">
-3(3)
-</td>
-<td style="text-align:left;">
-2(3)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-0.073
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Duree.sous.O2, 5
-</td>
-<td style="text-align:left;">
-8(9)
-</td>
-<td style="text-align:left;">
-6(8)
-</td>
-<td style="text-align:left;">
-2(9)
-</td>
-<td style="text-align:left;">
-0.073
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Duree.sous.O2, 6
-</td>
-<td style="text-align:left;">
-8(9)
-</td>
-<td style="text-align:left;">
-6(8)
-</td>
-<td style="text-align:left;">
-2(9)
-</td>
-<td style="text-align:left;">
-0.073
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Duree.sous.O2, 7
-</td>
-<td style="text-align:left;">
-6(6)
-</td>
-<td style="text-align:left;">
-4(6)
-</td>
-<td style="text-align:left;">
-2(9)
-</td>
-<td style="text-align:left;">
-0.073
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Duree.sous.O2, 8
-</td>
-<td style="text-align:left;">
-4(4)
-</td>
-<td style="text-align:left;">
-3(4)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-0.073
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Duree.sous.O2, 9
-</td>
-<td style="text-align:left;">
-2(2)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-2(9)
-</td>
-<td style="text-align:left;">
-0.073
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Duree.sous.O2, NR
-</td>
-<td style="text-align:left;">
-9(10)
-</td>
-<td style="text-align:left;">
-6(8)
-</td>
-<td style="text-align:left;">
-3(13)
-</td>
-<td style="text-align:left;">
-0.073
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Duree.sous.O2, NR (covidO2)
-</td>
-<td style="text-align:left;">
-2(2)
-</td>
-<td style="text-align:left;">
-2(3)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-0.073
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Missing values, n(%)
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Dyslipidemie, 0
-</td>
-<td style="text-align:left;">
-79(84)
-</td>
-<td style="text-align:left;">
-60(85)
-</td>
-<td style="text-align:left;">
-19(83)
-</td>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Dyslipidemie, 1
-</td>
-<td style="text-align:left;">
-15(16)
-</td>
-<td style="text-align:left;">
-11(15)
-</td>
-<td style="text-align:left;">
-4(17)
-</td>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Dyspnee, 0
-</td>
-<td style="text-align:left;">
-60(64)
-</td>
-<td style="text-align:left;">
-48(68)
-</td>
-<td style="text-align:left;">
-12(52)
-</td>
-<td style="text-align:left;">
-0.181
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Dyspnee, 1
-</td>
-<td style="text-align:left;">
-34(36)
-</td>
-<td style="text-align:left;">
-23(32)
-</td>
-<td style="text-align:left;">
-11(48)
-</td>
-<td style="text-align:left;">
-0.181
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Emphyseme, 0
-</td>
-<td style="text-align:left;">
-31(33)
-</td>
-<td style="text-align:left;">
-25(35)
-</td>
-<td style="text-align:left;">
-6(26)
-</td>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Emphyseme, 1
-</td>
-<td style="text-align:left;">
-10(11)
-</td>
-<td style="text-align:left;">
-8(11)
-</td>
-<td style="text-align:left;">
-2(9)
-</td>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Missing values, n(%)
-</td>
-<td style="text-align:left;">
-53(56)
-</td>
-<td style="text-align:left;">
-38(54)
-</td>
-<td style="text-align:left;">
-15(65)
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Ext.condensation, 0
-</td>
-<td style="text-align:left;">
-28(30)
-</td>
-<td style="text-align:left;">
-23(32)
-</td>
-<td style="text-align:left;">
-5(22)
-</td>
-<td style="text-align:left;">
-0.025
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Ext.condensation, 1
-</td>
-<td style="text-align:left;">
-11(12)
-</td>
-<td style="text-align:left;">
-10(14)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-0.025
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Ext.condensation, 2
-</td>
-<td style="text-align:left;">
-2(2)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-2(9)
-</td>
-<td style="text-align:left;">
-0.025
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Missing values, n(%)
-</td>
-<td style="text-align:left;">
-53(56)
-</td>
-<td style="text-align:left;">
-38(54)
-</td>
-<td style="text-align:left;">
-15(65)
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Ext.VD, 0
-</td>
-<td style="text-align:left;">
-4(4)
-</td>
-<td style="text-align:left;">
-3(4)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-0.045
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Ext.VD, 1
-</td>
-<td style="text-align:left;">
-18(19)
-</td>
-<td style="text-align:left;">
-16(23)
-</td>
-<td style="text-align:left;">
-2(9)
-</td>
-<td style="text-align:left;">
-0.045
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Ext.VD, 2
-</td>
-<td style="text-align:left;">
-15(16)
-</td>
-<td style="text-align:left;">
-13(18)
-</td>
-<td style="text-align:left;">
-2(9)
-</td>
-<td style="text-align:left;">
-0.045
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Ext.VD, 3
-</td>
-<td style="text-align:left;">
-4(4)
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-3(13)
-</td>
-<td style="text-align:left;">
-0.045
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ext.VD.condensation, 0
-</td>
-<td style="text-align:left;">
-3(3)
-</td>
-<td style="text-align:left;">
-3(4)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ext.VD.condensation, 1
-</td>
-<td style="text-align:left;">
-10(11)
-</td>
-<td style="text-align:left;">
-10(14)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-0.027
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ext.VD.condensation, 2
-</td>
-<td style="text-align:left;">
-21(22)
-</td>
-<td style="text-align:left;">
-17(24)
-</td>
-<td style="text-align:left;">
-4(17)
-</td>
-<td style="text-align:left;">
-0.027
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ext.VD.condensation, 3
-</td>
-<td style="text-align:left;">
-7(7)
-</td>
-<td style="text-align:left;">
-3(4)
-</td>
-<td style="text-align:left;">
-4(17)
-</td>
-<td style="text-align:left;">
-0.027
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Missing values, n(%)
-</td>
-<td style="text-align:left;">
-53(56)
-</td>
-<td style="text-align:left;">
-38(54)
-</td>
-<td style="text-align:left;">
-15(65)
-</td>
-<td style="text-align:left;">
-0.027
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Missing values, n(%)
-</td>
-<td style="text-align:left;">
-53(56)
-</td>
-<td style="text-align:left;">
-38(54)
-</td>
-<td style="text-align:left;">
-15(65)
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Fievre, 0
-</td>
-<td style="text-align:left;">
-30(32)
-</td>
-<td style="text-align:left;">
-25(35)
-</td>
-<td style="text-align:left;">
-5(22)
-</td>
-<td style="text-align:left;">
-0.228
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Fievre, 1
-</td>
-<td style="text-align:left;">
-64(68)
-</td>
-<td style="text-align:left;">
-46(65)
-</td>
-<td style="text-align:left;">
-18(78)
-</td>
-<td style="text-align:left;">
-0.228
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Fievre.1, 0
-</td>
-<td style="text-align:left;">
-55(59)
-</td>
-<td style="text-align:left;">
-46(65)
-</td>
-<td style="text-align:left;">
-9(39)
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Fievre.1, 1
-</td>
-<td style="text-align:left;">
-39(41)
-</td>
-<td style="text-align:left;">
-25(35)
-</td>
-<td style="text-align:left;">
-14(61)
-</td>
-<td style="text-align:left;">
-0.03
+<tr grouplength="2">
+<td colspan="5" style="border-bottom: 1px solid;             padding-left: 4em;">
+<strong>Genre</strong>
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td style="text-align:left;padding-left: 4em;" indentlevel="1">
 Genre, F
 </td>
 <td style="text-align:left;">
-40(43)
-</td>
-<td style="text-align:left;">
-34(48)
-</td>
-<td style="text-align:left;">
-6(26)
-</td>
-<td style="text-align:left;">
 0.066
+</td>
+<td style="text-align:left;">
+34(48%)
+</td>
+<td style="text-align:left;">
+40(43%)
+</td>
+<td style="text-align:left;">
+6(26%)
 </td>
 </tr>
 <tr>
@@ -3009,373 +770,16 @@ Genre, F
 Genre, H
 </td>
 <td style="text-align:left;">
-54(57)
-</td>
-<td style="text-align:left;">
-37(52)
-</td>
-<td style="text-align:left;">
-17(74)
-</td>
-<td style="text-align:left;">
 0.066
 </td>
-</tr>
-<tr>
 <td style="text-align:left;">
-Hospit..avant.J7, 0
+37(52%)
 </td>
 <td style="text-align:left;">
-28(30)
+54(57%)
 </td>
 <td style="text-align:left;">
-22(31)
-</td>
-<td style="text-align:left;">
-6(26)
-</td>
-<td style="text-align:left;">
-0.655
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Hospit..avant.J7, 1
-</td>
-<td style="text-align:left;">
-66(70)
-</td>
-<td style="text-align:left;">
-49(69)
-</td>
-<td style="text-align:left;">
-17(74)
-</td>
-<td style="text-align:left;">
-0.655
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-HTA, 0
-</td>
-<td style="text-align:left;">
-41(44)
-</td>
-<td style="text-align:left;">
-29(41)
-</td>
-<td style="text-align:left;">
-12(52)
-</td>
-<td style="text-align:left;">
-0.341
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-HTA, 1
-</td>
-<td style="text-align:left;">
-53(56)
-</td>
-<td style="text-align:left;">
-42(59)
-</td>
-<td style="text-align:left;">
-11(48)
-</td>
-<td style="text-align:left;">
-0.341
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-IEC, 0
-</td>
-<td style="text-align:left;">
-80(85)
-</td>
-<td style="text-align:left;">
-62(87)
-</td>
-<td style="text-align:left;">
-18(78)
-</td>
-<td style="text-align:left;">
-0.319
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-IEC, 1
-</td>
-<td style="text-align:left;">
-14(15)
-</td>
-<td style="text-align:left;">
-9(13)
-</td>
-<td style="text-align:left;">
-5(22)
-</td>
-<td style="text-align:left;">
-0.319
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Immunosuppresseurs, 0
-</td>
-<td style="text-align:left;">
-89(95)
-</td>
-<td style="text-align:left;">
-67(94)
-</td>
-<td style="text-align:left;">
-22(96)
-</td>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Immunosuppresseurs, 1
-</td>
-<td style="text-align:left;">
-5(5)
-</td>
-<td style="text-align:left;">
-4(6)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Insuline, 0
-</td>
-<td style="text-align:left;">
-82(87)
-</td>
-<td style="text-align:left;">
-61(86)
-</td>
-<td style="text-align:left;">
-21(91)
-</td>
-<td style="text-align:left;">
-0.724
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Insuline, 1
-</td>
-<td style="text-align:left;">
-12(13)
-</td>
-<td style="text-align:left;">
-10(14)
-</td>
-<td style="text-align:left;">
-2(9)
-</td>
-<td style="text-align:left;">
-0.724
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-IPP, 0
-</td>
-<td style="text-align:left;">
-66(70)
-</td>
-<td style="text-align:left;">
-53(75)
-</td>
-<td style="text-align:left;">
-13(57)
-</td>
-<td style="text-align:left;">
-0.099
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-IPP, 1
-</td>
-<td style="text-align:left;">
-28(30)
-</td>
-<td style="text-align:left;">
-18(25)
-</td>
-<td style="text-align:left;">
-10(43)
-</td>
-<td style="text-align:left;">
-0.099
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-IR,
-</td>
-<td style="text-align:left;">
-4(4)
-</td>
-<td style="text-align:left;">
-3(4)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-0.009
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-IR, 0
-</td>
-<td style="text-align:left;">
-61(65)
-</td>
-<td style="text-align:left;">
-52(73)
-</td>
-<td style="text-align:left;">
-9(39)
-</td>
-<td style="text-align:left;">
-0.009
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-IR, 1
-</td>
-<td style="text-align:left;">
-27(29)
-</td>
-<td style="text-align:left;">
-14(20)
-</td>
-<td style="text-align:left;">
-13(57)
-</td>
-<td style="text-align:left;">
-0.009
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-IR, NR
-</td>
-<td style="text-align:left;">
-2(2)
-</td>
-<td style="text-align:left;">
-2(3)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-0.009
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-IRC, 0
-</td>
-<td style="text-align:left;">
-81(86)
-</td>
-<td style="text-align:left;">
-61(86)
-</td>
-<td style="text-align:left;">
-20(87)
-</td>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-IRC, 1
-</td>
-<td style="text-align:left;">
-13(14)
-</td>
-<td style="text-align:left;">
-10(14)
-</td>
-<td style="text-align:left;">
-3(13)
-</td>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-LAT, 0
-</td>
-<td style="text-align:left;">
-12(13)
-</td>
-<td style="text-align:left;">
-10(14)
-</td>
-<td style="text-align:left;">
-2(9)
-</td>
-<td style="text-align:left;">
-0.041
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-LAT, 1
-</td>
-<td style="text-align:left;">
-38(40)
-</td>
-<td style="text-align:left;">
-19(27)
-</td>
-<td style="text-align:left;">
-19(83)
-</td>
-<td style="text-align:left;">
-0.041
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Missing values, n(%)
-</td>
-<td style="text-align:left;">
-44(47)
-</td>
-<td style="text-align:left;">
-42(59)
-</td>
-<td style="text-align:left;">
-2(9)
-</td>
-<td style="text-align:left;">
-NA
+17(74%)
 </td>
 </tr>
 <tr>
@@ -3383,16 +787,16 @@ NA
 Lieu.S4, Deces
 </td>
 <td style="text-align:left;">
-24(26)
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-23(100)
-</td>
-<td style="text-align:left;">
 &lt; .001
+</td>
+<td style="text-align:left;">
+1(1%)
+</td>
+<td style="text-align:left;">
+24(26%)
+</td>
+<td style="text-align:left;">
+23(100%)
 </td>
 </tr>
 <tr>
@@ -3400,16 +804,16 @@ Lieu.S4, Deces
 Lieu.S4, Domicile
 </td>
 <td style="text-align:left;">
-44(47)
-</td>
-<td style="text-align:left;">
-44(62)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
 &lt; .001
+</td>
+<td style="text-align:left;">
+44(62%)
+</td>
+<td style="text-align:left;">
+44(47%)
+</td>
+<td style="text-align:left;">
+0(0%)
 </td>
 </tr>
 <tr>
@@ -3417,16 +821,16 @@ Lieu.S4, Domicile
 Lieu.S4, Institution
 </td>
 <td style="text-align:left;">
-2(2)
-</td>
-<td style="text-align:left;">
-2(3)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
 &lt; .001
+</td>
+<td style="text-align:left;">
+2(3%)
+</td>
+<td style="text-align:left;">
+2(2%)
+</td>
+<td style="text-align:left;">
+0(0%)
 </td>
 </tr>
 <tr>
@@ -3434,16 +838,16 @@ Lieu.S4, Institution
 Lieu.S4, Medecine aigue
 </td>
 <td style="text-align:left;">
-5(5)
-</td>
-<td style="text-align:left;">
-5(7)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
 &lt; .001
+</td>
+<td style="text-align:left;">
+5(7%)
+</td>
+<td style="text-align:left;">
+5(5%)
+</td>
+<td style="text-align:left;">
+0(0%)
 </td>
 </tr>
 <tr>
@@ -3451,16 +855,16 @@ Lieu.S4, Medecine aigue
 Lieu.S4, PDV
 </td>
 <td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
 &lt; .001
+</td>
+<td style="text-align:left;">
+0(0%)
+</td>
+<td style="text-align:left;">
+0(0%)
+</td>
+<td style="text-align:left;">
+0(0%)
 </td>
 </tr>
 <tr>
@@ -3468,118 +872,16 @@ Lieu.S4, PDV
 Lieu.S4, SSR
 </td>
 <td style="text-align:left;">
-19(20)
-</td>
-<td style="text-align:left;">
-19(27)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
 &lt; .001
 </td>
-</tr>
-<tr>
 <td style="text-align:left;">
-lymphopenie,
+19(27%)
 </td>
 <td style="text-align:left;">
-6(6)
+19(20%)
 </td>
 <td style="text-align:left;">
-5(7)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-0.1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-lymphopenie, 0
-</td>
-<td style="text-align:left;">
-17(18)
-</td>
-<td style="text-align:left;">
-9(13)
-</td>
-<td style="text-align:left;">
-8(35)
-</td>
-<td style="text-align:left;">
-0.1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-lymphopenie, 1
-</td>
-<td style="text-align:left;">
-67(71)
-</td>
-<td style="text-align:left;">
-53(75)
-</td>
-<td style="text-align:left;">
-14(61)
-</td>
-<td style="text-align:left;">
-0.1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-lymphopenie, NR
-</td>
-<td style="text-align:left;">
-4(4)
-</td>
-<td style="text-align:left;">
-4(6)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-0.1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-MAI, 0
-</td>
-<td style="text-align:left;">
-84(89)
-</td>
-<td style="text-align:left;">
-62(87)
-</td>
-<td style="text-align:left;">
-22(96)
-</td>
-<td style="text-align:left;">
-0.442
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-MAI, 1
-</td>
-<td style="text-align:left;">
-10(11)
-</td>
-<td style="text-align:left;">
-9(13)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-0.442
+0(0%)
 </td>
 </tr>
 <tr>
@@ -3587,16 +889,16 @@ MAI, 1
 Mode.de.sortie, Deces
 </td>
 <td style="text-align:left;">
-19(20)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-19(83)
-</td>
-<td style="text-align:left;">
 &lt; .001
+</td>
+<td style="text-align:left;">
+0(0%)
+</td>
+<td style="text-align:left;">
+19(20%)
+</td>
+<td style="text-align:left;">
+19(83%)
 </td>
 </tr>
 <tr>
@@ -3604,16 +906,16 @@ Mode.de.sortie, Deces
 Mode.de.sortie, Domicile
 </td>
 <td style="text-align:left;">
-36(38)
-</td>
-<td style="text-align:left;">
-35(49)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
 &lt; .001
+</td>
+<td style="text-align:left;">
+35(49%)
+</td>
+<td style="text-align:left;">
+36(38%)
+</td>
+<td style="text-align:left;">
+1(4%)
 </td>
 </tr>
 <tr>
@@ -3621,16 +923,16 @@ Mode.de.sortie, Domicile
 Mode.de.sortie, Institution
 </td>
 <td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
 &lt; .001
+</td>
+<td style="text-align:left;">
+1(1%)
+</td>
+<td style="text-align:left;">
+1(1%)
+</td>
+<td style="text-align:left;">
+0(0%)
 </td>
 </tr>
 <tr>
@@ -3638,16 +940,16 @@ Mode.de.sortie, Institution
 Mode.de.sortie, Medecine aigue
 </td>
 <td style="text-align:left;">
-8(9)
-</td>
-<td style="text-align:left;">
-7(10)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
 &lt; .001
+</td>
+<td style="text-align:left;">
+7(10%)
+</td>
+<td style="text-align:left;">
+8(9%)
+</td>
+<td style="text-align:left;">
+1(4%)
 </td>
 </tr>
 <tr>
@@ -3655,16 +957,16 @@ Mode.de.sortie, Medecine aigue
 Mode.de.sortie, SSR
 </td>
 <td style="text-align:left;">
-23(24)
-</td>
-<td style="text-align:left;">
-23(32)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
 &lt; .001
+</td>
+<td style="text-align:left;">
+23(32%)
+</td>
+<td style="text-align:left;">
+23(24%)
+</td>
+<td style="text-align:left;">
+0(0%)
 </td>
 </tr>
 <tr>
@@ -3672,16 +974,16 @@ Mode.de.sortie, SSR
 Mode.de.sortie, USI / Reanimation
 </td>
 <td style="text-align:left;">
-7(7)
-</td>
-<td style="text-align:left;">
-5(7)
-</td>
-<td style="text-align:left;">
-2(9)
-</td>
-<td style="text-align:left;">
 &lt; .001
+</td>
+<td style="text-align:left;">
+5(7%)
+</td>
+<td style="text-align:left;">
+7(7%)
+</td>
+<td style="text-align:left;">
+2(9%)
 </td>
 </tr>
 <tr>
@@ -3689,16 +991,16 @@ Mode.de.sortie, USI / Reanimation
 Mode.de.vie, Domicile
 </td>
 <td style="text-align:left;">
-81(86)
+0.177
 </td>
 <td style="text-align:left;">
-63(89)
+63(89%)
 </td>
 <td style="text-align:left;">
-18(78)
+81(86%)
 </td>
 <td style="text-align:left;">
-0.199
+18(78%)
 </td>
 </tr>
 <tr>
@@ -3706,16 +1008,16 @@ Mode.de.vie, Domicile
 Mode.de.vie, Institution
 </td>
 <td style="text-align:left;">
-11(12)
+0.177
 </td>
 <td style="text-align:left;">
-6(8)
+6(8%)
 </td>
 <td style="text-align:left;">
-5(22)
+11(12%)
 </td>
 <td style="text-align:left;">
-0.199
+5(22%)
 </td>
 </tr>
 <tr>
@@ -3723,832 +1025,50 @@ Mode.de.vie, Institution
 Mode.de.vie, SSR
 </td>
 <td style="text-align:left;">
-2(2)
+0.177
 </td>
 <td style="text-align:left;">
-2(3)
+2(3%)
 </td>
 <td style="text-align:left;">
-0(0)
+2(2%)
 </td>
 <td style="text-align:left;">
-0.199
+0(0%)
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Morph..Mid., 0
-</td>
-<td style="text-align:left;">
-74(79)
-</td>
-<td style="text-align:left;">
-66(93)
-</td>
-<td style="text-align:left;">
-8(35)
+vivant.s4.1, 0
 </td>
 <td style="text-align:left;">
 &lt; .001
 </td>
+<td style="text-align:left;">
+0(0%)
+</td>
+<td style="text-align:left;">
+23(24%)
+</td>
+<td style="text-align:left;">
+23(100%)
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Morph..Mid., 1
-</td>
-<td style="text-align:left;">
-17(18)
-</td>
-<td style="text-align:left;">
-2(3)
-</td>
-<td style="text-align:left;">
-15(65)
+vivant.s4.1, 1
 </td>
 <td style="text-align:left;">
 &lt; .001
 </td>
-</tr>
-<tr>
 <td style="text-align:left;">
-Morph..Mid., 60
+71(100%)
 </td>
 <td style="text-align:left;">
-1(1)
+71(76%)
 </td>
 <td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-&lt; .001
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Missing values, n(%)
-</td>
-<td style="text-align:left;">
-2(2)
-</td>
-<td style="text-align:left;">
-2(3)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-MTEV, 0
-</td>
-<td style="text-align:left;">
-82(87)
-</td>
-<td style="text-align:left;">
-64(90)
-</td>
-<td style="text-align:left;">
-18(78)
-</td>
-<td style="text-align:left;">
-0.159
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-MTEV, 1
-</td>
-<td style="text-align:left;">
-12(13)
-</td>
-<td style="text-align:left;">
-7(10)
-</td>
-<td style="text-align:left;">
-5(22)
-</td>
-<td style="text-align:left;">
-0.159
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Neoplasie, 0
-</td>
-<td style="text-align:left;">
-74(79)
-</td>
-<td style="text-align:left;">
-56(79)
-</td>
-<td style="text-align:left;">
-18(78)
-</td>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Neoplasie, 1
-</td>
-<td style="text-align:left;">
-20(21)
-</td>
-<td style="text-align:left;">
-15(21)
-</td>
-<td style="text-align:left;">
-5(22)
-</td>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-O2.L.min, 0
-</td>
-<td style="text-align:left;">
-47(50)
-</td>
-<td style="text-align:left;">
-40(56)
-</td>
-<td style="text-align:left;">
-7(30)
-</td>
-<td style="text-align:left;">
-&lt; .001
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-O2.L.min, 1
-</td>
-<td style="text-align:left;">
-9(10)
-</td>
-<td style="text-align:left;">
-7(10)
-</td>
-<td style="text-align:left;">
-2(9)
-</td>
-<td style="text-align:left;">
-&lt; .001
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-O2.L.min, 1.5
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-&lt; .001
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-O2.L.min, 10
-</td>
-<td style="text-align:left;">
-2(2)
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-&lt; .001
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-O2.L.min, 2
-</td>
-<td style="text-align:left;">
-15(16)
-</td>
-<td style="text-align:left;">
-15(21)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-&lt; .001
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-O2.L.min, 3
-</td>
-<td style="text-align:left;">
-9(10)
-</td>
-<td style="text-align:left;">
-3(4)
-</td>
-<td style="text-align:left;">
-6(26)
-</td>
-<td style="text-align:left;">
-&lt; .001
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-O2.L.min, 4
-</td>
-<td style="text-align:left;">
-4(4)
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-3(13)
-</td>
-<td style="text-align:left;">
-&lt; .001
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-O2.L.min, 5
-</td>
-<td style="text-align:left;">
-3(3)
-</td>
-<td style="text-align:left;">
-2(3)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-&lt; .001
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-O2.L.min, 6
-</td>
-<td style="text-align:left;">
-3(3)
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-2(9)
-</td>
-<td style="text-align:left;">
-&lt; .001
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-O2.L.min, 9
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-&lt; .001
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Obesite..IMC..30., 0
-</td>
-<td style="text-align:left;">
-88(94)
-</td>
-<td style="text-align:left;">
-66(93)
-</td>
-<td style="text-align:left;">
-22(96)
-</td>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Obesite..IMC..30., 1
-</td>
-<td style="text-align:left;">
-6(6)
-</td>
-<td style="text-align:left;">
-5(7)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Passage.en.reanimation,
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-&lt; .001
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Passage.en.reanimation, 0
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-&lt; .001
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Passage.en.reanimation, 1
-</td>
-<td style="text-align:left;">
-7(7)
-</td>
-<td style="text-align:left;">
-5(7)
-</td>
-<td style="text-align:left;">
-2(9)
-</td>
-<td style="text-align:left;">
-&lt; .001
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Passage.en.reanimation, LATA
-</td>
-<td style="text-align:left;">
-38(40)
-</td>
-<td style="text-align:left;">
-19(27)
-</td>
-<td style="text-align:left;">
-19(83)
-</td>
-<td style="text-align:left;">
-&lt; .001
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Passage.en.reanimation, Non discute
-</td>
-<td style="text-align:left;">
-27(29)
-</td>
-<td style="text-align:left;">
-25(35)
-</td>
-<td style="text-align:left;">
-2(9)
-</td>
-<td style="text-align:left;">
-&lt; .001
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Passage.en.reanimation, Non discuté
-</td>
-<td style="text-align:left;">
-20(21)
-</td>
-<td style="text-align:left;">
-20(28)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-&lt; .001
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Psychotropes, 0
-</td>
-<td style="text-align:left;">
-59(63)
-</td>
-<td style="text-align:left;">
-45(63)
-</td>
-<td style="text-align:left;">
-14(61)
-</td>
-<td style="text-align:left;">
-0.829
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Psychotropes, 1
-</td>
-<td style="text-align:left;">
-35(37)
-</td>
-<td style="text-align:left;">
-26(37)
-</td>
-<td style="text-align:left;">
-9(39)
-</td>
-<td style="text-align:left;">
-0.829
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SOT.HSCT, 0
-</td>
-<td style="text-align:left;">
-92(98)
-</td>
-<td style="text-align:left;">
-70(99)
-</td>
-<td style="text-align:left;">
-22(96)
-</td>
-<td style="text-align:left;">
-0.431
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SOT.HSCT, 1
-</td>
-<td style="text-align:left;">
-2(2)
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-0.431
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Statines, 0
-</td>
-<td style="text-align:left;">
-68(72)
-</td>
-<td style="text-align:left;">
-51(72)
-</td>
-<td style="text-align:left;">
-17(74)
-</td>
-<td style="text-align:left;">
-0.846
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Statines, 1
-</td>
-<td style="text-align:left;">
-26(28)
-</td>
-<td style="text-align:left;">
-20(28)
-</td>
-<td style="text-align:left;">
-6(26)
-</td>
-<td style="text-align:left;">
-0.846
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Tabac, 0
-</td>
-<td style="text-align:left;">
-88(94)
-</td>
-<td style="text-align:left;">
-66(93)
-</td>
-<td style="text-align:left;">
-22(96)
-</td>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Tabac, 1
-</td>
-<td style="text-align:left;">
-6(6)
-</td>
-<td style="text-align:left;">
-5(7)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TDM, 0
-</td>
-<td style="text-align:left;">
-3(3)
-</td>
-<td style="text-align:left;">
-3(4)
-</td>
-<td style="text-align:left;">
-0(0)
-</td>
-<td style="text-align:left;">
-0.026
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TDM, 1
-</td>
-<td style="text-align:left;">
-7(7)
-</td>
-<td style="text-align:left;">
-3(4)
-</td>
-<td style="text-align:left;">
-4(17)
-</td>
-<td style="text-align:left;">
-0.026
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TDM, 2
-</td>
-<td style="text-align:left;">
-31(33)
-</td>
-<td style="text-align:left;">
-27(38)
-</td>
-<td style="text-align:left;">
-4(17)
-</td>
-<td style="text-align:left;">
-0.026
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Missing values, n(%)
-</td>
-<td style="text-align:left;">
-53(56)
-</td>
-<td style="text-align:left;">
-38(54)
-</td>
-<td style="text-align:left;">
-15(65)
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-thrombopenie, 0
-</td>
-<td style="text-align:left;">
-70(74)
-</td>
-<td style="text-align:left;">
-53(75)
-</td>
-<td style="text-align:left;">
-17(74)
-</td>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-thrombopenie, 1
-</td>
-<td style="text-align:left;">
-19(20)
-</td>
-<td style="text-align:left;">
-14(20)
-</td>
-<td style="text-align:left;">
-5(22)
-</td>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Missing values, n(%)
-</td>
-<td style="text-align:left;">
-5(5)
-</td>
-<td style="text-align:left;">
-4(6)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Toux, 0
-</td>
-<td style="text-align:left;">
-49(52)
-</td>
-<td style="text-align:left;">
-35(49)
-</td>
-<td style="text-align:left;">
-14(61)
-</td>
-<td style="text-align:left;">
-0.334
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Toux, 1
-</td>
-<td style="text-align:left;">
-45(48)
-</td>
-<td style="text-align:left;">
-36(51)
-</td>
-<td style="text-align:left;">
-9(39)
-</td>
-<td style="text-align:left;">
-0.334
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-VD, 0
-</td>
-<td style="text-align:left;">
-3(3)
-</td>
-<td style="text-align:left;">
-2(3)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-0.498
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-VD, 1
-</td>
-<td style="text-align:left;">
-37(39)
-</td>
-<td style="text-align:left;">
-30(42)
-</td>
-<td style="text-align:left;">
-7(30)
-</td>
-<td style="text-align:left;">
-0.498
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Missing values, n(%)
-</td>
-<td style="text-align:left;">
-54(57)
-</td>
-<td style="text-align:left;">
-39(55)
-</td>
-<td style="text-align:left;">
-15(65)
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-VIH, 0
-</td>
-<td style="text-align:left;">
-92(98)
-</td>
-<td style="text-align:left;">
-70(99)
-</td>
-<td style="text-align:left;">
-22(96)
-</td>
-<td style="text-align:left;">
-0.431
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-VIH, 1
-</td>
-<td style="text-align:left;">
-2(2)
-</td>
-<td style="text-align:left;">
-1(1)
-</td>
-<td style="text-align:left;">
-1(4)
-</td>
-<td style="text-align:left;">
-0.431
+0(0%)
 </td>
 </tr>
 </tbody>
@@ -4563,7 +1083,7 @@ VIH, 1
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
