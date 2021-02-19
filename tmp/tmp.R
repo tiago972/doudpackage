@@ -32,18 +32,23 @@ apply_test<-sapply(col_names, function(x){
 apply_test<-unlist(apply_test)
 
 # BDD pour les tests, petit echantillon de var quali
-bdd_tmp<-bdd[,c(apply_test[1:5], "vivant.s4")]
-test<-ft_desc_tab(bdd_tmp, na.print = T,quali = T, complete = F,group = "vivant.s4")
+bdd_tmp<-bdd[,c(colnames(bdd)[1:3], colnames(bdd)[16:18], "vivant.s4")]
+test<-ft_desc_tab(bdd_tmp, na.print = T, group = "vivant.s4")
+groupes<-list(Demographie = c("ID", "Age", "Genre"),
+              TDM = c("Atteinte.bilaterale", "ct_cat"))
+res<-c()
+for (i in 1:length(groupes))
+{
+s<-unlist(sapply(groupes[[i]], function(x)
+  grep(x, test$var)))
+res<-c(res, s)
+}
+test2<-test[res,]
+test3<-rbind(test2, test[!test$var %in% test2$var,])
 res<-kableExtra::kable(test) %>%
   kableExtra::kable_classic() %>%
-  kableExtra::add_header_above(c(" ", "Total" = 1, setNames(1, "group.name[1]"),
-                                 setNames(1, "group.name[2]"), " ")) %>%
   pack_rows(index = c("Genre" = 2), indent = F, label_row_css = "border-bottom: 1px solid;
             text-indent: 4%;") %>%
   add_indent(1, level_of_indent = 1)
 
 res
-table(grepl(apply_test[1], test$var))["TRUE"]
-is.na(table(grepl("test", test$var))["TRUE"])
-
-

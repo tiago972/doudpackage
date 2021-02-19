@@ -18,7 +18,7 @@
 #' @param digits.opt How many numbers after the "." you'd like for the proportions of qualitative variables; default is 0
 #' @return The object returned depends on the "parse" option:either a dataframe or a kable oject
 #' @export
-ft_desc_tab<-function(data, group=NULL, complete = TRUE, quanti=FALSE, quali=FALSE, na.print = FALSE, p.value=TRUE, min.max=FALSE, digits.opt=0)
+ft_desc_tab<-function(data, group=NULL, complete = TRUE, quanti=FALSE, quali=FALSE, na.print = FALSE, p.value=TRUE, min.max=FALSE, digits.opt=1)
 {
   if (!is.null(group) && table(data[,group], useNA = "always")[nlevels(data[,group]) + 1] != 0)
   {

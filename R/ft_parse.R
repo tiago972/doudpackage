@@ -27,7 +27,7 @@ ft_name_col<-function(res, data, group, digits.opt)
 #' @import kableExtra
 #' @return Return a html KableExtra object.
 #' @export
-ft_parse<-function(res, data, group, col.order = NULL, group.name = NULL, digits.opt = 0)
+ft_parse<-function(res, data, group, col.order = NULL, group.name = NULL, digits.opt = 1)
 {
  if (!is.null(col.order))
    res<-res[,col.order]
@@ -41,5 +41,3 @@ res<-kableExtra::kable(res) %>%
   kableExtra::add_indent(ident)
  return(res)
 }
-
-
