@@ -34,8 +34,11 @@ apply_test<-unlist(apply_test)
 # BDD pour les tests, petit echantillon de var quali
 bdd_tmp<-bdd[,c(colnames(bdd)[1:3], colnames(bdd)[16:18], "vivant.s4")]
 test<-ft_desc_tab(bdd_tmp, na.print = T, group = "vivant.s4")
+
+### Test de nom de "Grands groupes"
 groupes<-list(Demographie = c("ID", "Age", "Genre"),
               TDM = c("Atteinte.bilaterale", "ct_cat"))
+### Methode pour reclasser les lignes selon l'ordre donné des groupes
 res<-c()
 for (i in 1:length(groupes))
 {
