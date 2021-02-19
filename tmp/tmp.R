@@ -40,10 +40,16 @@ res<-c()
 for (i in 1:length(groupes))
 {
 s<-unlist(sapply(groupes[[i]], function(x)
-  grep(x, test$var)))
+{
+  tmp_grep<-grep(x, test$var)
+  if(!is.na(table(grepl("Missing values.*", test[(max(tmp_grep) + 1),]))["TRUE"]))
+    tmp_grep<-c(tmp_grep, (max(tmp_grep) + 1))
+  return(tmp_grep)
+}
+  ))
 res<-c(res, s)
 }
-test2<-test[res,]
+test2<-rbind(test[res,], test[-res,])
 test3<-rbind(test2, test[!test$var %in% test2$var,])
 res<-kableExtra::kable(test) %>%
   kableExtra::kable_classic() %>%
