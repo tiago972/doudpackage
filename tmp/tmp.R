@@ -53,7 +53,6 @@ s<-unlist(sapply(groupes[[i]], function(x)
 res<-c(res, s)
 }
 test2<-rbind(test[res,], test[-res,])
-test3<-rbind(test2, test[!test$var %in% test2$var,])
 res<-kableExtra::kable(test) %>%
   kableExtra::kable_classic() %>%
   pack_rows(index = c("Genre" = 2), indent = F, label_row_css = "border-bottom: 1px solid;
