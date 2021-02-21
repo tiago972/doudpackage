@@ -53,12 +53,15 @@ for (i in 1:length(big_groupes))
   res<-c(res, s)
 }
 names(res)<-unlist(big_groupes)
-
+library(kableExtra)
 test2<-rbind(test[unlist(res),], test[-unlist(res),])
-res<-kableExtra::kable(test) %>%
-  kableExtra::kable_classic() %>%
-  pack_rows(index = c("Genre" = 2), indent = F, label_row_css = "border-bottom: 1px solid;
-            text-indent: 4%;") %>%
-  add_indent(1, level_of_indent = 1)
+res<-kableExtra::kable(test2) %>%
+  kableExtra::kable_classic()
 
+for (i in 1:length(big_groupes))
+{
+  res<-res %>%
+  pack_rows(index = c(names(big_groupes)[i]= length(big_groupes[[i]])), indent = F, label_row_css = "border-bottom: 1px solid;
+            text-indent: 4%;")
+}
 res
