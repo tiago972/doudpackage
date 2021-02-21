@@ -36,23 +36,25 @@ bdd_tmp<-bdd[,c(colnames(bdd)[1:3], colnames(bdd)[16:18], "vivant.s4")]
 test<-ft_desc_tab(bdd_tmp, na.print = T, group = "vivant.s4")
 
 ### Test de nom de "Grands groupes"
-groupes<-list(Demographie = c("ID", "Age", "Genre"),
+big_groupes<-list(Demographie = c("ID", "Age", "Genre"),
               TDM = c("Atteinte.bilaterale", "ct_cat"))
+
 ### Methode pour reclasser les lignes selon l'ordre donné des groupes
 res<-c()
-for (i in 1:length(groupes))
+for (i in 1:length(big_groupes))
 {
-s<-unlist(sapply(groupes[[i]], function(x)
-{
-  tmp_grep<-grep(x, test$var)
-  if(!is.na(table(grepl("Missing values.*", test[(max(tmp_grep) + 1),]))["TRUE"]))
-    tmp_grep<-c(tmp_grep, (max(tmp_grep) + 1))
-  return(tmp_grep)
+  s<-lapply(big_groupes[[i]], function(x)
+  {
+    tmp_grep<-grep(x, test$var)
+    if(!is.na(table(grepl("Missing values.*", test[(max(tmp_grep) + 1),]))["TRUE"]))
+      tmp_grep<-c(tmp_grep, (max(tmp_grep) + 1))
+    tmp_grep
+  })
+  res<-c(res, s)
 }
-  ))
-res<-c(res, s)
-}
-test2<-rbind(test[res,], test[-res,])
+names(res)<-unlist(big_groupes)
+
+test2<-rbind(test[unlist(res),], test[-unlist(res),])
 res<-kableExtra::kable(test) %>%
   kableExtra::kable_classic() %>%
   pack_rows(index = c("Genre" = 2), indent = F, label_row_css = "border-bottom: 1px solid;
