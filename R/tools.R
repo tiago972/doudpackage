@@ -9,12 +9,13 @@ ft_parse_na<-function(data)
 
 #### Fuction to select what to print according to options (quanti) ####
 #' @import tidyr
-ft_parse_quanti_opt<-function(data, min.max, na.print, p.value)
+ft_parse_quanti_opt<-function(data, min.max, na.print, p.value, group)
 {
   i = 1;
   if(isFALSE(min.max)) ### A Changer +++ il faudra en faite les mettre à la ligne de mean, sd
     data<-data[,!names(data) %in% "Min-Max"]
-  data<-tidyr::pivot_wider(data, names_from = "Group", values_from = c("Total"))
+  if (!is.null(group))
+    data<-tidyr::pivot_wider(data, names_from = "Group", values_from = c("Total"))
   while (i <= nrow(data))
   {
     data[i,1]<-paste(data[i,1], ", mean(SD)", sep = "")
@@ -31,9 +32,10 @@ ft_parse_quanti_opt<-function(data, min.max, na.print, p.value)
 
 #### Fuction to select what to print according to options (quali) ####
 #' @import tidyr
-ft_parse_quali_opt<-function(data, na.print, p.value)
+ft_parse_quali_opt<-function(data, na.print, p.value, group)
 {
-  data<-tidyr::pivot_wider(data, names_from = "Group", values_from =  "Total")
+  if (!is.null(group))
+    data<-tidyr::pivot_wider(data, names_from = "Group", values_from =  "Total")
   if (!isTRUE(na.print))
     data<-data[!grepl(".*Missing values, n\\(%\\)", data$var),]
   else
@@ -46,7 +48,7 @@ ft_parse_quali_opt<-function(data, na.print, p.value)
 ### Error to be checked at the begening of the function (need to be completed)
 ft_error<-function(data, group, complete, quanti, quali)
 {
-  if (!is.null(group) && (!is.factor(data[,group]) || nlevels(data[,group]) > 3))
+  if (!is.null(group) && (!is.factor(data[,group]) || nlevels(data[,group]) > 2))
   {
     write("Grouping error dude, check if the variable is a binary factor", stderr())
     return (-1)
