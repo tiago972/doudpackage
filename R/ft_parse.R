@@ -1,6 +1,7 @@
-## Function to rename columns according to the effectives of each sub-group
+## Function to rename columns according to the counts of each sub-group
 ft_name_col<-function(res, data, group, digits.opt)
 {
+  # print(colnames(res))
   tmp_factor<-levels(data[,group])
   tmp_table<-table(data[,group], useNA = "always")
   tmp_prop.table<-round(prop.table(table(data[,group], useNA = "always")) * 100, digits = digits.opt)
@@ -29,8 +30,18 @@ ft_name_col<-function(res, data, group, digits.opt)
 #' @export
 ft_parse<-function(res, data, group, col.order = NULL, group.name = NULL, digits.opt = 1)
 {
+  print(colnames(res))
+  data<-data[!is.na(data[,group]),]
  if (!is.null(col.order))
-   res<-res[,col.order]
+   res<-res[,c(which(colnames(res) == "var"), which(colnames(res) =="Total"), col.order, which(colnames(res) =="p"))]
+ else
+   res<-res[,c("var","Total",3,4,"p")]
+  print(colnames(res))
+ if (is.null(group.name))
+ {
+   group.name[1]<-colnames(res[,3])
+   group.name[2]<-colnames(res[,4])
+ }
 res<-ft_name_col(res, data, group, digits.opt)
 ident<-grep("Missing values.*", res$var)
 colnames(res)[which(colnames(res) == "var")]<-""

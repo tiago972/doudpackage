@@ -5,7 +5,17 @@ date: "06/02/2021"
 output: html_document
 ---
 ```{r echo=F, message=F}
-setwd("/Users/Tiago/Desktop/BF\ is\ cool/doudpackage/R")
+# setwd("/Users/Tiago/Desktop/BF\ is\ cool/doudpackage/R")
+# source('./ft_quali.R')
+# source('./ft_quanti.R')
+# source('./tools.R')
+# source('./ft_ana_biv.R')
+# source('./ft_quanti.R')
+# source('./ft_univ_tab.R')
+# source('./ft_parse.R')
+# setwd("/Users/Tiago/Desktop/BF\ is\ cool/nagisa")
+# source('./nagisa.R')
+setwd("C:/Users/4092931/Documents/GitHub/doudpackage/R")
 source('./ft_quali.R')
 source('./ft_quanti.R')
 source('./tools.R')
@@ -13,28 +23,26 @@ source('./ft_ana_biv.R')
 source('./ft_quanti.R')
 source('./ft_univ_tab.R')
 source('./ft_parse.R')
-setwd("/Users/Tiago/Desktop/BF\ is\ cool/nagisa")
-source('./nagisa.R')
+setwd("C:/Users/4092931/Documents/GitHub/Scripts.PBR/Lea")
+source('./Lea.R')
+setwd("C:/Users/4092931/Documents/GitHub/doudpackage/tmp")
 ```
 
 ```{r echo=FALSE, results='asis'}
 library(kableExtra)
-col_names<-colnames(bdd)
-apply_test<-sapply(col_names, function(x){
-  if (is.factor(bdd[,x]))
-    return(x)
-  })
-apply_test<-unlist(apply_test)
-bdd_tmp<-bdd[,c(apply_test[1:5], "vivant.s4")]
-test<-ft_desc_tab(bdd_tmp, na.print = T,quali = T, complete = F,group = "vivant.s4")
-res<-kableExtra::kable(test) %>%
-  kableExtra::kable_classic() %>%
-  kableExtra::add_header_above(c(" ", "Total" = 1, setNames(1, "group.name[1]"),
-                                 setNames(1, "group.name[2]"), " ")) %>%
-  pack_rows(index = c("Genre" = 2), indent = F, label_row_css = "border-bottom: 1px solid;
-            padding-left: 4em;") %>%
-  add_indent(1, level_of_indent = 2)
+# col_names<-colnames(bdd)
+# apply_test<-sapply(col_names, function(x){
+#   if (is.factor(bdd[,x]))
+#     return(x)
+#   })
+# apply_test<-unlist(apply_test)
+bdd<-droplevels(bdd[!bdd$Mortalite.a.J30 == 'ehpad les grands cedres',])
+a<-ft_desc_tab(bdd, group = "Mortalite.a.J30",complete = F, quali = T)
+res_a<-ft_parse(a, bdd, group="Mortalite.a.J30", col.order = c(3,4), group.name = c("0","1"))
+b<-ft_desc_tab(bdd, group = "Mortalite.a.J30",complete = F, quanti = T)
+res_b<-ft_parse(b, bdd, group="Mortalite.a.J30", col.order = c(3,4), group.name = c("0","1"))
 
-res
+res_a
+res_b
 ```
 
