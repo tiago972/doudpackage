@@ -24,14 +24,14 @@ ft_parse_p_quali<-function(biv, total)
 ft_quali.pvalue<-function(data, res, group, na.print, digits.opt){
   res_tot<-ft_quali(data, NULL, NULL, na.print, digits.opt)
   res_tot$Group="Total"
-  remove_group = min(grep(pattern = paste(group, ".*", sep = ""), res_tot$var))
-  res_tot<-res_tot[-c(remove_group:(remove_group + nlevels(data[,group]))),]
+  remove_group = min(grep(pattern = paste(group, ",.*", sep = ""), res_tot$var))
+  res_tot<-res_tot[-c(remove_group:(remove_group + 1)),]
+  remove_group = grep(pattern = paste(group, ".Missing*", sep = ""), res_tot$var)
+  res_tot<-res_tot[-c(remove_group:(remove_group)),]
   total<-merge(res, res_tot, all = T)
   biv<-ft_ana_biv(data, group)
   biv<-ft_parse_p_quali(biv, total)
   total<-total[order(total$var),]
-  # print(biv)
-  # print(total)
   total$p<-biv[,"p"]
   return(total)
 }
