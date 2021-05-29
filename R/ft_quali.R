@@ -7,14 +7,15 @@ ft_parse_p_quali<-function(biv, total)
   while (i < nrow(biv))
   {
     i = i + 1;
-    while (i <= nrow(biv) && length(grep(pattern = paste(biv[i, "var"], ",.*", sep = ""), total$var)) == 0)
-      i = i + 1;
     patt = paste("^", biv[i,"var"], ",.*",sep = "")
     k = table(grepl(pattern = patt, total$var))[2]
-    tmp2<-data.frame("p" = rep(biv[i, "p"], k), "var" = rep(biv[i, "var"], k))
-    tmp3<-data.frame("p" = rep(NA, 3), "var" = rep(biv[i, "var"], 3))
-    tmp2<-rbind(tmp2, tmp3)
-    tmp<-rbind(tmp, tmp2)
+    if (!is.na(k))
+    {
+      tmp2<-data.frame("p" = rep(biv[i, "p"], k), "var" = rep(biv[i, "var"], k))
+      tmp3<-data.frame("p" = rep(NA, 3), "var" = rep(biv[i, "var"], 3))
+      tmp2<-rbind(tmp2, tmp3)
+      tmp<-rbind(tmp, tmp2)
+    }
   }
   tmp<-tmp[order(tmp$var),]
   return(tmp)
@@ -29,6 +30,8 @@ ft_quali.pvalue<-function(data, res, group, na.print, digits.opt){
   biv<-ft_ana_biv(data, group)
   biv<-ft_parse_p_quali(biv, total)
   total<-total[order(total$var),]
+  # print(biv)
+  # print(total)
   total$p<-biv[,"p"]
   return(total)
 }
