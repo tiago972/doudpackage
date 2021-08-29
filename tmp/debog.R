@@ -1,5 +1,5 @@
 # setwd("C:/Users/4092931/Documents/GitHub/doudpackage/R")
-setwd("/Users/Tiago/Desktop/BF is cool/doudpackage/R")
+setwd("/Users/tiago2/BF/doudpackage/R")
 
 source('./ft_quali.R')
 source('./ft_quanti.R')
@@ -9,7 +9,7 @@ source('./ft_quanti.R')
 source('./ft_univ_tab.R')
 source('./ft_parse.R')
 # setwd("C:/Users/4092931/Documents/GitHub/scripts.PBR/Lea")
-setwd("/Users/Tiago/Desktop/BF is cool/Judith Breth")
+setwd("/Users/tiago2/BF/Judith Breth")
 source('./judith.R')
 
 a<-ft_desc_tab(bdd, group = "DC.a.6mois",complete = F, quali = T)

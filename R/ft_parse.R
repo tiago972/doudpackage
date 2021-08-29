@@ -30,7 +30,7 @@ ft_name_col<-function(res, data, group, digits.opt)
 #' @export
 ft_parse<-function(res, data, group, col.order = NULL, group.name = NULL, digits.opt = 1)
 {
-  print(colnames(res))
+  #print(colnames(res))
   data<-data[!is.na(data[,group]),]
  if (!is.null(col.order))
    res<-res[,c(which(colnames(res) == "var"), which(colnames(res) =="Total"), col.order, which(colnames(res) =="p"))]
