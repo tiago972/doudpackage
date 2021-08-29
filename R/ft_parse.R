@@ -36,7 +36,7 @@ ft_parse<-function(res, data, group, col.order = NULL, group.name = NULL, digits
    res<-res[,c(which(colnames(res) == "var"), which(colnames(res) =="Total"), col.order, which(colnames(res) =="p"))]
  else
    res<-res[,c("var","Total",3,4,"p")]
-  print(colnames(res))
+  #print(colnames(res))
  if (is.null(group.name))
  {
    group.name[1]<-colnames(res[,3])
