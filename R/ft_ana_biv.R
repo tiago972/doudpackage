@@ -18,17 +18,26 @@ ft_ana_biv<-function(data, group, signi=3){
       next;
     if((is.numeric(data[,i])||is.integer(data[,i])) &&
        (min(data[,i], na.rm = TRUE) != max(data[,i], na.rm = TRUE))){
-      tmp[i,"var"]<-colnames(data)[i]
-      tmp[i,"test"]<-"t.test"
-      t<-t.test(data[,i]~data[,group])$p.value
-      if (t < 0.001)
-        tmp[i,"p"]<-"< .001"
-      else
-        tmp[i,"p"]<-round(t, digits = signi)
+      tryCatch(
+        {
+          tmp[i,"var"]<-colnames(data)[i]
+          tmp[i,"test"]<-"t.test"
+          t<-t.test(data[,i]~data[,group])$p.value
+          if (t < 0.001)
+            tmp[i,"p"]<-"< .001"
+          else
+            tmp[i,"p"]<-round(t, digits = signi)
+        },
+        error=function(e){
+          warning(paste(e), colnames(data)[i])
+        })
     }else if (is.factor(data[,i]) && !lubridate::is.Date(data[,i]) && nlevels(data[,i]) > 1){
       tryCatch(
         {
           c<-c(chisq.test(data[,i], data[,group], correct=FALSE), test_name = "chi2")
+        },
+        error=function(e){
+          warning(paste(e), colnames(data)[i])
         },
         warning=function(w){
           my_env$c<-c(fisher.test(data[,i], data[,group], simulate.p.value = TRUE), test_name = "fisher")
