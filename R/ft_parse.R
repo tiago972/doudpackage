@@ -1,6 +1,7 @@
 ## Function to rename columns according to the counts of each sub-group
 ft_name_col<-function(res, data, group, digits.opt)
 {
+  
   tmp_factor<-levels(data[,group])
   tmp_table<-table(data[,group], useNA = "always")
   tmp_prop.table<-round(prop.table(table(data[,group], useNA = "always")) * 100, digits = digits.opt)
