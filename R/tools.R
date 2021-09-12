@@ -37,7 +37,7 @@ ft_parse_quali_opt<-function(data, na.print, p.value, group)
   if (!is.null(group))
     data<-tidyr::pivot_wider(data, names_from = "Group", values_from =  "Total")
   if (!isTRUE(na.print))
-    data<-data[!grepl(".*Missing values, n\\(%\\)", data$var),]
+    data<-data[!grepl("Missing values, n(%)", data$var, fixed = T),]
   else
     data<-ft_parse_na(data)
   if (!isTRUE(p.value))

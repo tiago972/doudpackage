@@ -35,8 +35,8 @@ ft_desc_tab<-function(data, group=NULL, complete = TRUE, quanti=FALSE, quali=FAL
      quali_tab<-ft_parse_quali_opt(ft_quali(data, group, p.value, na.print, digits.opt), na.print, p.value, group)
   if (!isTRUE(complete) && isTRUE(quanti))
     return(quanti_tab)
-  else if (!isTRUE(complete) && isTRUE(quali))
-    return(quali_tab)
+  else if (!isTRUE(complete) && isTRUE(quali)){
+    return(quali_tab)}
   res<-rbind(quanti_tab, quali_tab)
   return (res)
 }
