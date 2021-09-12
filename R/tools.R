@@ -1,8 +1,9 @@
 ### Parse NA to remove Null NA rows and to get rid of the temp label
 ft_parse_na<-function(data)
 {
-  col<-intersect(grep(pattern = ".*.Missing values, n\\(%\\)", data$var), grep("0\\(0\\)", data$Total))
-  data<-data[-c(col),]
+  col<-intersect(grep(pattern = ".*.Missing values, n\\(\\%\\)", data$var), grep("0\\(0\\)", data$Total))
+  if (length(col) != 0)
+    data<-data[-c(col),]
   data$var<-gsub(pattern = ".*.Missing values, n\\(%\\)", "Missing values, n(%)", data$var)
   return(data)
 }
@@ -22,7 +23,7 @@ ft_parse_quanti_opt<-function(data, min.max, na.print, p.value, group)
     i = i + 2;
   }
   if (!isTRUE(na.print))
-    data<-data[!grepl("Missing values, n(%)", data$var, fixed = T),]
+    data<-data[!grepl("Missing values, n\\(\\%\\)", data$var, fixed = T),]
   else
     data<-ft_parse_na(data)
   if (!isTRUE(p.value))
@@ -37,7 +38,7 @@ ft_parse_quali_opt<-function(data, na.print, p.value, group)
   if (!is.null(group))
     data<-tidyr::pivot_wider(data, names_from = "Group", values_from =  "Total")
   if (!isTRUE(na.print))
-    data<-data[!grepl("Missing values, n(%)", data$var, fixed = T),]
+    data<-data[!grepl("Missing values, n\\(\\%\\)", data$var, fixed = T),]
   else
     data<-ft_parse_na(data)
   if (!isTRUE(p.value))
