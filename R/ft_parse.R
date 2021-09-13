@@ -55,3 +55,4 @@ res<-kableExtra::kable(res) %>%
   kableExtra::add_indent(ident)
  return(res)
 }
+
