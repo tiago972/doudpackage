@@ -8,6 +8,7 @@
 #' @import lubridate
 #' @return Return a dataframe with univariate analaysis
 #' @export
+#### Achecker impérativement: erreur quand la comparaison n'est pas possible
 ft_ana_biv<-function(data, group, signi=3){
   tmp<-as.data.frame(matrix(NA, ncol(data)-1, 3))
   colnames(tmp)<-c("var", "test", "p")
