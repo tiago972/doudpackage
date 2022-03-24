@@ -4,8 +4,8 @@ ft_delete_rows<-function(res, data){
   names.tmp<-names(names.tmp[names.tmp %in% "factor"])
 for (i in 1:length(names.tmp)){
   if (nlevels(data[,names.tmp[i]]) == 2){
-    tmp<-grep(pattern = paste(names.tmp[i], ".*", "0", sep = ""), res$var)
-     if (length(tmp) != 0)
+    tmp<-grep(pattern = paste(names.tmp[i], ".*", levels(data[,names.tmp[i]])[1], sep = ""), res$var)
+    if (length(tmp) != 0)
       res<-res[-c(tmp),]
   }
 }
