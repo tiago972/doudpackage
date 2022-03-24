@@ -1,4 +1,4 @@
-setwd('/Users/tiago2/Documents/BF is cool/PBR/BDD/Gericoco/CSV')
+setwd('/Users/tiago2/BF/doudpackage/R/Non normal')
 library(dplyr)
 load('.RData')
 setwd('/Users/tiago2/BF/doudpackage/R/Non normal')
