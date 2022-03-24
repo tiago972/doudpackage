@@ -63,11 +63,11 @@ ft_parse_quali_opt<-function(data, na.print, p.value, group)
 ### Error to be checked at the begening of the function (need to be completed)
 ft_error<-function(data, group, complete, quanti, quali)
 {
-  if (!is.null(group) && (!is.factor(data[,group]) || nlevels(data[,group]) > 2))
-  {
-    write("Grouping error dude, check if the variable is a binary factor", stderr())
-    return (-1)
-  }
+  # if (!is.null(group) && (!is.factor(data[,group]) || nlevels(data[,group]) > 2))
+  # {
+  #   write("Grouping error dude, check if the variable is a binary factor", stderr())
+  #   return (-1)
+  # }
   if (isFALSE(complete) && isFALSE(quanti) && isFALSE(quali))
   {
     write("Error, if complete is FALSE, quanti or quali must be TRUE", stderr())

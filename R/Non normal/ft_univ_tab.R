@@ -1,7 +1,3 @@
-#### Il rajouter l option parsed
-### Mettre le n(%) de chaque groupe dans le titre
-## Il faut rajouter la possibilite d'avoir ou SD ou l'IQR
-## Il faut changer l'affichage en mettant les Nas en dessous si il y en a et lvl dans le nom de var
 ## Il faut rajouter les anova si groupe à > 2 classes; ça implique de revoir les remplissage des tableaux selon la modalité de groupe
 
 #' Generic function to create a table of descriptive analysis of a dataset
