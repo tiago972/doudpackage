@@ -10,8 +10,6 @@ ft_tab_quanti<-function(data, i, group=NULL, group_level=NULL, digits.opt, nonno
   if (nonnormal == 0){
     "mean"<-round(mean(subset[,i], na.rm = T), digits = digits.opt)
     "sd"<-round(sd(subset[,i], na.rm = T), digits = digits.opt)
-    "prop_NAs"<-ifelse(is.na(table(is.na(subset[,i]))[2]), 0, round(prop.table(table(is.na(subset[,i])))[2] * 100, digits = digits.opt))
-    "NNAs"<-ifelse(is.na(table(is.na(subset[,i]))[2]), 0,table(is.na(subset[,i]))[2])
     tmp_mat<-c(var = colnames(data)[i],
              "Total"=gsub(" ", "", paste(mean, "(",  sd,")")), "Min-Max"=paste(Min, Max, sep="-"))
   }

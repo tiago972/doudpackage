@@ -1,4 +1,4 @@
-setwd('/Users/tiago2/BF/doudpackage/R/Non normal')
+setwd('/Users/tiago2/BF/PBR/BDD/benjamin dufournier')
 library(dplyr)
 load('.RData')
 setwd('/Users/tiago2/BF/doudpackage/R/Non normal')
@@ -23,6 +23,9 @@ sourceEntireFolder <- function(folderName, verbose=FALSE, showWarnings=TRUE) {
 
 
 sourceEntireFolder('.')
+univ<-ft_desc_tab(bdd, group = "Sexe", na.print = T)
+
+
 bdd.tmpGlobal<-select(bdd.merge, Age, `Charlson`, `Max Temperature`,  `Fréquence.respiratoire.max...min.`, 
                       `Min Lymphocytes (G/L)`, `Max CRP (mg/L)`, `Length of stay`, Corticotherapy, Sex)
 bdd.tmpGlobal<-filter(bdd.tmpGlobal, !is.na(Corticotherapy))
