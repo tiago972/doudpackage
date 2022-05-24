@@ -1,3 +1,7 @@
+#### Il rajouter l option parsed
+### Mettre le n(%) de chaque groupe dans le titre
+## Il faut rajouter la possibilite d'avoir ou SD ou l'IQR
+## Il faut changer l'affichage en mettant les Nas en dessous si il y en a et lvl dans le nom de var
 ## Il faut rajouter les anova si groupe à > 2 classes; ça implique de revoir les remplissage des tableaux selon la modalité de groupe
 
 #' Generic function to create a table of descriptive analysis of a dataset
@@ -12,10 +16,9 @@
 #' @param p.value Print p value. Group needs to be set; default = TRUE. If TRUE, "Total" will also be printed
 #' @param min.max Display min and max value for quantitative variables; default is false
 #' @param digits.opt How many numbers after the "." you'd like for the proportions of qualitative variables; default is 0
-#' @param nonnormal Treat all quantitative variable as non normal variables: will compute p.value according to Wilcox.test. Default is 0, 1 will display med(IQR), 2 will display med(Q1 - Q3)
 #' @return The object returned depends on the "parse" option:either a dataframe or a kable oject
 #' @export
-ft_desc_tab<-function(data, group=NULL, complete = TRUE, quanti=FALSE, quali=FALSE, na.print = FALSE, p.value=TRUE, min.max=FALSE, digits.opt=1, nonnormal = 0)
+ft_desc_tab<-function(data, group=NULL, complete = TRUE, quanti=FALSE, quali=FALSE, na.print = FALSE, p.value=TRUE, min.max=FALSE, digits.opt=1)
 {
   if ((ft_error(data, group, complete, quanti, quali)) == -1)
     return(-1)
@@ -26,22 +29,10 @@ ft_desc_tab<-function(data, group=NULL, complete = TRUE, quanti=FALSE, quali=FAL
   }
   if (isTRUE(quanti)||isTRUE(quali))
     complete=FALSE
-  if (isTRUE(complete) || isTRUE(quanti)){
-    quanti_tab<-ft_parse_quanti_opt(ft_quanti(data, group, p.value, min.max, na.print, digits.opt, nonnormal), min.max, na.print, p.value, group, nonnormal)
-    if (nrow(quanti_tab) == 1 && is.na(quanti_tab[,1])){
-      quanti = F
-      quali = T
-      complete = F
-    }
-  }
-  if (isTRUE(complete) || isTRUE(quali)){
+  if (isTRUE(complete) || isTRUE(quanti))
+    quanti_tab<-ft_parse_quanti_opt(ft_quanti(data, group, p.value, min.max, na.print, digits.opt), min.max, na.print, p.value, group)
+  if (isTRUE(complete) || isTRUE(quali))
      quali_tab<-ft_parse_quali_opt(ft_quali(data, group, p.value, na.print, digits.opt), na.print, p.value, group)
-     if (is.null(quali_tab)){
-       quali = FALSE
-       complete = FALSE
-       quanti = T
-       }
-  }
   if (!isTRUE(complete) && isTRUE(quanti))
     return(quanti_tab)
   else if (!isTRUE(complete) && isTRUE(quali)){

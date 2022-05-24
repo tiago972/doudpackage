@@ -10,28 +10,17 @@ ft_parse_na<-function(data)
 
 #### Fuction to select what to print according to options (quanti) ####
 #' @import tidyr
-ft_parse_quanti_opt<-function(data, min.max, na.print, p.value, group, nonnormal)
+ft_parse_quanti_opt<-function(data, min.max, na.print, p.value, group)
 {
-  if(is.na(data[,1]) && is.na(data[,2]))
-    return(NULL)
   i = 1;
   if(isFALSE(min.max)) ### A Changer +++ il faudra en faite les mettre à la ligne de mean, sd
     data<-data[,!names(data) %in% "Min-Max"]
   if (!is.null(group))
     data<-tidyr::pivot_wider(data, names_from = "Group", values_from = c("Total"))
-  if (nonnormal == 0){
-    while (i <= nrow(data))
-    {
-      data[i,1]<-paste(data[i,1], ", mean(SD)", sep = "")
-      i = i + 2;
-    }
-  }
-  else {
-    while (i <= nrow(data))
-    {
-      data[i,1]<-paste(data[i,1], ", median(IQR)", sep = "")
-      i = i + 2;
-    }
+  while (i <= nrow(data))
+  {
+    data[i,1]<-paste(data[i,1], ", mean(SD)", sep = "")
+    i = i + 2;
   }
   if (!isTRUE(na.print))
     data<-data[!grepl(".*.Missing values, n\\(\\%\\)", data$var),]
@@ -46,11 +35,8 @@ ft_parse_quanti_opt<-function(data, min.max, na.print, p.value, group, nonnormal
 #' @import tidyr
 ft_parse_quali_opt<-function(data, na.print, p.value, group)
 {
-  if(is.na(data[,1]) && is.na(data[,2]))
-    return(NULL)
-  if (!is.null(group)){
-      dataTMP<-tidyr::pivot_wider(data, names_from = "Group", values_from =  "Total")
-      data<-dataTMP}
+  if (!is.null(group))
+    data<-tidyr::pivot_wider(data, names_from = "Group", values_from =  "Total")
   if (!isTRUE(na.print))
     data<-data[!grepl(".*.Missing values, n\\(\\%\\)", data$var),]
   else
@@ -63,11 +49,11 @@ ft_parse_quali_opt<-function(data, na.print, p.value, group)
 ### Error to be checked at the begening of the function (need to be completed)
 ft_error<-function(data, group, complete, quanti, quali)
 {
-  # if (!is.null(group) && (!is.factor(data[,group]) || nlevels(data[,group]) > 2))
-  # {
-  #   write("Grouping error dude, check if the variable is a binary factor", stderr())
-  #   return (-1)
-  # }
+  if (!is.null(group) && (!is.factor(data[,group]) || nlevels(data[,group]) > 2))
+  {
+    write("Grouping error dude, check if the variable is a binary factor", stderr())
+    return (-1)
+  }
   if (isFALSE(complete) && isFALSE(quanti) && isFALSE(quali))
   {
     write("Error, if complete is FALSE, quanti or quali must be TRUE", stderr())

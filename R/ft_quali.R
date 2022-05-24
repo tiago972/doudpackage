@@ -17,7 +17,8 @@ ft_parse_p_quali<-function(biv, total)
       tmp<-rbind(tmp, tmp2)
     }
   }
-  tmp<-tmp[order(tmp$var),]
+  if (!is.null(tmp))
+    tmp<-tmp[order(tmp$var),]
   return(tmp)
 }
 
@@ -29,7 +30,7 @@ ft_quali.pvalue<-function(data, res, group, na.print, digits.opt){
   remove_group = grep(pattern = paste(group, ".Missing*", sep = ""), res_tot$var)
   res_tot<-res_tot[-c(remove_group:(remove_group)),]
   total<-merge(res, res_tot, all = T)
-  biv<-ft_ana_biv(data, group)
+  biv<-ft_ana_biv(data, group, 3)
   biv<-ft_parse_p_quali(biv, total)
   total<-total[order(total$var),]
   total$p<-biv[,"p"]

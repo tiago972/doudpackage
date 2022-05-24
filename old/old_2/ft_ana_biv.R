@@ -4,13 +4,12 @@
 #' @param data A database, dataframe object
 #' @param group Variable from which sub-groups are made to compute p values
 #' @param signi Significance levels (def = 0.20)
-#' @param nonnormal Treat all quantitative variable as non normal variables: will compute p.value according to Wilcox.test. Default is 0
 #' @import stats
 #' @import lubridate
 #' @return Return a dataframe with univariate analaysis
 #' @export
 #### Achecker impérativement: erreur quand la comparaison n'est pas possible
-ft_ana_biv<-function(data, group, signi=3, nonnormal = 0){
+ft_ana_biv<-function(data, group, signi=3){
   tmp<-as.data.frame(matrix(NA, ncol(data)-1, 3))
   colnames(tmp)<-c("var", "test", "p")
   options(warn=0)
@@ -20,28 +19,19 @@ ft_ana_biv<-function(data, group, signi=3, nonnormal = 0){
       next;
     if((is.numeric(data[,i])||is.integer(data[,i])) &&
        (min(data[,i], na.rm = TRUE) != max(data[,i], na.rm = TRUE))){
-        tmp[i,"var"]<-colnames(data)[i]
-        if (nonnormal == 0){
+      tryCatch(
+        {
+          tmp[i,"var"]<-colnames(data)[i]
           tmp[i,"test"]<-"t.test"
-          tryCatch({
-            t<-t.test(data[,i]~data[,group])$p.value
-          },
-            error=function(e){
-              warning(paste(e), colnames(data)[i])
-            })
-        }else {
-          tmp[i,"test"]<-"wilcox.test"
-          tryCatch({
-            t<-wilcox.test(data[,i]~data[,group])$p.value
-            },
-          warning=function(w){
-            my_env$t<-wilcox.test(data[,i]~data[,group], exact = F)$p.value
-          })
-        }
-        if (t < 0.001)
-          tmp[i,"p"]<-"< .001"
-        else
-          tmp[i,"p"]<-round(t, digits = signi)
+          t<-t.test(data[,i]~data[,group])$p.value
+          if (t < 0.001)
+            tmp[i,"p"]<-"< .001"
+          else
+            tmp[i,"p"]<-round(t, digits = signi)
+        },
+        error=function(e){
+          warning(paste(e), colnames(data)[i])
+        })
     }else if (is.factor(data[,i]) && !lubridate::is.Date(data[,i]) && nlevels(data[,i]) > 1){
       tryCatch(
         {
