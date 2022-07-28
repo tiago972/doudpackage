@@ -15,24 +15,33 @@ for (i in 1:length(names.tmp)){
 ft_kable<-function(res, group.name){
   ident<-grep("Missing values.*", res$var)
   colnames(res)[which(colnames(res) == "var")]<-""
-  res<-kableExtra::kable(res) %>%
+  if (!is.null(group.name)){
+    res<-kableExtra::kable(res) %>%
     kableExtra::kable_classic() %>%
     kableExtra::add_header_above(c(" ", "Total" = 1, setNames(1, group.name[1]),
                                    setNames(1, group.name[2]), " ")) %>%
     kableExtra::add_indent(ident)
+  }
+  else{
+    res<-kableExtra::kable(res, row.names = FALSE) %>%
+    kableExtra::kable_classic() %>%
+      kableExtra::add_header_above(c(" ", " "))%>%
+      kableExtra::add_indent(ident)
+  }
   return(res)
 }
 
 ## Function to rename columns according to the counts of each sub-group
 ft_name_col<-function(res, data, group, digits.opt)
 {
-  
-  tmp_factor<-levels(data[,group])
-  tmp_table<-table(data[,group], useNA = "always")
-  tmp_prop.table<-round(prop.table(table(data[,group], useNA = "always")) * 100, digits = digits.opt)
-  for (i in 1:nlevels(data[,group]))
-    colnames(res)[which(colnames(res) == levels(data[,group])[i])] <- paste("n = ", tmp_table[i], "(", tmp_prop.table[i],
+  if (!is.null(group)){
+    tmp_factor<-levels(data[,group])
+    tmp_table<-table(data[,group], useNA = "always")
+    tmp_prop.table<-round(prop.table(table(data[,group], useNA = "always")) * 100, digits = digits.opt)
+    for (i in 1:nlevels(data[,group]))
+      colnames(res)[which(colnames(res) == levels(data[,group])[i])] <- paste("n = ", tmp_table[i], "(", tmp_prop.table[i],
                                                                           "%)", sep = "")
+  }
   colnames(res)[which(colnames(res) == "Total")]<-paste("n = ", nrow(data), sep = "")
   return(res)
 }
@@ -53,14 +62,17 @@ ft_name_col<-function(res, data, group, digits.opt)
 #' @import kableExtra
 #' @return Return a html KableExtra object.
 #' @export
-ft_parse<-function(res, data, group, col.order = NULL, group.name = NULL, digits.opt = 1)
+ft_parse<-function(res, data, group = NULL, col.order = NULL, group.name = NULL, digits.opt = 1)
 {
   ## rajouter gestion des erreurs: si col.order ne correspond à aucun level de group
-data<-data[!is.na(data[,group]),]
+if (!is.null(group))
+  data<-data[!is.na(data[,group]),]
 if (!is.null(col.order)) # ligne ci dessous a changer +++ en fonction de col.order & group.name 
   res<-res[,c(which(colnames(res) == "var"), which(colnames(res) =="Total"), which(colnames(res) == col.order[1]), which(colnames(res) == col.order[2]), which(colnames(res) =="p"))]
-else
+else if (!is.null(group))
   res<-res[,c("var","Total",levels(data[,group])[1], levels(data[,group])[2],"p")]
+else
+  res<-res[,c('var', 'Total')]
 if (!is.null(group.name))
 {
   colnames(res[,3])<-group.name[1]
@@ -68,8 +80,9 @@ if (!is.null(group.name))
 }
  else if (is.null(group.name) && !is.null(col.order))
    group.name <- col.order
- else
+ else if (!is.null(group))
    group.name <- levels(data[,group])
+
 res<-ft_name_col(res, data, group, digits.opt)
 res<-ft_delete_rows(res, data)
 res<-ft_kable(res, group.name)
