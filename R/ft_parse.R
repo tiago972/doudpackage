@@ -39,8 +39,8 @@ ft_name_col<-function(res, data, group, digits.opt)
     tmp_table<-table(data[,group], useNA = "always")
     tmp_prop.table<-round(prop.table(table(data[,group], useNA = "always")) * 100, digits = digits.opt)
     for (i in 1:nlevels(data[,group]))
-      colnames(res)[which(colnames(res) == levels(data[,group])[i])] <- paste("n = ", tmp_table[i], "(", tmp_prop.table[i],
-                                                                          "%)", sep = "")
+      colnames(res)[which(colnames(res) == levels(data[,group])[i])] <- paste("n = ", tmp_table[i], " (", tmp_prop.table[i],
+                                                                          ")", sep = "")
   }
   colnames(res)[which(colnames(res) == "Total")]<-paste("n = ", nrow(data), sep = "")
   return(res)

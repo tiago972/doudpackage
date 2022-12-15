@@ -51,7 +51,12 @@ ft_ana_biv<-function(data, group, signi=3, nonnormal = 0){
           warning(paste(e), colnames(data)[i])
         },
         warning=function(w){
-          my_env$c<-c(fisher.test(data[,i], data[,group], simulate.p.value = TRUE), test_name = "fisher")
+          tryCatch({
+            my_env$c<-c(fisher.test(data[,i], data[,group], simulate.p.value = TRUE), test_name = "fisher")
+          },
+          error=function(e){
+            warning(paste(e), colnames(data)[i])
+          })
         },
         finally = {
           tmp[i,"var"]<-colnames(data)[i]
