@@ -22,14 +22,14 @@ ft_parse_quanti_opt<-function(data, min.max, na.print, p.value, group, nonnormal
   if (nonnormal == 0){
     while (i <= nrow(data))
     {
-      data[i,1]<-paste(data[i,1], ", mean(SD)", sep = "")
+      data[i,1]<-paste(data[i,1], ", mean (SD)", sep = "")
       i = i + 2;
     }
   }
   else {
     while (i <= nrow(data))
     {
-      data[i,1]<-paste(data[i,1], ", median(IQR)", sep = "")
+      data[i,1]<-paste(data[i,1], ", median (IQR)", sep = "")
       i = i + 2;
     }
   }

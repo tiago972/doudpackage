@@ -73,7 +73,7 @@ ft_quali<-function(data, group=NULL, p.value, na.print, digits.opt){
             j = j + k
       }
       j = j + 1
-      tmp[j, "var"]<-paste(colnames(data)[i], "Missing values, n (%)", sep = ".")
+      tmp[j, "var"]<-paste(colnames(data)[i], "Missing values, n(%)", sep = ".")
       tmp[j, "Total"]<-paste(table(data[,i], useNA = "always")[nlevels(data[,i]) + 1], " (",
                         round(prop.table(table(data[,i], useNA = "always"))[nlevels(data[,i]) + 1] * 100, digits = digits.opt),
                         ")", sep = "")
