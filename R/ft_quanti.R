@@ -11,25 +11,25 @@ ft_tab_quanti<-function(data, i, group=NULL, group_level=NULL, digits.opt, nonno
     "mean"<-round(mean(subset[,i], na.rm = T), digits = digits.opt)
     "sd"<-round(sd(subset[,i], na.rm = T), digits = digits.opt)
     tmp_mat<-c(var = colnames(data)[i],
-             "Total"=gsub(" ", "", paste(mean, "(",  sd,")")), "Min-Max"=paste(Min, Max, sep="-"))
+             "Total"=gsub(" ", "", paste(mean, " (",  sd,")")), "Min-Max"=paste(Min, Max, sep="-"))
   }
   else if (nonnormal == 1){
     "median.var"<-round(mean(subset[,i], na.rm = T), digits = digits.opt)
     "IQR.var"<-round(IQR(subset[,i], na.rm = T), digits = digits.opt)
     tmp_mat<-c(var = colnames(data)[i],
-               "Total"=gsub(" ", "", paste(median.var, "(",  IQR.var,")")), "Min-Max"=paste(Min, Max, sep="-"))
+               "Total"=gsub(" ", "", paste(median.var, " (",  IQR.var,")")), "Min-Max"=paste(Min, Max, sep="-"))
   }
   else {
     "median.var"<-round(mean(subset[,i], na.rm = T), digits = digits.opt)
     "IQR3"<-round(quantile(subset[,i], probs = seq(0,1,0.25),na.rm=TRUE)[4], digits = digits.opt)
     "IQR1"<-round(quantile(subset[,i], probs = seq(0,1,0.25),na.rm=TRUE)[2], digits = digits.opt)
     tmp_mat<-c(var = colnames(data)[i],
-               "Total"=gsub(" ", "", paste(median.var, "(",  IQR1, " - ", IQR3 ,")")), "Min-Max"=paste(Min, Max, sep="-"))
+               "Total"=gsub(" ", "", paste(median.var, " (",  IQR1, " - ", IQR3 ,")")), "Min-Max"=paste(Min, Max, sep="-"))
   }
   "prop_NAs"<-ifelse(is.na(table(is.na(subset[,i]))[2]), 0, round(prop.table(table(is.na(subset[,i])))[2] * 100, digits = digits.opt))
   "NNAs"<-ifelse(is.na(table(is.na(subset[,i]))[2]), 0,table(is.na(subset[,i]))[2])
   tmp_NA <-c(paste(colnames(data)[i], "Missing values, n(%)", sep = "."), gsub(" ", "", paste(NNAs, "(", prop_NAs, ")")),
-             gsub(" ", "", paste(NNAs, "(", prop_NAs, ")")))
+             gsub(" ", "", paste(NNAs, " (", prop_NAs, ")")))
   tmp_mat<-rbind(tmp_mat, tmp_NA)
   rownames(tmp_mat)<-NULL
   return(tmp_mat)

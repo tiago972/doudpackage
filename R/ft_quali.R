@@ -66,15 +66,15 @@ ft_quali<-function(data, group=NULL, p.value, na.print, digits.opt){
       for (k in 1:nlevels(data[,i]))
       {
           tmp[(j + k), "var"]<-paste(colnames(data)[i], levels(data[,i])[k], sep = ", ")
-          tmp[(j + k), "Total"]<-paste(table(data[,i])[k], "(",
+          tmp[(j + k), "Total"]<-paste(table(data[,i])[k], " (",
                                      round(prop.table(table(data[,i], useNA = "always"))[k] * 100, digits = digits.opt),
                                      ")", sep ="")
           if (k == nlevels(data[,i]))
             j = j + k
       }
       j = j + 1
-      tmp[j, "var"]<-paste(colnames(data)[i], "Missing values, n(%)", sep = ".")
-      tmp[j, "Total"]<-paste(table(data[,i], useNA = "always")[nlevels(data[,i]) + 1], "(",
+      tmp[j, "var"]<-paste(colnames(data)[i], "Missing values, n (%)", sep = ".")
+      tmp[j, "Total"]<-paste(table(data[,i], useNA = "always")[nlevels(data[,i]) + 1], " (",
                         round(prop.table(table(data[,i], useNA = "always"))[nlevels(data[,i]) + 1] * 100, digits = digits.opt),
                         ")", sep = "")
     }
