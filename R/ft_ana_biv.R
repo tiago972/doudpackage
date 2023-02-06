@@ -36,6 +36,9 @@ ft_ana_biv<-function(data, group, signi=3, nonnormal = 0){
             },
           warning=function(w){
             my_env$t<-wilcox.test(data[,i]~data[,group], exact = F)$p.value
+          }, 
+          error=function(e){
+            warning(paste(e), colnames(data)[i])
           })
         }
         if (t < 0.001)
