@@ -41,10 +41,7 @@ ft_ana_biv<-function(data, group, signi=3, nonnormal = 0){
             warning(paste(e), colnames(data)[i])
           })
         }
-        if (t < 0.001)
-          tmp[i,"p"]<-"< .001"
-        else
-          tmp[i,"p"]<-round(t, digits = signi)
+        tmp[i,"p"]<-round(t, digits = signi)
     }else if (is.factor(data[,i]) && !lubridate::is.Date(data[,i]) && nlevels(data[,i]) > 1){
       tryCatch(
         {
@@ -64,10 +61,7 @@ ft_ana_biv<-function(data, group, signi=3, nonnormal = 0){
         finally = {
           tmp[i,"var"]<-colnames(data)[i]
           tmp[i,"test"]<-my_env$c$test_name
-          if (c$p.value < 0.001)
-            tmp[i,"p"]<-"< .001"
-          else
-            tmp[i,"p"]<-round(c$p.value,digits = signi)
+          tmp[i,"p"]<-round(c$p.value,digits = signi)
         })
     } else
     {

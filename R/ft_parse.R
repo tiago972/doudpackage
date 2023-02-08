@@ -58,11 +58,13 @@ ft_name_col<-function(res, data, group, digits.opt)
 #' @param col.order A vector containing levels of group according to the desired order
 #' @param group The name of the group used in ft_desc_tab
 #' @param group.name Vector containing subgroup names
-#' @param digits.opt How many numbers to display after the ".". Should be the same as provided in ft_desc_tab, default is 0
+#' @param digits.opt How many numbers to display after the ".". Should be the same as provided in ft_desc_tab, default is 1
+#' @param parse.p If p < 0.001 change the absolute value to '< .001. Default is TRUE
+
 #' @import kableExtra
 #' @return Return a html KableExtra object.
 #' @export
-ft_parse<-function(res, data, group = NULL, col.order = NULL, group.name = NULL, digits.opt = 1)
+ft_parse<-function(res, data, group = NULL, col.order = NULL, group.name = NULL, digits.opt = 1, parse.p = TRUE)
 {
   ## rajouter gestion des erreurs: si col.order ne correspond à aucun level de group
 if (!is.null(group))
@@ -82,7 +84,8 @@ if (!is.null(group.name))
    group.name <- col.order
  else if (!is.null(group))
    group.name <- levels(data[,group])
-
+if isTRUE(parse.p)
+  res$p<-ifelse(as.numeric(as.character(res$p < 0.001), '< .001', as.numeric(as.character(res$p))))
 res<-ft_name_col(res, data, group, digits.opt)
 res<-ft_delete_rows(res, data)
 res<-ft_kable(res, group.name)
