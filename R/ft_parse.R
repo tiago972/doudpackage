@@ -84,7 +84,7 @@ if (!is.null(group.name))
    group.name <- col.order
  else if (!is.null(group))
    group.name <- levels(data[,group])
-if isTRUE(parse.p)
+if (isTRUE(parse.p))
   res$p<-ifelse(as.numeric(as.character(res$p < 0.001), '< .001', as.numeric(as.character(res$p))))
 res<-ft_name_col(res, data, group, digits.opt)
 res<-ft_delete_rows(res, data)
