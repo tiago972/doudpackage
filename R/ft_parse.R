@@ -46,7 +46,6 @@ ft_kable<-function(res, group.name, group_rows_labels = NULL){
       for (j in 1:length(group_rows_labels[[i]])){
         g_tmp<-grep(group_rows_labels[[i]][j], var)
         g<-c(g, g_tmp)
-        print(g)
       }
       res_parsed<-res_parsed %>%
         kableExtra::pack_rows(names(group_rows_labels)[i], min(g), max(g))
