@@ -50,7 +50,7 @@ ft_quali_grouped<-function(data, group, p.value, na.print, digits.opt)
     nametab<-paste("tmp", i,sep="_")
     assign(nametab,tmp, envir = my_env)
   }
-  res<-merge(tmp_1, tmp_2)
+  res<-merge(tmp_1, tmp_2, all=T)
   return (ft_quali.pvalue(data, res, group, na.print, digits.opt))
 }
 
