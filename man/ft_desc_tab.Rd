@@ -13,7 +13,8 @@ ft_desc_tab(
   na.print = FALSE,
   p.value = TRUE,
   min.max = FALSE,
-  digits.opt = 0
+  digits.opt = 1,
+  nonnormal = 0
 )
 }
 \arguments{
@@ -33,11 +34,19 @@ ft_desc_tab(
 
 \item{min.max}{Display min and max value for quantitative variables; default is false}
 
-\item{digits.opt}{How many numbers after the "." you'd like for the proportions of qualitative variables; default is 0}
+\item{digits.opt}{How many numbers after the "." you'd like for the proportions of qualitative variables; default is 1}
+
+\item{nonnormal}{Treat all quantitative variable as non normal variables: will compute p.value according to Wilcox.test. Default is FALSE, TRUE will display med(IQR), 2 will display med(Q1 - Q3)}
 }
 \value{
 The object returned depends on the "parse" option:either a dataframe or a kable oject
 }
 \description{
-This function allows you to display all together all univariate analysis (min-max; median; IQR; proportions) and bivariates analysis (wilcoxon, chisq or fisher). The univariate analysis can be sub-grouped by a viariable of interest (binary variable)
+This function allows you to display all together all univariate analysis (min-max; median/mean; IQR/SD; proportions) and bivariates analysis (wilcoxon, chisq or fisher). The univariate analysis can be sub-grouped by a viariable of interest (binary variable)
+}
+\examples{
+data(iris)
+iris<-iris[iris$Species \%in\% c("virginica", "versicolor"),]
+iris$Species<-droplevels(iris$Species)
+ft_desc_tab(iris, group = "Species")
 }

@@ -4,7 +4,7 @@
 \alias{ft_ana_biv}
 \title{Bivariate analysis}
 \usage{
-ft_ana_biv(data, group, signi = 3)
+ft_ana_biv(data, group, signi = 3, nonnormal = 0)
 }
 \arguments{
 \item{data}{A database, dataframe object}
@@ -12,6 +12,8 @@ ft_ana_biv(data, group, signi = 3)
 \item{group}{Variable from which sub-groups are made to compute p values}
 
 \item{signi}{Significance levels (def = 0.20)}
+
+\item{nonnormal}{Treat all quantitative variable as non normal variables: will compute p.value according to Wilcox.test. Default is 0}
 }
 \value{
 Return a dataframe with univariate analaysis

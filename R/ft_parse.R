@@ -12,6 +12,7 @@ ft_delete_rows<-function(res, data){
   return(res)
 }
 ## Function using kableExtra for final output
+#' @import kableExtra
 ft_kable<-function(res, group.name, group_rows_labels = NULL){
   ident<-grep("Missing values.*", res$var)
   if (!is.null(group_rows_labels)){
@@ -83,6 +84,7 @@ ft_name_col<-function(res, data, group, digits.opt)
 #' @param group.name Vector containing subgroup names
 #' @param digits.opt How many numbers to display after the ".". Should be the same as provided in ft_desc_tab, default is 1
 #' @param parse.p If p < 0.001 change the absolute value to '< .001. Default is TRUE
+#' @param group_rows_labels A named list to group rows with a label
 
 #' @import kableExtra
 #' @return Return a html KableExtra object.
@@ -92,7 +94,7 @@ ft_parse<-function(res, data, group = NULL, col.order = NULL, group.name = NULL,
   ## rajouter gestion des erreurs: si col.order ne correspond à aucun level de group
   if (!is.null(group))
     data<-data[!is.na(data[,group]),]
-  if (!is.null(col.order)) # ligne ci dessous a changer +++ en fonction de col.order & group.name 
+  if (!is.null(col.order)) # ligne ci dessous a changer +++ en fonction de col.order & group.name
     res<-res[,c(which(colnames(res) == "var"), which(colnames(res) =="Total"), which(colnames(res) == col.order[1]), which(colnames(res) == col.order[2]), which(colnames(res) =="p"))]
   else if (!is.null(group))
     res<-res[,c("var","Total",levels(data[,group])[1], levels(data[,group])[2],"p")]

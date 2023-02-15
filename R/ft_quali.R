@@ -41,6 +41,7 @@ ft_quali.pvalue<-function(data, res, group, na.print, digits.opt){
 ft_quali_grouped<-function(data, group, p.value, na.print, digits.opt)
 {
   my_env<-environment()
+  res<-NULL
   for (i in 1:nlevels(data[,group]))
   {
     tmp<-data[which(data[,group]==levels(data[,group])[i]),]
@@ -49,8 +50,8 @@ ft_quali_grouped<-function(data, group, p.value, na.print, digits.opt)
     tmp$Group=levels(data[,group])[i]
     nametab<-paste("tmp", i,sep="_")
     assign(nametab,tmp, envir = my_env)
+    res<-merge(res, nametab)
   }
-  res<-merge(tmp_1, tmp_2, all=T)
   return (ft_quali.pvalue(data, res, group, na.print, digits.opt))
 }
 

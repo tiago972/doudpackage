@@ -4,7 +4,16 @@
 \alias{ft_parse}
 \title{Parsing function for Html output}
 \usage{
-ft_parse(res, data, group, col.order = NULL, group.name = NULL, digits.opt = 0)
+ft_parse(
+  res,
+  data,
+  group = NULL,
+  col.order = NULL,
+  group.name = NULL,
+  digits.opt = 1,
+  parse.p = TRUE,
+  group_rows_labels = NULL
+)
 }
 \arguments{
 \item{res}{Outpul of ft_desc_tab}
@@ -13,11 +22,15 @@ ft_parse(res, data, group, col.order = NULL, group.name = NULL, digits.opt = 0)
 
 \item{group}{The name of the group used in ft_desc_tab}
 
-\item{col.order}{A vector containing column indexes or names to use for column order}
+\item{col.order}{A vector containing levels of group according to the desired order}
 
 \item{group.name}{Vector containing subgroup names}
 
-\item{digits.opt}{How many numbers to display after the ".". Should be the same as provided in ft_desc_tab, default is 0}
+\item{digits.opt}{How many numbers to display after the ".". Should be the same as provided in ft_desc_tab, default is 1}
+
+\item{parse.p}{If p < 0.001 change the absolute value to '< .001. Default is TRUE}
+
+\item{group_rows_labels}{A named list to group rows with a label}
 }
 \value{
 Return a html KableExtra object.
