@@ -48,7 +48,6 @@ ft_desc_tab<-function(data, group=NULL, complete = TRUE, quanti=FALSE, quali=FAL
     quanti_tab<-ft_parse_quanti_opt(ft_quanti(data, group, p.value, min.max, na.print, digits.opt, nonnormal), min.max, na.print, p.value, group, nonnormal)
   if (isTRUE(complete) || isTRUE(quali))
      quali_tab<-ft_parse_quali_opt(ft_quali(data, group, p.value, na.print, digits.opt), na.print, p.value, group)
-  print(paste(complete, quali, quanti))
   if (!isTRUE(complete) && isTRUE(quanti))
     return(quanti_tab)
   else if (!isTRUE(complete) && isTRUE(quali)){
