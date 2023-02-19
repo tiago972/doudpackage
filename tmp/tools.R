@@ -11,20 +11,20 @@ makeTable<-function(quali.Univ_list.Global, group){
   }))
 
   df<-filter(df, var != "")
-  ## Keep only full columns and merge
-  # for (n in colnames(df)){
-  #   if (n == "var" || n == "pvalue")
-  #     next
-  #   tmp<-df[!is.na(df[, n]), ] %>% select_if(~ !any(is.na(.)))
-  #   print(tmp)
-  #   if(!exists("tmp_df", inherits = FALSE))
-  #     tmp_df<-tmp
-  #   else
-  #     tmp_df<-merge(tmp_df, tmp, by = "var")
-  # }
-  # bind_cols(tmp_df, df[1:nrow(tmp_df), "pvalue"])
-  # df<-tmp_df
-  # df$var<-stri_replace_all(str = df$var, replacement = "", regex  = '.*(?=Missing values)')
+  # Keep only full columns and merge
+  for (n in colnames(df)){
+    if (n == "var" || n == "pvalue")
+      next
+    tmp<-df[!is.na(df[, n]), ] %>% select_if(~ !any(is.na(.)))
+    print(tmp)
+    if(!exists("tmp_df", inherits = FALSE))
+      tmp_df<-tmp
+    else
+      tmp_df<-merge(tmp_df, tmp, by = "var")
+  }
+  bind_cols(tmp_df, df[1:nrow(tmp_df), "pvalue"])
+  df<-tmp_df
+  df$var<-stri_replace_all(str = df$var, replacement = "", regex  = '.*(?=Missing values)')
   return (df)
 }
 
