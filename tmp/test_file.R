@@ -1,33 +1,16 @@
-setwd('/Users/tiago2/BF/PBR/BDD/benjamin dufournier')
-library(dplyr)
-load('.RData')
-setwd('/Users/tiago2/BF/doudpackage/R/Non normal')
-sourceEntireFolder <- function(folderName, verbose=FALSE, showWarnings=TRUE) { 
-  files <- list.files(folderName, full.names=TRUE)
-  
-  # Grab only R files
-  files <- files[ grepl("\\.[rR]$", files) ]
-  
-  if (!length(files) && showWarnings)
-    warning("No R files in ", folderName)
-  
-  for (f in files) {
-    if (verbose)
-      cat("sourcing: ", f, "\n")
-    ## TODO:  add caught whether error or not and return that
-    try(source(f, local=FALSE, echo=FALSE), silent=!verbose)
-  }
-  return(invisible(NULL))
-}
+data("iris")
+iris$fact_1<-as.factor(as.character(sample(1:5, 150, replace = TRUE)))
+n_na<-sample(1:150, 30)
+iris[n_na, "fact_1"]<-NA
 
+iris$fact_2<-as.factor(as.character(sample(1:2, 150, replace = TRUE)))
+n_na<-sample(1:150, 10)
+iris[n_na, "fact_2"]<-NA
 
+summary(iris)
 
-sourceEntireFolder('.')
-univ<-ft_desc_tab(bdd, group = "Sexe", na.print = T)
+iris_test<-descTab(iris, group = "Species")
+test<-makeTable(iris_test, group = "Species")
+rm(tmp_df)
 
-
-bdd.tmpGlobal<-select(bdd.merge, Age, `Charlson`, `Max Temperature`,  `Fréquence.respiratoire.max...min.`, 
-                      `Min Lymphocytes (G/L)`, `Max CRP (mg/L)`, `Length of stay`, Corticotherapy, Sex)
-bdd.tmpGlobal<-filter(bdd.tmpGlobal, !is.na(Corticotherapy))
-ft_parse(univ_CTCGlobal<-ft_desc_tab(bdd.annexe ,group = "Corticotherapy", na.print = T, nonnormal = 2), bdd.annexe, group = "Corticotherapy", col.order = c("1","0"))
 
