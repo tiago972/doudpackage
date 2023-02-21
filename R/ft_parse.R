@@ -11,6 +11,8 @@ ft_delete_rows<-function(res, data){
   }
   return(res)
 }
+
+##  tmp_df$var<-stringi::stri_replace_all(str = tmp_df$var, replacement = "", regex  = '.*(?=Missing values)')
 ## Function using kableExtra for final output
 #' @import kableExtra
 ft_kable<-function(res, group.name, group_rows_labels = NULL){

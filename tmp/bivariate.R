@@ -17,7 +17,7 @@ quantiTwoLevelsFun<-function(x, data, group){
     },
     warning=function(w){
       my_env$p<-wilcox.test(data[,i]~data[,group], exact = F)$p.value
-    }, 
+    },
     error=function(e){
       warning(paste(e), x@name, " in quantiTwoLevelsFun")
     })
@@ -36,7 +36,7 @@ quantiMoreLevelsFun<-function(x, data, group){
     },
     warning=function(w){
       warning(paste(w), x@name, " in quantiMoreLevelsFun")
-    }, 
+    },
     error=function(e){
       warning(paste(e), x@name, " in quantiMoreLevelsFun")
     })
@@ -47,7 +47,7 @@ quantiMoreLevelsFun<-function(x, data, group){
     },
     warning=function(w){
       warning(paste(w), x@name)
-    }, 
+    },
     error=function(e){
       warning(paste(e), x@name, " in quantiMoreLevelsFun")
     })
@@ -66,7 +66,7 @@ quantiBivFun<-function(x, group, data, digits.p){
     p = quantiMoreLevelsFun(x, data, group)
   else
     stop(sprintf("Group levels must be at least two: %d for %s", nlevels(data[,group]), group))
-  
+
   var.p<-VarGroup(group_var = "Total", pvalue = round(p, digits.p),
                   x = x)
   return(var.p)
@@ -110,7 +110,7 @@ setMethod("anaBiv", "listVar", function(var, group, ...){
       else
         stop(sprintf("Uknown type for %s", x@name))
     }, group, ...)
-    lst_VarGroup.Biv<-compact(lst_VarGroup.Biv)
+    lst_VarGroup.Biv<-purrr::compact(lst_VarGroup.Biv)
     return(lst_VarGroup.Biv)
   }
   else
@@ -118,6 +118,6 @@ setMethod("anaBiv", "listVar", function(var, group, ...){
 })
 
 # setMethod("anaBiv", "data.frame", function(var, group, ...) {
-#   
+#
 #   return()
 # })

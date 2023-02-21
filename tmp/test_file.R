@@ -9,13 +9,17 @@ iris[n_na, "fact_2"]<-NA
 
 iris$fact_3<-as.factor(as.character(stri_rand_strings(150, 1, '[A-B]')))
 
+iris$num<-runif(150, min = 0, max = 100)
+n_na<-sample(1:150, 5)
+iris[n_na, "num"]<-NA
+
 summary(iris)
 
-iris_test<-descTab(iris, group = "Species")
-ana.tmp<-anaUniv(iris_test, group = "Species", data = iris, digits.qt = 1, digits.ql = 1)
+iris_test<-descTab(iris, group = "Species", na.print = TRUE)
+iris_test_table<-iris_test@table
+testParse<-parseClassFun(iris_test, levels_to_keep = list("fact_2" =  "1"), group_rows_labels = list("Size" = c("Petal.Length", "Petal.Width"),
+                                                                                                     "My_f" = c("num", "fact_2", "fact_3")))
 
 
-test<-makeTable(iris_test, group = "Species")
-rm(tmp_df)
-
+iris_test_table2<-filter(iris_test_table, !(Total %in% "0 (0)" & grepl(".*Missing values", iris_test_table$var)))
 
