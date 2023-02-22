@@ -123,29 +123,12 @@ getPopGroups<-function(table)
 #### Main parsing Function #######
 #' Make the LaTeX/HTML table. Generic function
 #'
-#' @param table The output of descTab, an S4 object.
+#' @param table The output of [descTab()] or [anaBiv()], an S4 object.
 #' @param col.order Optional. A vector containing the column order. If set, must contains at least all levels of group. Three columns created are "var", "Total", and "pvalue" which can be present in the vector
 #' @param levels_to_keep Optional, named list. If the variable is binary, which level to keep. Default is the last level of levels(variable). Must be as: list("variable name" = "level to keep").
 #' @param group_rows_labels Optional, named list. Create row labels in order to regroup them. Must be as list("label" = c("var1", "var2), "label2" = c("var3", "var4")).
 #'
 #' @return An HTML/LaTex file which can be used directly in Rmarkdown and copy paste
-methods::setGeneric("parseClassFun", function(table, col.order = NULL,
-                                              levels_to_keep = NULL,
-                                              group_rows_labels = NULL) {
-  return(standardGeneric("parseClassFun"))
-})
-
-#' Make the LaTeX/HTML table
-#'
-#' This functions takes the S4 output of descTab to create an HTML parsed table
-#'
-#' @param table The output of descTab, an S4 object.
-#' @param col.order Optional. A vector containing the column order. If set, must contains at least all levels of group. Three columns created are "var", "Total", and "pvalue" which can be present in the vector
-#' @param levels_to_keep Optional, named list. If the variable is binary, which level to keep. Default is the last level of levels(variable). Must be as: list("variable name" = "level to keep").
-#' @param group_rows_labels Optional, named list. Create row labels in order to regroup them. Must be as list("label" = c("var1", "var2), "label2" = c("var3", "var4")).
-#'
-#' @return An HTML/LaTex file which can be used directly in Rmarkdown and copy paste
-#' @export
 #' @examples
 #' data(iris)
 #' library(stringi)
@@ -160,6 +143,17 @@ methods::setGeneric("parseClassFun", function(table, col.order = NULL,
 #' testParse<-parseClassFun(iris_test, levels_to_keep = list("fact_2" =  "A"),
 #' group_rows_labels = list("Size" = c("Petal.Length", "Petal.Width"),
 #' "My_f" = c("num", "fact_2")))
+methods::setGeneric("parseClassFun", function(table, col.order = NULL,
+                                              levels_to_keep = NULL,
+                                              group_rows_labels = NULL) {
+  return(standardGeneric("parseClassFun"))
+})
+
+#' Make the LaTeX/HTML table
+#'
+#' This functions takes the S4 output of descTab to create an HTML parsed table
+#' @inheritParams parseClassFun
+#' @export
 methods::setMethod("parseClassFun", "parseClass", function(table, col.order = NULL,
                                                   levels_to_keep = NULL,
                                                   group_rows_labels = NULL){
