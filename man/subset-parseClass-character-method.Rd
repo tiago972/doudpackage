@@ -2,10 +2,8 @@
 % Please edit documentation in R/Classes.R
 \name{[<-,parseClass,character-method}
 \alias{[<-,parseClass,character-method}
-\title{Method to access S4 Var elements}
+\title{Method to modify S4 Var elements}
 \usage{
-\S4method{[}{parseClass,character}(x, i) <- value
-
 \S4method{[}{parseClass,character}(x, i) <- value
 }
 \arguments{
@@ -17,11 +15,7 @@
 }
 \value{
 object
-
-object
 }
 \description{
-Method to acess parseClass \code{\link[=initialize,parseClass-method]{initialize,parseClass-method()}} elements by name
-
 Method to modify parseClass \code{\link[=initialize,parseClass-method]{initialize,parseClass-method()}} elements by name
 }

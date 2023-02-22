@@ -281,11 +281,10 @@ parseClass <- function(table, group, pvalue, na.print,
 #'
 #' @param x : Object
 #' @param i : Element name
-#' @param value : Value to be added
 #'
 #' @return object
 #' @export
-methods::setMethod("[<-", c("parseClass", "character"), function(x, i, value) {
+methods::setMethod("[", "parseClass", function(x, i) {
   if (i == "table")
     return(x@table)
   else if (i == "group")
@@ -314,7 +313,6 @@ methods::setMethod("[<-", c("parseClass", "character"), function(x, i, value) {
 #' @param x : Object
 #' @param i : Element name
 #' @param value : Value to be added
-#'
 #' @return object
 #' @export
 methods::setMethod("[<-", c("parseClass", "character"), function(x, i, value) {

@@ -19,3 +19,5 @@ use_package("tidyr")
 
 document()
 check()
+
+build(".")
