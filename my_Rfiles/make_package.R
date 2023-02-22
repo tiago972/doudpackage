@@ -18,7 +18,7 @@ use_package("methods")
 use_package("tidyr")
 
 document()
-check()
+devtools::check()
 
 build(".")
 library(rhub)
