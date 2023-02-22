@@ -94,11 +94,26 @@ qualiBivFun<-function(x, group, data, digits.p){
 }
 
 ########### Class Methods #########################
+
+#' anaBiv generic function
+#'
+#' Generic function of anaBiv which gives bivariate analysis according to group
+#'
+#' @param var listVar object or data.frame
+#' @param group  Variable to make subgroups with
+#' @param ... digits.p can be specified as descTab
+#'
+#' @return A list of VarGroup object or data.frame
 setGeneric("anaBiv", function(var, group, ...) {
   return(standardGeneric("anaBiv"))
 })
 
-setMethod("anaBiv", "listVar", function(var, group, ...){
+#' anaBiv data.frame function
+#'
+#' anaBiv data.frame function which gives bivariate analysis according to group
+#'
+#' @rdname anaBiv
+setMethod("anaBiv", c(var = "listVar", group = "character"), function(var, group, ...){
   if (!is.null(group)){
     lst_VarGroup.Biv<-lapply(var@List, function(x, group, data, digits.p){
       if (x@type == "factor" && x@name != group)
@@ -117,7 +132,16 @@ setMethod("anaBiv", "listVar", function(var, group, ...){
     return(NULL)
 })
 
-# setMethod("anaBiv", "data.frame", function(var, group, ...) {
-#
-#   return()
-# })
+#' anaBiv data.frame function
+#'
+#' anaBiv data.frame function which gives bivariate analysis according to group
+#'
+#' @rdname anaBiv
+#' @export
+setMethod("anaBiv", c(var = "data.frame", group = "character"), function(var, group, ...) {
+  if (!is.null(group) && !is.factor(var[, group]))
+    stop(sprintf("group needs to be a factor, %s is %s", group, class(var[, group])))
+  var_list<-varType(var, normality = "assess")
+  ana.biv_list<-anaBiv(var_list, data = var, group = group, ...)
+  return(ana.biv_list)
+})
