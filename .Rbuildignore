@@ -1,2 +1,9 @@
 ^doudpackage\.Rproj$
 ^\.Rproj\.user$
+^LICENSE\.md$
+.DS_Store
+.git
+doudpackage.Rproj
+old
+my_Rfiles
+.Rhisoty

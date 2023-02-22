@@ -1,7 +1,7 @@
 ######### Checking tools ##############################"
 ##### Assess variables in DescTab
 checkVarDescTab<-function(data, group, quanti, quali, na.print, pvalue, digits.p, digits.qt, digits.ql, normality){
-  if(class(data) != "data.frame")
+  if(class(data) != "data.frame" && class(data) != "tibble")
     stop(sprintf("data is not a data.frame: %s", class(data)))
   if (any(!c(class(quanti), class(quali), class(na.print), class(pvalue)) %in% "logical"))
     stop(sprintf("quanti, quali, na.print, pvalue not logical:
@@ -57,31 +57,31 @@ getGroupMinMax<-function(group_rows_labels, table){
 }
 
 #### Function to create dataframe with uni and bivariate analysis ######
-library(stringi)
+#' @import tidyr
 makeTable<-function(quali.Univ_list.Global, group, pvalue, na.print){
   ## Makes df out of the list
-  df<-bind_rows(lapply(quali.Univ_list.Global, function(x){
+  df<-dplyr::bind_rows(lapply(quali.Univ_list.Global, function(x){
 
-    tmp_df<-tibble(var = c(x@parsed_name, x@missing.value.name),
-                   group_var = c(x@value, x@missing.value), pvalue=c(x@pvalue, NA))
+    tmp_df<-tibble::tibble("var" = c(x@parsed_name, x@missing.value.name),
+                   "group_var" = c(x@value, x@missing.value), pvalue=c(x@pvalue, NA))
 
     names(tmp_df)[names(tmp_df) == "group_var"]<-x@group_var
     return(tmp_df)
   }))
 
-  df<-filter(df, var != "")
+  df<-dplyr::filter(df, "var" != "")
   #Keep only full columns and merge
   for (n in colnames(df)){
     if (n == "var" || n == "pvalue")
       next
-    tmp<-df[!is.na(df[, n]), ] %>% select_if(~ !any(is.na(.)))
+    tmp<-df[!is.na(df[, n]), ] %>% dplyr::select_if(~ !any(is.na(.)))
     if(!exists("tmp_df", inherits = FALSE))
       tmp_df<-tmp
     else
       tmp_df<-merge(tmp_df, tmp, by = "var")
   }
   if (!is.null(group) && pvalue == TRUE)
-    tmp_df<-merge(tmp_df, unique(select(df, "var", "pvalue"), by = "var"))
+    tmp_df<-merge(tmp_df, unique(dplyr::select(df, "var", "pvalue"), by = "var"))
   else
     pvalue = FALSE
   if (na.print == FALSE)

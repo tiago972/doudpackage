@@ -5,7 +5,7 @@ quantiTwoLevelsFun<-function(x, data, group){
   my_env<-environment()
   if (x@normal == TRUE){
     tryCatch({
-      my_env$p<-t.test(data[,x@name]~data[,group])$p.value
+      my_env$p<-stats::t.test(data[,x@name]~data[,group])$p.value
     },
     error=function(e){
       warning(paste(e), x@name,  "in quantiTwoLevelsFun")
@@ -13,10 +13,10 @@ quantiTwoLevelsFun<-function(x, data, group){
   }
   else if (x@normal == FALSE){
     tryCatch({
-      my_env$p<-wilcox.test(data[,x@name]~data[,group])$p.value
+      my_env$p<-stats::wilcox.test(data[,x@name]~data[,group])$p.value
     },
     warning=function(w){
-      my_env$p<-wilcox.test(data[,i]~data[,group], exact = F)$p.value
+      my_env$p<-stats::wilcox.test(data[,i]~data[,group], exact = F)$p.value
     },
     error=function(e){
       warning(paste(e), x@name, " in quantiTwoLevelsFun")
@@ -31,7 +31,7 @@ quantiMoreLevelsFun<-function(x, data, group){
   my_env<-environment()
   if (x@normal == TRUE){
     tryCatch({
-      aov_res<-unlist(summary(aov(data[,x@name]~data[,group])))
+      aov_res<-unlist(summary(stats::aov(data[,x@name]~data[,group])))
       my_env$p<-aov_res["Pr(>F)1"]
     },
     warning=function(w){
@@ -43,7 +43,7 @@ quantiMoreLevelsFun<-function(x, data, group){
   }
   else if (x@normal == FALSE){
     tryCatch({
-      my_env$p<-kruskal.test(x@name~group, data = data)$p.value
+      my_env$p<-stats::kruskal.test(x@name~group, data = data)$p.value
     },
     warning=function(w){
       warning(paste(w), x@name)
@@ -78,13 +78,13 @@ quantiBivFun<-function(x, group, data, digits.p){
 qualiBivFun<-function(x, group, data, digits.p){
   my_env<-environment()
   tryCatch({
-    my_env$p<-chisq.test(data[,x@name], data[,group], correct=FALSE)$p.value},
+    my_env$p<-stats::chisq.test(data[,x@name], data[,group], correct=FALSE)$p.value},
     error=function(e){
       warning(paste(e), x@name, " in qualiBivFun")
     },
     warning=function(w){
       tryCatch({
-        my_env$p<-fisher.test(data[,x@name], data[,group], simulate.p.value = TRUE)$p.value},
+        my_env$p<-stats::fisher.test(data[,x@name], data[,group], simulate.p.value = TRUE)$p.value},
       error=function(e){
         warning(paste(e), x@name, " in qualiBivFun")})
     })

@@ -3,12 +3,12 @@
 parseQuali<-function(table, levels_to_keep){
   factor_list<-purrr::compact(lapply(table@var_list@List,function(x){
     if("factor" %in% x@type) return(x@name)}))
-  
+
   # Function to assemble row that will be removed from table
   var<-purrr::compact(lapply(factor_list, function(factor, data, table, levels_to_keep){
     var<-data[, factor]
     var_levels<-levels(var)
-    
+
     if (nlevels(var) == 2){
       if(is.null(levels_to_keep) || !factor %in% names(levels_to_keep)){
         max_level<-var_levels[nlevels(var) - 1]
@@ -42,7 +42,7 @@ parseQuali<-function(table, levels_to_keep){
 orderRowForGroupLabels<-function(table, group_rows_labels){
   if(is.null(group_rows_labels))
     return(table@table)
-  tmp_df<-bind_rows(purrr::compact(lapply(colnames(table@data), function(col_name, group_rows_labels, table){
+  tmp_df<-dplyr::bind_rows(purrr::compact(lapply(colnames(table@data), function(col_name, group_rows_labels, table){
     ret<-purrr::compact(lapply(names(group_rows_labels), function(group_label.name, col_name, group_rows_labels, table){
       if (col_name %in% group_rows_labels[[group_label.name]])
         return(table[grep(paste(col_name, ".*", sep = ""), table[, 1]), ])
@@ -52,19 +52,20 @@ orderRowForGroupLabels<-function(table, group_rows_labels){
   }, group_rows_labels, table@table)))
   var<-dplyr::pull(tmp_df, "var")
   table@table<-table@table[-which(table@table[,"var"] %in% var),]
-  table@table<-bind_rows(tmp_df, table@table)
+  table@table<-dplyr::bind_rows(tmp_df, table@table)
   return(table@table)
-}  
+}
 
+#' @import tidyr
 makeKableExtra<-function(table, col.order, group_rows_labels){
-  
+
   if (table@na.print == TRUE){
     col.names<-colnames(table@table) # Filter cant work with duplicates names col which can be the case after getPopGroups
     colnames(table@table)<-col.order
-    table@table<-filter(table@table, !(Total %in% "0 (0)" & grepl(".*Missing values", table@table[,1])))
+    table@table<-dplyr::filter(table@table, !(table@table[,"Total"] %in% "0 (0)" & grepl(".*Missing values", table@table[,1])))
     colnames(table@table)<-col.names
     groupMinMax<-getGroupMinMax(group_rows_labels, table@table)
-    
+
     table@table[,1]<-stringi::stri_replace_all(str = table@table[,1],
                                                replacement = "",
                                                regex  = '.*(?=Missing values)')
@@ -73,12 +74,12 @@ makeKableExtra<-function(table, col.order, group_rows_labels){
   }
   else
     groupMinMax<-getGroupMinMax(group_rows_labels, table@table)
-  
+
   headers<-rep(1, length(col.order))
   names(headers)<-col.order
   names(headers)[names(headers) == "var"]<- ' '
   names(headers)[names(headers) == "pvalue"]<- ' '
-  
+
   res_parsed<-kableExtra::kable(table@table) %>%
         kableExtra::kable_paper(html_font = "arial") %>% # Need to make it an option
         kableExtra::add_header_above(headers)
@@ -86,7 +87,7 @@ makeKableExtra<-function(table, col.order, group_rows_labels){
     for (group in colnames(groupMinMax)){
       res_parsed<- res_parsed %>%
         kableExtra::pack_rows(group, groupMinMax[1,group], groupMinMax[2,group])
-    }  
+    }
   if (table@na.print == TRUE)
     res_parsed<-res_parsed %>%
       kableExtra::add_indent(ident)
@@ -99,12 +100,12 @@ getPopGroups<-function(table)
 {
   if (is.null(table@group))
     return(table@table)
-  
+
   col.names<-lapply(colnames(table@table), function(col, table){
     factor<-levels(table@data[,table@group])
     if (col %in% factor){
       t<-table(table@data[,table@group], useNA = "always")
-      prop_table<-round(prop.table(t) * 100, 
+      prop_table<-round(prop.table(t) * 100,
                         digits = table@digits.ql)
       col<-paste("n = ", t[col], " (", prop_table[col], ")" , sep = "")
     }
@@ -113,23 +114,61 @@ getPopGroups<-function(table)
     else if (col == "var")
       col<-""
     return(col)
- 
+
   }, table)
   colnames(table@table)<-unlist(col.names)
   return(table@table)
 }
 
 #### Main parsing Function #######
-setGeneric("parseClassFun", function(table, ...) {
+#' Make the LaTeX/HTML table. Generic function
+#'
+#' This functions takes the S4 output of descTab to create an HTML parsed table
+#'
+#' @param table The output of descTab, an S4 object.
+#' @param col.order Optional. A vector containing the column order. If set, must contains at least all levels of group. Three columns created are "var", "Total", and "pvalue" which can be present in the vector
+#' @param levels_to_keep Optional, named list. If the variable is binary, which level to keep. Default is the last level of levels(variable). Must be as: list("variable name" = "level to keep").
+#' @param group_rows_labels Optional, named list. Create row labels in order to regroup them. Must be as list("label" = c("var1", "var2), "label2" = c("var3", "var4")).
+#'
+#' @return An HTML/LaTex file which can be used directly in Rmarkdown and copy paste
+#' @export
+methods::setGeneric("parseClassFun", function(table, col.order = NULL,
+                                              levels_to_keep = NULL,
+                                              group_rows_labels = NULL) {
   return(standardGeneric("parseClassFun"))
 })
 
-setMethod("parseClassFun", "parseClass", function(table, col.order = NULL, # If set, must contains at least all levels of group
-                                                  levels_to_keep = NULL, 
+#' Make the LaTeX/HTML table
+#'
+#' This functions takes the S4 output of descTab to create an HTML parsed table
+#'
+#' @param table The output of descTab, an S4 object.
+#' @param col.order Optional. A vector containing the column order. If set, must contains at least all levels of group. Three columns created are "var", "Total", and "pvalue" which can be present in the vector
+#' @param levels_to_keep Optional, named list. If the variable is binary, which level to keep. Default is the last level of levels(variable). Must be as: list("variable name" = "level to keep").
+#' @param group_rows_labels Optional, named list. Create row labels in order to regroup them. Must be as list("label" = c("var1", "var2), "label2" = c("var3", "var4")).
+#'
+#' @return An HTML/LaTex file which can be used directly in Rmarkdown and copy paste
+#' @export
+#' @examples
+#' data(iris)
+#' library(stringi)
+#' iris$fact_1<-as.factor(as.character(sample(1:5, 150, replace = TRUE)))
+#' n_na<-sample(1:150, 30)
+#' iris[n_na, "fact_1"]<-NA
+#' iris$fact_2<-as.factor(as.character(stri_rand_strings(150, 1, '[A-B]')))
+#' iris$num<-runif(150, min = 0, max = 100)
+#' n_na<-sample(1:150, 5)
+#' iris[n_na, "num"]<-NA
+#' iris_test<-descTab(iris, group = "Species", na.print = TRUE)
+#' testParse<-parseClassFun(iris_test, levels_to_keep = list("fact_2" =  "A"),
+#' group_rows_labels = list("Size" = c("Petal.Length", "Petal.Width"),
+#' "My_f" = c("num", "fact_2")))
+methods::setMethod("parseClassFun", "parseClass", function(table, col.order = NULL,
+                                                  levels_to_keep = NULL,
                                                   group_rows_labels = NULL){
   checkVarParseClassFun(levels_to_keep, col.order, group_rows_labels, table)
   if (table@pvalue == TRUE)
-    table@table$pvalue<-as.character(ifelse(is.na(table["table"]$pvalue), "", 
+    table@table$pvalue<-as.character(ifelse(is.na(table["table"]$pvalue), "",
                                                   ifelse(table["table"]$pvalue < 0.001,
                                             "< 0.001", table["table"]$pvalue)))
   table@table<-parseQuali(table, levels_to_keep)

@@ -73,8 +73,8 @@ quantiUnivFun<-function(x, data_sub, group, digits.qt, digits.ql){
     value = paste(mean, " (", sd, ")", sep = "")
   }
   else{
-    "median"<-round(median(data_sub[,x@name], na.rm = T), digits = digits.qt)
-    "iqr"<-round(IQR(data_sub[,x@name], na.rm = T), digits = digits.qt)
+    "median"<-round(stats::median(data_sub[,x@name], na.rm = T), digits = digits.qt)
+    "iqr"<-round(stats::IQR(data_sub[,x@name], na.rm = T), digits = digits.qt)
     value = paste(median, " (", iqr, ")", sep = "")
   }
 
@@ -125,8 +125,8 @@ setMethod("anaUniv", "listVar", function(var, group, data,
                                                           x@name != group) return(x)}))
   else
     factor_list<-purrr::compact(lapply(var@List, function(x){if("factor" %in% x@type) return(x)}))
-  numeric_list<-new("listVar", List = numeric_list)
-  factor_list<-new("listVar", List = factor_list)
+  numeric_list<-methods::new("listVar", List = numeric_list)
+  factor_list<-methods::new("listVar", List = factor_list)
   if (quali == TRUE)
     lst_VarGroup.quali<-lapplyQuali(group, data, factor_list, digits.ql)
   if (quanti == TRUE)

@@ -1,12 +1,21 @@
 Package: doudpackage
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Title: Create elegant table 1 in HTML/LaTeX for biostatistics
+Version: 2.0
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+    person("Edouard", "Baudouin", , "edouardpierre.baudouin@aphp.fr", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-8324-6908"))
+Description: Creates the "table one" of biomedical papers. Fill it with your data and the name of the variable wich you'll make the group(s) out of and it will make univariate, bivariate analysis and parse it into HTML.
+    It also allows you to visualise all your data with graphic representation. It relies on kableExtra.
+License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
+Imports: 
+    dplyr,
+    kableExtra,
+    methods,
+    purrr,
+    stats,
+    stringi,
+    tibble,
+    tidyr

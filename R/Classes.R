@@ -1,9 +1,26 @@
 ## Var Class ###
-setClass("Var",slots = c(name = "character", type = "character",
+#' S4 class
+#'
+#' A S4 class containing name, type and normality assessment of variable
+#'
+#' @slot name A character taking name of the variable
+#' @slot type A character taking name of the variable type
+#' @slot normal Logical, if variable, is numeric; is it normal
+#' @export
+methods::setClass("Var",slots = c(name = "character", type = "character",
            normal = "logical"))
 
-
-setMethod("initialize",
+#' S4 class initialization function
+#'
+#' Initialization function for Var LINK
+#'
+#' @param .Object Object to be initialized
+#' @param name A character taking name of the variable
+#' @param type A character taking name of the variable type
+#' @param normal Logical, if variable, is numeric; is it normal
+#'
+#' @return Var Object
+methods::setMethod("initialize",
           "Var",
           function(.Object, name, type, normal) {
             .Object@name <- name
@@ -15,12 +32,27 @@ setMethod("initialize",
             return(.Object)
           })
 
+#' S4 class initialization function
+#'
+#' Initialization function for Var LINK
+#'
+#' @param name A character taking name of the variable
+#' @param type A character taking name of the variable type
+#' @param normal Logical, if variable, is numeric; is it normal
+#'
+#' @return Var Object
 Var <- function(name, type = "", normal = TRUE) {
-  return(new("Var", name = name, type = type, normal = normal))
+  return(methods::new("Var", name = name, type = type, normal = normal))
 }
 
-
-setMethod("[", "Var", function(x, i) {
+#' Method to access S4 Var elements
+#'
+#' Method to access Var elements by name
+#'
+#' @param x : object
+#' @param i : value
+#' @return object of Var
+methods::setMethod("[", "Var", function(x, i) {
   if (i == "name")
     return(x@name)
   else if (i == "type")
@@ -29,6 +61,15 @@ setMethod("[", "Var", function(x, i) {
     return(x@normal)
 })
 
+#' Method to access S4 Var elements
+#'
+#' Method to modify Var elements by name
+#'
+#' @param x : object
+#' @param i : Element name
+#' @param value : Value to be added
+#'
+#' @return object
 setReplaceMethod("[", "Var", function(x, i, value) {
   if (i == "name")
     x@name <- value
@@ -41,16 +82,52 @@ setReplaceMethod("[", "Var", function(x, i, value) {
 #################
 
 ### List Var ###
-setClass("listVar", representation(List = "list"))
+#' S4 class
+#'
+#'A class of list of Var object
+#'
+#' @slot List a list of Var
+#' @export
+methods::setClass("listVar", slots = c(List = "list"))
 #################
 
 #### Var Group ###
-setClass("VarGroup",contains = "Var",
+#' S4 class
+#'
+#'A S4 class containing Var LINK. It also contains the pvalue, the parsed value
+#'the missing values and the group for which it was calculated
+#'
+#' @slot group_var The subgroup for whichproportions, mean/sd were calculated
+#' and missing values
+#' @slot pvalue The calculated pvalue
+#' @slot parsed_name The name of the variable parsed with the n (%), mean (SD)
+#' @slot value The values calculated parsed
+#' @slot missing.value Missing values numbers and proportions n (%)
+#' @slot missing.value.name Missing values concatenate with the level
+#' of the variable if it factor
+#' @export
+methods::setClass("VarGroup",contains = "Var",
          slots = c(group_var = "character", pvalue = "numeric",
                    parsed_name = "character", value = "character",
                    missing.value = "character", missing.value.name = "character"))
 
-setMethod("initialize",
+#' S4 class initialization function
+#'
+#' Initialization function for VarGroup LINK
+#'
+#' @param .Object Object to be initialized
+#' @param x A Var object
+#' @param group_var The subgroup for whichproportions, mean/sd were calculated
+#' and missing values
+#' @param pvalue The calculated pvalue
+#' @param parsed_name The name of the variable parsed with the n (%), mean (SD)
+#' @param value The values calculated parsed
+#' @param missing.value Missing values numbers and proportions n (%)
+#' @param missing.value.name Missing values concatenate with the leve
+#' of the variable if it factor
+#'
+#' @return VarGroup object
+methods::setMethod("initialize",
           "VarGroup",
           function(.Object, x, group_var, pvalue, parsed_name,
                    value, missing.value, missing.value.name) {
@@ -68,13 +145,20 @@ setMethod("initialize",
 
 VarGroup <- function(x, group_var = "", pvalue = 0,  parsed_name = "",
                      value = "", missing.value = "", missing.value.name = "") {
-  return(new("VarGroup", x = x, group_var = group_var, pvalue = pvalue,
+  return(methods::new("VarGroup", x = x, group_var = group_var, pvalue = pvalue,
              parsed_name = parsed_name, value = value,
              missing.value = missing.value, missing.value.name = missing.value.name))
 }
 
-
-setMethod("[", "VarGroup", function(x, i) {
+#' Method to access S4 Var elements
+#'
+#' Mathod to access VarGroup LINK elements by name
+#'
+#' @param x : object
+#' @param i : value
+#'
+#' @return object element
+methods::setMethod("[", "VarGroup", function(x, i) {
   if (i == "group_var")
     return(x@group_var)
   else if (i == "pvalue")
@@ -89,7 +173,16 @@ setMethod("[", "VarGroup", function(x, i) {
     return(x@missing.value.name)
 })
 
-setReplaceMethod("[", "VarGroup", function(x, i, value) {
+#' Method to access S4 Var elements
+#'
+#' Method to modify VarGroup LINK elements by name
+#'
+#' @param x Object
+#' @param i Element name
+#' @param value Value to be added
+#'
+#' @return object
+methods::setReplaceMethod("[", "VarGroup", function(x, i, value) {
   if (i == "group")
     x@group <- value
   else if (i == "pvalue")
@@ -105,23 +198,47 @@ setReplaceMethod("[", "VarGroup", function(x, i, value) {
   return(x)
 })
 
-
-setAs(
+methods::setAs(
   from = "Var",
   to = "VarGroup",
   def = function(from) {
     return(VarGroup(x = from, group_var = "Total"))
   })
-#################
 
-setClass("parseClass",
+#################
+#' S4 class
+#'
+#' A S4 class containing all the information needed for parsClassFun
+#' the missing values and the group for which it was calculated
+#'
+#' @slot table The result of descTab
+#' @slot group The variable from which to make subgroups
+#' @slot pvalue,na.print,quanti,quali Values from descTab LINK
+#' @slot var_list An object of listVar LINK
+#' @slot data The dataset provided in descTab
+#' @slot digits.qt,digits.ql As provided in descTab
+#' @export
+methods::setClass("parseClass",
          slots = c(table = "data.frame", group = "character",
                    pvalue = "logical", na.print = "logical",
                    quanti = "logical", quali = "logical",
                    var_list = "listVar", data = "data.frame",
                    digits.qt = "numeric", digits.ql = "numeric"))
 
-setMethod("initialize",
+#' S4 class initialization function
+#'
+#' Initialization function for parseClass object LINK
+#'
+#' @param .Object The object to create
+#' @param table The result of descTab
+#' @param group The variable from which to make subgroups
+#' @param pvalue,na.print,quanti,quali Values from descTab LINK
+#' @param var_list An object of listVar LINK
+#' @param data The dataset provided in descTab
+#' @param digits.qt,digits.ql As provided in descTab
+#'
+#' @return parseClass object
+methods::setMethod("initialize",
           "parseClass",
           function(.Object, table, group, pvalue, na.print,
                    quanti, quali, var_list, data, digits.qt, digits.ql) {
@@ -139,14 +256,34 @@ setMethod("initialize",
             return(.Object)
           })
 
-parseClass <- function(x, table, group, pvalue, na.print,
+#' S4 class initialization function
+#'
+#' Initialization function for parseClass object LINK
+#'
+#' @param table The result of descTab
+#' @param group The variable from which to make subgroups
+#' @param pvalue,na.print,quanti,quali Values from descTab LINK
+#' @param var_list An object of listVar LINK
+#' @param data The dataset provided in descTab
+#' @param digits.qt,digits.ql As provided in descTab
+#'
+#' @return parseClass object
+parseClass <- function(table, group, pvalue, na.print,
                        quanti, quali, var_list, data, digits.qt, digits.ql) {
-  return(new("parseClass", table = table, group = group, pvalue = pvalue,
+  return(methods::new("parseClass", table = table, group = group, pvalue = pvalue,
              na.print = na.print, quanti = quanti, quali = quali,
              var_list = var_list, data = data, digits.qt = digits.qt, digits.ql = digits.ql))
 }
 
-setMethod("[", "parseClass", function(x, i) {
+#' Method to access S4 Var elements
+#'
+#' Method to access parseClass LINK elements by name
+#'
+#' @param x : Object
+#' @param i : Element name
+#'
+#' @return object element
+methods::setMethod("[", "parseClass", function(x, i) {
   if (i == "table")
     return(x@table)
   else if (i == "group")
@@ -169,7 +306,16 @@ setMethod("[", "parseClass", function(x, i) {
     return(x@digits.ql)
 })
 
-setReplaceMethod("[", "parseClass", function(x, i, value) {
+#' Method to access S4 Var elements
+#'
+#' Method to modify VarGroup LINK elements by name
+#'
+#' @param x : Object
+#' @param i : Element name
+#' @param value : Value to be added
+#'
+#' @return object
+methods::setReplaceMethod("[", "parseClass", function(x, i, value) {
   if (i == "table")
     x@table <- value
   else if (i == "group")
