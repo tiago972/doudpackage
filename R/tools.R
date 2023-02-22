@@ -61,7 +61,6 @@ getGroupMinMax<-function(group_rows_labels, table){
 makeTable<-function(quali.Univ_list.Global, group, pvalue, na.print){
   ## Makes df out of the list
   df<-dplyr::bind_rows(lapply(quali.Univ_list.Global, function(x){
-
     tmp_df<-tibble::tibble("var" = c(x@parsed_name, x@missing.value.name),
                    "group_var" = c(x@value, x@missing.value), pvalue=c(x@pvalue, NA))
 

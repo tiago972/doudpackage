@@ -30,7 +30,7 @@ descTab(
 
 \item{digits.ql}{Integer. Significant digits for proportions}
 
-\item{normality}{One of "assess", "normal", "manual", "not normal". See details}
+\item{normality}{One of "assess", "normal", "manual", "non normal". See details}
 }
 \value{
 A S4 objects containing the main table accessible by ["table"] subscript.

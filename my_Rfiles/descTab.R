@@ -25,12 +25,17 @@ descTab<-function(data, group=NULL, quanti=TRUE, quali=TRUE, na.print = FALSE,
   if (!is.null(group) && !is.factor(data[, group]))
     stop(sprintf("group needs to be a factor, %s is %s", group, class(data[, group])))
   var_list<-varType(data, normality)
+  print("ok")
   ana.biv_list<-anaBiv(var_list, data = data, group = group, digits.p = digits.p)
   if (is.null(ana.biv_list))
     ana.biv_list<-lapply(var_list@List, as, Class = "VarGroup")
   ana.biv_list<-new("listVar", List = ana.biv_list)
+  print("b4")
+  print(head(ana.biv_list))
   ana.univ_list<-anaUniv(ana.biv_list, group = group, data = data, digits.qt = digits.qt,
                          digits.ql = digits.ql, quali = quali, quanti = quanti)
+  print("after")
+  print(head(ana.biv_list))
   return<-makeTable(ana.univ_list, group, pvalue, na.print)
 
   return.table<-parseClass(table = return$df, group = group, quanti = quanti,
