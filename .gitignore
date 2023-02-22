@@ -2,3 +2,4 @@
 .Rhistory
 doudpackage.Rproj
 .Rproj.user
+*.Rcheck

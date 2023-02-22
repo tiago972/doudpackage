@@ -1,9 +1,0 @@
-#' This function is depreciated, please use anaBiv(). [parseClassFun()]
-#' @param ... None
-#' @export
-ft_parse<-function(...)
-{
-  stop(sprintf("This function is depreciated, please use parseClassFun().
-               See ?parseClassFun"))
-}
-
