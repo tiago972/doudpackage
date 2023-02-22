@@ -306,7 +306,7 @@ methods::setMethod("[", "parseClass", function(x, i) {
     return(x@digits.ql)
 })
 
-#' Method to access S4 Var elements
+#' Method to modify S4 Var elements
 #'
 #' Method to modify VarGroup LINK elements by name
 #'
