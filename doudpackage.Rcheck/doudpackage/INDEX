@@ -10,6 +10,10 @@ VarGroup-class          S4 class
 [<-,parseClass,character-method
                         Method to modify S4 Var elements
 anaBiv                  anaBiv generic function
+anaBiv,data.frame,character-method
+                        anaBiv data.frame function
+anaBiv,listVar,character-method
+                        anaBiv data.frame function
 descTab                 Generic function to create a table of
                         descriptive analysis of a dataset
 ft_ana_biv              This function is depreciated, please use

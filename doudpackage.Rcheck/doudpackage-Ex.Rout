@@ -57,14 +57,14 @@ Type 'q()' to quit R.
 
 detaching ‘package:stringi’
 
-> nameEx("parseClassFun-parseClass-method")
-> ### * parseClassFun-parseClass-method
+> nameEx("parseClassFun")
+> ### * parseClassFun
 > 
 > flush(stderr()); flush(stdout())
 > 
-> ### Name: parseClassFun,parseClass-method
-> ### Title: Make the LaTeX/HTML table
-> ### Aliases: parseClassFun,parseClass-method
+> ### Name: parseClassFun
+> ### Title: Make the LaTeX/HTML table. Generic function
+> ### Aliases: parseClassFun
 > 
 > ### ** Examples
 > 
@@ -92,7 +92,7 @@ detaching ‘package:stringi’
 
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  1.284 0.069 1.378 0 0 
+Time elapsed:  1.396 0.079 1.489 0 0 
 > grDevices::dev.off()
 null device 
           1 

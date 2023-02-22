@@ -1,10 +1,10 @@
 Package: doudpackage
-Title: Create elegant table 1 in HTML/LaTeX for biostatistics
+Title: Create Elegant Table 1 in HTML/LaTeX for Biostatistics
 Version: 2.0
 Authors@R: 
     person("Edouard", "Baudouin", , "edouardpierre.baudouin@aphp.fr", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-8324-6908"))
-Description: Creates the "table one" of biomedical papers. Fill it with your data and the name of the variable wich you'll make the group(s) out of and it will make univariate, bivariate analysis and parse it into HTML.
+Description: Creates the "table one" of biomedical papers. Fill it with your data and the name of the variable which you'll make the group(s) out of and it will make univariate, bivariate analysis and parse it into HTML.
     It also allows you to visualise all your data with graphic representation. It relies on kableExtra.
 License: GPL (>= 3)
 Encoding: UTF-8
@@ -13,7 +13,7 @@ RoxygenNote: 7.2.3
 Imports: dplyr, kableExtra, methods, purrr, stats, stringi, tibble,
         tidyr
 NeedsCompilation: no
-Packaged: 2023-02-22 15:28:37 UTC; tiago2
+Packaged: 2023-02-22 16:23:20 UTC; tiago2
 Author: Edouard Baudouin [aut, cre] (<https://orcid.org/0000-0002-8324-6908>)
 Maintainer: Edouard Baudouin <edouardpierre.baudouin@aphp.fr>
-Built: R 4.2.2; ; 2023-02-22 15:28:59 UTC; unix
+Built: R 4.2.2; ; 2023-02-22 16:25:46 UTC; unix

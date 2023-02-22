@@ -109,10 +109,7 @@ setGeneric("anaBiv", function(var, group, ...) {
 })
 
 #' anaBiv data.frame function
-#'
-#' anaBiv data.frame function which gives bivariate analysis according to group
-#'
-#' @rdname anaBiv
+#' @inheritParams anaBiv
 setMethod("anaBiv", c(var = "listVar", group = "character"), function(var, group, ...){
   if (!is.null(group)){
     lst_VarGroup.Biv<-lapply(var@List, function(x, group, data, digits.p){
@@ -134,9 +131,7 @@ setMethod("anaBiv", c(var = "listVar", group = "character"), function(var, group
 
 #' anaBiv data.frame function
 #'
-#' anaBiv data.frame function which gives bivariate analysis according to group
-#'
-#' @rdname anaBiv
+#' @inheritParams anaBiv
 #' @export
 setMethod("anaBiv", c(var = "data.frame", group = "character"), function(var, group, ...) {
   if (!is.null(group) && !is.factor(var[, group]))

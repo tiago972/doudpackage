@@ -1,6 +1,6 @@
 anaBiv	anaBiv
-anaBiv,data.frame,character-method	anaBiv
-anaBiv,listVar,character-method	anaBiv
+anaBiv,data.frame,character-method	anaBiv-data.frame-character-method
+anaBiv,listVar,character-method	anaBiv-listVar-character-method
 descTab	descTab
 ft_ana_biv	ft_ana_biv
 ft_desc_tab	ft_desc_tab

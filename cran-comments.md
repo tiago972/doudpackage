@@ -2,6 +2,9 @@
 The package was built on MacOs 10.15.7 Catalina. There were no ERRORs, WARNINGs nor NOTEs. 
 
 ## Environnements
-I tested the installation with devtools::check_win_release() and rhub::check() on debian-clang-devel, solaris-x86-patched, ubuntu-gcc-devel without any ERRORs, WARNINGs. 
+I tested the installation with devtools::check_win_release() without any ERRORs, WARNINGs. 
+There was 1 NOTE:
+* checking CRAN incoming feasibility ... NOTE
 
-There was one note about misspelling which was checked.
+
+I tested rhub::check() on debian-clang-devel, solaris-x86-patched, ubuntu-gcc-devel . 

@@ -35,14 +35,14 @@ iris_test<-descTab(iris, group = "Species", na.print = TRUE)
 
 
 cleanEx()
-nameEx("parseClassFun-parseClass-method")
-### * parseClassFun-parseClass-method
+nameEx("parseClassFun")
+### * parseClassFun
 
 flush(stderr()); flush(stdout())
 
-### Name: parseClassFun,parseClass-method
-### Title: Make the LaTeX/HTML table
-### Aliases: parseClassFun,parseClass-method
+### Name: parseClassFun
+### Title: Make the LaTeX/HTML table. Generic function
+### Aliases: parseClassFun
 
 ### ** Examples
 
