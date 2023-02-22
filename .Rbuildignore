@@ -6,4 +6,5 @@
 doudpackage.Rproj
 old
 my_Rfiles
-.Rhisoty
+.Rhistory
+cran-comments\.md

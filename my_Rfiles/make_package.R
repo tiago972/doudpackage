@@ -21,3 +21,5 @@ document()
 check()
 
 build(".")
+library(rhub)
+rhub::check()
