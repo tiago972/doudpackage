@@ -110,8 +110,6 @@ setGeneric("anaBiv", function(var, group, ...) {
 
 #' anaBiv data.frame function
 #'
-#' anaBiv data.frame function which gives bivariate analysis according to group
-#'
 #' @rdname anaBiv
 setMethod("anaBiv", c(var = "listVar", group = "character"), function(var, group, ...){
   if (!is.null(group)){
@@ -133,8 +131,6 @@ setMethod("anaBiv", c(var = "listVar", group = "character"), function(var, group
 })
 
 #' anaBiv data.frame function
-#'
-#' anaBiv data.frame function which gives bivariate analysis according to group
 #'
 #' @rdname anaBiv
 #' @export

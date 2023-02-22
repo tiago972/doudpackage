@@ -24,8 +24,4 @@ A list of VarGroup object or data.frame
 }
 \description{
 Generic function of anaBiv which gives bivariate analysis according to group
-
-anaBiv data.frame function which gives bivariate analysis according to group
-
-anaBiv data.frame function which gives bivariate analysis according to group
 }
