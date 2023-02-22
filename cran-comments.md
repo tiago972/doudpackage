@@ -1,5 +1,5 @@
 ## R CMD check results
-There were no ERRORs, WARNINGs nor NOTEs. 
+The package was built on MacOs 10.15.7 Catalina. There were no ERRORs, WARNINGs nor NOTEs. 
 
 ## Environnements
-I tested the installation on all the 19 available environnements from rhub::check() which raised no ERRORs, WARNINGs nor NOTEs.
+I tested the installation with devtools::check_win_release() and rhub::check() on debian-clang-devel, solaris-x86-patched, ubuntu-gcc-devel without any ERRORs, WARNINGs nor NOTEs.

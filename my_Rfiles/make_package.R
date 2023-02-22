@@ -19,7 +19,7 @@ use_package("tidyr")
 
 document()
 devtools::check()
+devtools::check_win_release()
 
-build(".")
 library(rhub)
 rhub::check()
