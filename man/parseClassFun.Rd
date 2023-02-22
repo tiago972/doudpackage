@@ -24,5 +24,5 @@ parseClassFun(
 An HTML/LaTex file which can be used directly in Rmarkdown and copy paste
 }
 \description{
-This functions takes the S4 output of descTab to create an HTML parsed table
+Make the LaTeX/HTML table. Generic function
 }
