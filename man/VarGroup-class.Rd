@@ -5,7 +5,7 @@
 \alias{VarGroup-class}
 \title{S4 class}
 \description{
-A S4 class containing Var LINK. It also contains the pvalue, the parsed value
+A S4 class containing Var \code{\link[=initialize,Var-method]{initialize,Var-method()}} It also contains the pvalue, the parsed value
 the missing values and the group for which it was calculated
 }
 \section{Slots}{

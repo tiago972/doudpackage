@@ -15,9 +15,9 @@ the missing values and the group for which it was calculated
 
 \item{\code{group}}{The variable from which to make subgroups}
 
-\item{\code{pvalue,na.print,quanti,quali}}{Values from descTab LINK}
+\item{\code{pvalue,na.print,quanti,quali}}{Values from descTab \code{\link[=descTab]{descTab()}}}
 
-\item{\code{var_list}}{An object of listVar LINK}
+\item{\code{var_list}}{An object of listVar \code{\link[=listVar-class]{listVar-class()}}}
 
 \item{\code{data}}{The dataset provided in descTab}
 

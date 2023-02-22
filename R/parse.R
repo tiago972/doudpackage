@@ -165,9 +165,9 @@ methods::setMethod("parseClassFun", "parseClass", function(table, col.order = NU
                                                   group_rows_labels = NULL){
   checkVarParseClassFun(levels_to_keep, col.order, group_rows_labels, table)
   if (table@pvalue == TRUE)
-    table@table$pvalue<-as.character(ifelse(is.na(table["table"]$pvalue), "",
-                                                  ifelse(table["table"]$pvalue < 0.001,
-                                            "< 0.001", table["table"]$pvalue)))
+    table@table$pvalue<-as.character(ifelse(is.na(table@table$pvalue), "",
+                                                  ifelse(table@table$pvalue < 0.001,
+                                            "< 0.001", table@table$pvalue)))
   table@table<-parseQuali(table, levels_to_keep)
   table@table<-orderRowForGroupLabels(table, group_rows_labels)
   if (!is.null(col.order)){

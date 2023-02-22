@@ -38,5 +38,5 @@ of the variable if it factor}
 VarGroup object
 }
 \description{
-Initialization function for VarGroup LINK
+Initialization function for VarGroup \code{\link[=initialize,VarGroup-method]{initialize,VarGroup-method()}}
 }

@@ -1,7 +1,7 @@
 ######### Checking tools ##############################"
 ##### Assess variables in DescTab
 checkVarDescTab<-function(data, group, quanti, quali, na.print, pvalue, digits.p, digits.qt, digits.ql, normality){
-  if(class(data) != "data.frame" && class(data) != "tibble")
+  if(!is.data.frame(data)  && !tibble::is.tibble(data))
     stop(sprintf("data is not a data.frame: %s", class(data)))
   if (any(!c(class(quanti), class(quali), class(na.print), class(pvalue)) %in% "logical"))
     stop(sprintf("quanti, quali, na.print, pvalue not logical:

@@ -25,9 +25,9 @@
 
 \item{group}{The variable from which to make subgroups}
 
-\item{pvalue, na.print, quanti, quali}{Values from descTab LINK}
+\item{pvalue, na.print, quanti, quali}{Values from descTab \code{\link[=descTab]{descTab()}}}
 
-\item{var_list}{An object of listVar LINK}
+\item{var_list}{An object of listVar \code{\link[=listVar-class]{listVar-class()}}}
 
 \item{data}{The dataset provided in descTab}
 
@@ -37,5 +37,5 @@
 parseClass object
 }
 \description{
-Initialization function for parseClass object LINK
+Initialization function for parseClass object \code{\link[=initialize,parseClass-method]{initialize,parseClass-method()}}
 }

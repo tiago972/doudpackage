@@ -19,5 +19,5 @@
 Var Object
 }
 \description{
-Initialization function for Var LINK
+Initialization function for Var \code{\link[=initialize,Var-method]{initialize,Var-method()}}
 }
