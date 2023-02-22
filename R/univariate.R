@@ -37,16 +37,16 @@ lapplyQuali<-function(group, data, factor_list, digits.ql){
   if (!is.null(group)){
     for (i in 1:nlevels(data[,group])){
       data_sub<-data[data[,group] == levels(data[,group])[i],]
-      quali.Univ_list.tmp<-lapply(factor_list@List, qualiUnivFun, data_sub = data_sub,
-                                  group = levels(data[,group])[i], digits.ql = digits.ql)
+      quali.Univ_list.tmp<-purrr::compact(lapply(factor_list@List, qualiUnivFun, data_sub = data_sub,
+                                  group = levels(data[,group])[i], digits.ql = digits.ql))
       if (!exists("quali.Univ_list.Group", inherits = FALSE))
         quali.Univ_list.Group<-quali.Univ_list.tmp
       else
         quali.Univ_list.Group<-c(quali.Univ_list.Group, quali.Univ_list.tmp)
     }
   }
-  lst_VarGroup.Univ.Total<-lapply(factor_list@List, qualiUnivFun, data_sub = data,
-                                  group = NULL, digits.ql = digits.ql)
+  lst_VarGroup.Univ.Total<-purrr::compact(lapply(factor_list@List, qualiUnivFun, data_sub = data,
+                                  group = NULL, digits.ql = digits.ql))
   if (exists("quali.Univ_list.Group", inherits = FALSE)){
     quali.Univ_list.Global<-unlist(c(quali.Univ_list.Group, lst_VarGroup.Univ.Total))
     return(unlist(quali.Univ_list.Global))
@@ -91,19 +91,19 @@ lapplyQuanti<-function(group, data, numeric_list, digits.qt, digits.ql){
   if (!is.null(group)){
     for (i in 1:nlevels(data[,group])){
       data_sub<-data[data[,group] == levels(data[,group])[i],]
-      quanti.Univ_list.tmp<-lapply(numeric_list@List, quantiUnivFun,
+      quanti.Univ_list.tmp<-purrr::compact(lapply(numeric_list@List, quantiUnivFun,
                                    data_sub = data_sub,group = levels(data[,group])[i],
-                                   digits.qt = digits.qt, digits.ql = digits.ql)
+                                   digits.qt = digits.qt, digits.ql = digits.ql))
       if (!exists("quanti.Univ_list.Group", inherits = FALSE))
         quanti.Univ_list.Group<-quanti.Univ_list.tmp
       else
         quanti.Univ_list.Group<-c(quanti.Univ_list.Group, quanti.Univ_list.tmp)
     }
   }
-  lst_VarGroup.Univ.Total<-lapply(numeric_list@List, quantiUnivFun, data_sub = data,
-                                  group = NULL, digits.qt = digits.qt)
+  lst_VarGroup.Univ.Total<-purrr::compact(lapply(numeric_list@List, quantiUnivFun, data_sub = data,
+                                  group = NULL, digits.qt = digits.qt))
   if (exists("quanti.Univ_list.Group", inherits = FALSE)){
-    quanti.Univ_list.Global<-unlist(c(quanti.Univ_list.Group, lst_VarGroup.Univ.Total))
+    quanti.Univ_list.Global<-purrr::compact(unlist(c(quanti.Univ_list.Group, lst_VarGroup.Univ.Total)))
     return(unlist(quanti.Univ_list.Global))
   }
   else

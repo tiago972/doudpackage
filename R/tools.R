@@ -7,10 +7,10 @@ checkVarDescTab<-function(data, group, quanti, quali, na.print, pvalue, digits.p
     stop(sprintf("quanti, quali, na.print, pvalue not logical:
                  quanti is %s, quali is %s, na.print is %s, pvalu is %s",
                  class(quanti), class(quali), class(na.print), class(pvalue)))
-  if(any(!c(class(digits.p), class(digits.qt), class(digits.ql)) %in% 'integer'))
+  if(any(!c(class(digits.p), class(digits.qt), class(digits.ql)) %in% c('integer', 'numeric')))
     stop(sprintf("digits.p, digits.ql and digits.qt must be integer: %s, %s, %s",
                  class(digits.p), class(digits.qt), class(digits.ql)))
-  if(!normality %in% c("assess", "normal", "manual", "not normal"))
+  if(!normality %in% c("assess", "normal", "manual", "non normal"))
     stop(sprintf('normality must be one of "assess",  "normal", "manual", "not normal" not "%s"', normality))
 }
 
@@ -69,7 +69,7 @@ makeTable<-function(quali.Univ_list.Global, group, pvalue, na.print){
     return(tmp_df)
   }))
 
-  df<-dplyr::filter(df, "var" != "")
+  df<-subset(df, df[,"var"] != "")
   #Keep only full columns and merge
   for (n in colnames(df)){
     if (n == "var" || n == "pvalue")

@@ -16,7 +16,7 @@ quantiTwoLevelsFun<-function(x, data, group){
       my_env$p<-stats::wilcox.test(data[,x@name]~data[,group])$p.value
     },
     warning=function(w){
-      my_env$p<-stats::wilcox.test(data[,i]~data[,group], exact = F)$p.value
+      my_env$p<-stats::wilcox.test(data[,x@name]~data[,group], exact = F)$p.value
     },
     error=function(e){
       warning(paste(e), x@name, " in quantiTwoLevelsFun")

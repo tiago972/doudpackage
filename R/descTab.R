@@ -26,7 +26,7 @@ varType<-function(data, normality){
 #' @param digits.p Integer. Significant digits for p value
 #' @param digits.qt Integer. Significant digits for mean/median, SD/IQR
 #' @param digits.ql Integer. Significant digits for proportions
-#' @param normality One of "assess", "normal", "manual", "not normal". See details
+#' @param normality One of "assess", "normal", "manual", "non normal". See details
 #'
 #' @return A S4 objects containing the main table accessible by \["table"\] subscript.
 #' @export

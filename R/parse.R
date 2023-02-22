@@ -58,14 +58,12 @@ orderRowForGroupLabels<-function(table, group_rows_labels){
 
 #' @import tidyr
 makeKableExtra<-function(table, col.order, group_rows_labels){
-
   if (table@na.print == TRUE){
     col.names<-colnames(table@table) # Filter cant work with duplicates names col which can be the case after getPopGroups
     colnames(table@table)<-col.order
-    table@table<-dplyr::filter(table@table, !(table@table[,"Total"] %in% "0 (0)" & grepl(".*Missing values", table@table[,1])))
+    table@table<-subset(table@table, !(table@table[,"Total"] %in% "0 (0)" & grepl(".*Missing values", table@table[,1])))
     colnames(table@table)<-col.names
     groupMinMax<-getGroupMinMax(group_rows_labels, table@table)
-
     table@table[,1]<-stringi::stri_replace_all(str = table@table[,1],
                                                replacement = "",
                                                regex  = '.*(?=Missing values)')
@@ -75,10 +73,12 @@ makeKableExtra<-function(table, col.order, group_rows_labels){
   else
     groupMinMax<-getGroupMinMax(group_rows_labels, table@table)
 
+  rownames(table@table)<-NULL
   headers<-rep(1, length(col.order))
   names(headers)<-col.order
   names(headers)[names(headers) == "var"]<- ' '
   names(headers)[names(headers) == "pvalue"]<- ' '
+
 
   res_parsed<-kableExtra::kable(table@table) %>%
         kableExtra::kable_paper(html_font = "arial") %>% # Need to make it an option
