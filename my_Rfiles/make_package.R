@@ -17,10 +17,16 @@
 # use_package("methods")
 # use_package("tidyr")
 
-.rs.restartR()
 library(devtools)
 setwd("/Users/tiago2/BF/doudpackage")
-document()
+tryCatch({
+  .rs.restartR()
+  devtools::unload(package = "doudpackage")
+},
+error=function(e){
+  print(e)
+})
+devtools::document()
 devtools::check()
 
 devtools::build(pkg = ".", path = ".")
