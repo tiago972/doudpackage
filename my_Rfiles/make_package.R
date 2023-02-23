@@ -1,5 +1,4 @@
-library(devtools)
-setwd("/Users/tiago2/BF/doudpackage")
+
 # use_r("univariate")
 # use_r("tools")
 # use_r("parse")
@@ -18,8 +17,12 @@ setwd("/Users/tiago2/BF/doudpackage")
 # use_package("methods")
 # use_package("tidyr")
 
+.rs.restartR()
+library(devtools)
+setwd("/Users/tiago2/BF/doudpackage")
 document()
 devtools::check()
+
 devtools::build(pkg = ".", path = ".")
 
 devtools::check_win_release(".")

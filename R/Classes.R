@@ -217,7 +217,6 @@ methods::setAs(
 #' @slot var_list An object of listVar [listVar-class()]
 #' @slot data The dataset provided in descTab
 #' @slot digits.qt,digits.ql As provided in descTab
-#' @export
 methods::setClass("parseClass",
          slots = c(table = "data.frame", group = "character",
                    pvalue = "logical", na.print = "logical",
@@ -313,9 +312,9 @@ methods::setMethod("[", "parseClass", function(x, i) {
 #' @param x : Object
 #' @param i : Element name
 #' @param value : Value to be added
-#' @return object
+#' @return parseClass Object
 #' @export
-methods::setMethod("[<-", c("parseClass", "character"), function(x, i, value) {
+methods::setMethod("[<-", signature = "parseClass", function(x, i, value) {
   if (i == "table")
     x@table <- value
   else if (i == "group")
