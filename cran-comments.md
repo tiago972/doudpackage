@@ -7,4 +7,8 @@ There was 1 NOTE:
 * checking CRAN incoming feasibility ... NOTE
 
 
-I tested rhub::check() on debian-clang-devel, solaris-x86-patched, ubuntu-gcc-devel . 
+I tested rhub::check() on Oracle Solaris 10, x86, 32 bit, R-release with one ERRORs:
+* Package required but not available: 'kableExtra'
+
+
+

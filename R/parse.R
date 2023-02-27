@@ -57,6 +57,7 @@ orderRowForGroupLabels<-function(table, group_rows_labels){
 }
 
 #' @import tidyr
+#' @import kableExtra
 makeKableExtra<-function(table, col.order, group_rows_labels){
   if (table@na.print == TRUE){
     col.names<-colnames(table@table) # Its easier to subset
