@@ -34,7 +34,7 @@ devtools::install_github("tiago972/doudpackage")
 
 ## Example
 
-```{r example, results='asis'}
+```{r example}
 library(doudpackage)
 ## basic example code
 data(iris)
@@ -50,7 +50,9 @@ iris_test<-descTab(iris, group = "Species", na.print = TRUE)
 testParse<-parseClassFun(iris_test, levels_to_keep = list("fact_2" =  "A"),
 group_rows_labels = list("Size" = c("Petal.Length", "Petal.Width"),
 "My_f" = c("num", "fact_2")))
-testParse
 ```
 
+```html
+` r testParse`
+```
 
