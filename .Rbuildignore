@@ -10,3 +10,4 @@ my_Rfiles
 cran-comments\.md
 ^revdep$
 ^README\.Rmd$
+^CRAN-SUBMISSION$
