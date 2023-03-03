@@ -34,7 +34,7 @@ devtools::install_github("tiago972/doudpackage")
 
 ## Example
 
-```{r example}
+```{r example, results='asis'}
 library(doudpackage)
 ## basic example code
 data(iris)

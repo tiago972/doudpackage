@@ -168,16 +168,16 @@ fact_2, A
 27 (54)
 </td>
 <td style="text-align:left;">
-29 (58)
+25 (50)
 </td>
 <td style="text-align:left;">
-30 (60)
+21 (42)
 </td>
 <td style="text-align:left;">
-86 (57.3)
+73 (48.7)
 </td>
 <td style="text-align:left;">
-0.826
+0.474
 </td>
 </tr>
 <tr>
@@ -185,19 +185,19 @@ fact_2, A
 num
 </td>
 <td style="text-align:left;">
-46.5 (30.3)
+45.8 (30.3)
 </td>
 <td style="text-align:left;">
-46 (24.7)
+46.7 (27.5)
 </td>
 <td style="text-align:left;">
-56.1 (26.8)
+47.7 (29.9)
 </td>
 <td style="text-align:left;">
-49.5 (27.5)
+46.7 (29.1)
 </td>
 <td style="text-align:left;">
-0.13
+0.948
 </td>
 </tr>
 <tr>
@@ -205,13 +205,13 @@ num
 Missing values
 </td>
 <td style="text-align:left;">
-2 (4)
-</td>
-<td style="text-align:left;">
 0 (0)
 </td>
 <td style="text-align:left;">
-3 (6)
+4 (8)
+</td>
+<td style="text-align:left;">
+1 (2)
 </td>
 <td style="text-align:left;">
 5 (3)
@@ -224,19 +224,19 @@ Missing values
 fact_1, 1
 </td>
 <td style="text-align:left;">
+9 (18)
+</td>
+<td style="text-align:left;">
+7 (14)
+</td>
+<td style="text-align:left;">
 11 (22)
 </td>
 <td style="text-align:left;">
-10 (20)
+27 (18)
 </td>
 <td style="text-align:left;">
-12 (24)
-</td>
-<td style="text-align:left;">
-33 (22)
-</td>
-<td style="text-align:left;">
-0.598
+0.502
 </td>
 </tr>
 <tr>
@@ -244,19 +244,19 @@ fact_1, 1
 fact_1, 2
 </td>
 <td style="text-align:left;">
-11 (22)
-</td>
-<td style="text-align:left;">
-9 (18)
+8 (16)
 </td>
 <td style="text-align:left;">
 6 (12)
 </td>
 <td style="text-align:left;">
-26 (17.3)
+6 (12)
 </td>
 <td style="text-align:left;">
-0.598
+20 (13.3)
+</td>
+<td style="text-align:left;">
+0.502
 </td>
 </tr>
 <tr>
@@ -264,19 +264,19 @@ fact_1, 2
 fact_1, 3
 </td>
 <td style="text-align:left;">
+8 (16)
+</td>
+<td style="text-align:left;">
+11 (22)
+</td>
+<td style="text-align:left;">
 7 (14)
 </td>
 <td style="text-align:left;">
-5 (10)
+26 (17.3)
 </td>
 <td style="text-align:left;">
-9 (18)
-</td>
-<td style="text-align:left;">
-21 (14)
-</td>
-<td style="text-align:left;">
-0.598
+0.502
 </td>
 </tr>
 <tr>
@@ -284,19 +284,19 @@ fact_1, 3
 fact_1, 4
 </td>
 <td style="text-align:left;">
-6 (12)
+7 (14)
 </td>
 <td style="text-align:left;">
-9 (18)
+11 (22)
 </td>
 <td style="text-align:left;">
-3 (6)
+10 (20)
 </td>
 <td style="text-align:left;">
-18 (12)
+28 (18.7)
 </td>
 <td style="text-align:left;">
-0.598
+0.502
 </td>
 </tr>
 <tr>
@@ -304,19 +304,19 @@ fact_1, 4
 fact_1, 5
 </td>
 <td style="text-align:left;">
-6 (12)
+3 (6)
 </td>
 <td style="text-align:left;">
-7 (14)
+5 (10)
 </td>
 <td style="text-align:left;">
-9 (18)
+11 (22)
 </td>
 <td style="text-align:left;">
-22 (14.7)
+19 (12.7)
 </td>
 <td style="text-align:left;">
-0.598
+0.502
 </td>
 </tr>
 <tr>
@@ -324,13 +324,13 @@ fact_1, 5
 Missing values
 </td>
 <td style="text-align:left;">
-9 (18)
+15 (30)
 </td>
 <td style="text-align:left;">
 10 (20)
 </td>
 <td style="text-align:left;">
-11 (22)
+5 (10)
 </td>
 <td style="text-align:left;">
 30 (20)
