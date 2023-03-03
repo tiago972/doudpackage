@@ -11,7 +11,7 @@ the missing values and the group for which it was calculated
 \section{Slots}{
 
 \describe{
-\item{\code{group_var}}{The subgroup for whichproportions, mean/sd were calculated
+\item{\code{group_var}}{The subgroup for which proportions, mean/sd were calculated
 and missing values}
 
 \item{\code{pvalue}}{The calculated pvalue}

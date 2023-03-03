@@ -17,12 +17,12 @@ varType<-function(data, normality){
 #' Generic function to create a table of descriptive analysis of a dataset
 #'
 #' This function allows you to display all together all univariate analysis (median/mean; IQR/SD; proportions)
-#' and bivariates analysis (wilcoxon, chisq or fisher).
-#' The univariate analysis can be sub-grouped by a variable of interest of n levels. Approriate statistics test will be applied
+#' and bivariates analysis (Wilcoxon, Chi² or Fisher).
+#' The univariate analysis can be sub-grouped by a variable of interest of n levels. Appropriate statistics test will be applied
 #'
 #' @param data A datasaset. Needs to be a data.frame/tibble object
 #' @param group Optional. The name of the variable to make sub-groups comparisons.
-#' @param quanti,quali,na.print,pvalue Bool. If false, won't display quantitative/qualitative/Missing values/pvalues variable results
+#' @param quanti,quali,na.print,pvalue Logical. If false, won't display quantitative/qualitative/Missing values/pvalues variable results
 #' @param digits.p Integer. Significant digits for p value
 #' @param digits.qt Integer. Significant digits for mean/median, SD/IQR
 #' @param digits.ql Integer. Significant digits for proportions

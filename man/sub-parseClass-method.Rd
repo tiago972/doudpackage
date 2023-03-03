@@ -15,5 +15,5 @@
 object
 }
 \description{
-Method to acess parseClass \code{\link[=initialize,parseClass-method]{initialize,parseClass-method()}} elements by name
+Method to access parseClass \code{\link[=initialize,parseClass-method]{initialize,parseClass-method()}} elements by name
 }

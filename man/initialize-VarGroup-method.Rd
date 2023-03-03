@@ -20,7 +20,7 @@
 
 \item{x}{A Var object}
 
-\item{group_var}{The subgroup for whichproportions, mean/sd were calculated
+\item{group_var}{The subgroup for which proportions, mean/sd were calculated
 and missing values}
 
 \item{pvalue}{The calculated pvalue}
@@ -31,7 +31,7 @@ and missing values}
 
 \item{missing.value}{Missing values numbers and proportions n (\%)}
 
-\item{missing.value.name}{Missing values concatenate with the leve
+\item{missing.value.name}{Missing values concatenate with the level
 of the variable if it factor}
 }
 \value{

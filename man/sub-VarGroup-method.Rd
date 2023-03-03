@@ -15,5 +15,5 @@
 object element
 }
 \description{
-Mathod to access VarGroup \code{\link[=initialize,VarGroup-method]{initialize,VarGroup-method()}} elements by name
+Method to access VarGroup \code{\link[=initialize,VarGroup-method]{initialize,VarGroup-method()}} elements by name
 }

@@ -22,7 +22,7 @@ descTab(
 
 \item{group}{Optional. The name of the variable to make sub-groups comparisons.}
 
-\item{quanti, quali, na.print, pvalue}{Bool. If false, won't display quantitative/qualitative/Missing values/pvalues variable results}
+\item{quanti, quali, na.print, pvalue}{Logical. If false, won't display quantitative/qualitative/Missing values/pvalues variable results}
 
 \item{digits.p}{Integer. Significant digits for p value}
 
@@ -37,8 +37,8 @@ A S4 objects containing the main table accessible by ["table"] subscript.
 }
 \description{
 This function allows you to display all together all univariate analysis (median/mean; IQR/SD; proportions)
-and bivariates analysis (wilcoxon, chisq or fisher).
-The univariate analysis can be sub-grouped by a variable of interest of n levels. Approriate statistics test will be applied
+and bivariates analysis (Wilcoxon, Chi² or Fisher).
+The univariate analysis can be sub-grouped by a variable of interest of n levels. Appropriate statistics test will be applied
 }
 \examples{
 data(iris)

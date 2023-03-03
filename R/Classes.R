@@ -97,7 +97,7 @@ methods::setClass("listVar", slots = c(List = "list"))
 #'A S4 class containing Var [initialize,Var-method()] It also contains the pvalue, the parsed value
 #'the missing values and the group for which it was calculated
 #'
-#' @slot group_var The subgroup for whichproportions, mean/sd were calculated
+#' @slot group_var The subgroup for which proportions, mean/sd were calculated
 #' and missing values
 #' @slot pvalue The calculated pvalue
 #' @slot parsed_name The name of the variable parsed with the n (%), mean (SD)
@@ -117,13 +117,13 @@ methods::setClass("VarGroup",contains = "Var",
 #'
 #' @param .Object Object to be initialized
 #' @param x A Var object
-#' @param group_var The subgroup for whichproportions, mean/sd were calculated
+#' @param group_var The subgroup for which proportions, mean/sd were calculated
 #' and missing values
 #' @param pvalue The calculated pvalue
 #' @param parsed_name The name of the variable parsed with the n (%), mean (SD)
 #' @param value The values calculated parsed
 #' @param missing.value Missing values numbers and proportions n (%)
-#' @param missing.value.name Missing values concatenate with the leve
+#' @param missing.value.name Missing values concatenate with the level
 #' of the variable if it factor
 #'
 #' @return VarGroup object
@@ -152,7 +152,7 @@ VarGroup <- function(x, group_var = "", pvalue = 0,  parsed_name = "",
 
 #' Method to access S4 Var elements
 #'
-#' Mathod to access VarGroup [initialize,VarGroup-method()] elements by name
+#' Method to access VarGroup [initialize,VarGroup-method()] elements by name
 #'
 #' @param x : object
 #' @param i : value
@@ -276,7 +276,7 @@ parseClass <- function(table, group, pvalue, na.print,
 
 #' Method to access S4 Var elements
 #'
-#' Method to acess parseClass [initialize,parseClass-method()] elements by name
+#' Method to access parseClass [initialize,parseClass-method()] elements by name
 #'
 #' @param x : Object
 #' @param i : Element name
