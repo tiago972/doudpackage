@@ -34,4 +34,4 @@ devtools::build(pkg = ".", path = ".")
 devtools::check_win_release(".")
 
 library(rhub)
-rhub::check()
+devtools::check_rhub()

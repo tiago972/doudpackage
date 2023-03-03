@@ -12,13 +12,6 @@ I tested rhub::check() on Oracle Solaris 10, x86, 32 bit, R-release with one ERR
 * Package required but not available: 'kableExtra'
 
 With devtools::check_rhub(), the following NOTEs came up with Windows Server 2022, R-devel, 64 bit:
-* Possibly misspelled words in DESCRIPTION:
-     Biostatistics (2:49)
-     biomedical (7:41)
-     kableExtra (8:93)
-     
-There was however no misspelled alert with devtools::spell_check()
-
 * checking for detritus in the temp directory ... NOTE
   Found the following files/directories:
     'lastMiKTeXException'
