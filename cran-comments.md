@@ -6,8 +6,21 @@ I tested the installation with devtools::check_win_release() without any ERRORs,
 There was 1 NOTE:
 * checking CRAN incoming feasibility ... NOTE
 
+I tested rhub::check() on  Debian Linux, R-devel, clang, without ERRORs, WARNINGs nor NOTEs
+
 I tested rhub::check() on Oracle Solaris 10, x86, 32 bit, R-release with one ERRORs:
 * Package required but not available: 'kableExtra'
 
+With devtools:check_rhub(), the following NOTEs came up with Windows Server 2022, R-devel, 64 bit:
+* Possibly misspelled words in DESCRIPTION:
+     Biostatistics (2:49)
+     biomedical (7:41)
+     kableExtra (8:93)
+     
+There was however no misspelled alert with devtools::spell_check()
 
-I tested rhub::check() on  Debian Linux, R-devel, clang, without ERRORs, WARNINGs nor NOTEs
+* checking for detritus in the temp directory ... NOTE
+  Found the following files/directories:
+    'lastMiKTeXException'
+
+There was no ERRORs, WARNINGs nor NOTEs with Ubuntu Linux 20.04.1 LTS, R-release, GCC and Fedora Linux, R-devel, clang, gfortran.
