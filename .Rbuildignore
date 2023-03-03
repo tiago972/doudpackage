@@ -9,3 +9,4 @@ my_Rfiles
 .Rhistory
 cran-comments\.md
 ^revdep$
+^README\.Rmd$
