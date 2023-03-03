@@ -11,7 +11,7 @@ I tested rhub::check() on  Debian Linux, R-devel, clang, without ERRORs, WARNING
 I tested rhub::check() on Oracle Solaris 10, x86, 32 bit, R-release with one ERRORs:
 * Package required but not available: 'kableExtra'
 
-With devtools:check_rhub(), the following NOTEs came up with Windows Server 2022, R-devel, 64 bit:
+With devtools::check_rhub(), the following NOTEs came up with Windows Server 2022, R-devel, 64 bit:
 * Possibly misspelled words in DESCRIPTION:
      Biostatistics (2:49)
      biomedical (7:41)
