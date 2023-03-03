@@ -52,7 +52,6 @@ group_rows_labels = list("Size" = c("Petal.Length", "Petal.Width"),
 "My_f" = c("num", "fact_2")))
 ```
 
-```html
-` r testParse`
-```
+`r testParse`
+
 
