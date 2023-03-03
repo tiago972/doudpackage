@@ -2,7 +2,7 @@
 % Please edit documentation in R/ft_parse.R
 \name{ft_parse}
 \alias{ft_parse}
-\title{This function is depreciated, please use anaBiv(). \code{\link[=parseClassFun]{parseClassFun()}}}
+\title{This function is depreciated, please use \code{\link[=parseClassFun]{parseClassFun()}}}
 \usage{
 ft_parse(...)
 }
@@ -10,5 +10,5 @@ ft_parse(...)
 \item{...}{None}
 }
 \description{
-This function is depreciated, please use anaBiv(). \code{\link[=parseClassFun]{parseClassFun()}}
+This function is depreciated, please use \code{\link[=parseClassFun]{parseClassFun()}}
 }

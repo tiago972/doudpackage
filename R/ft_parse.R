@@ -1,4 +1,4 @@
-#' This function is depreciated, please use anaBiv(). [parseClassFun()]
+#' This function is depreciated, please use [parseClassFun()]
 #' @param ... None
 #' @export
 ft_parse<-function(...)
