@@ -6,9 +6,8 @@ I tested the installation with devtools::check_win_release() without any ERRORs,
 There was 1 NOTE:
 * checking CRAN incoming feasibility ... NOTE
 
-
 I tested rhub::check() on Oracle Solaris 10, x86, 32 bit, R-release with one ERRORs:
 * Package required but not available: 'kableExtra'
 
 
-
+I tested rhub::check() on  Debian Linux, R-devel, clang, without ERRORs, WARNINGs nor NOTEs
