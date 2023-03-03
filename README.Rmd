@@ -1,5 +1,6 @@
 ---
 output: github_document
+always_allow_html: true
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -49,6 +50,7 @@ iris_test<-descTab(iris, group = "Species", na.print = TRUE)
 testParse<-parseClassFun(iris_test, levels_to_keep = list("fact_2" =  "A"),
 group_rows_labels = list("Size" = c("Petal.Length", "Petal.Width"),
 "My_f" = c("num", "fact_2")))
+testParse
 ```
 
 
