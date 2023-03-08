@@ -17,3 +17,16 @@ With devtools::check_rhub(), the following NOTEs came up with Windows Server 202
     'lastMiKTeXException'
 
 There was no ERRORs, WARNINGs nor NOTEs with Ubuntu Linux 20.04.1 LTS, R-release, GCC and Fedora Linux, R-devel, clang, gfortran.
+
+## Resubmission
+
+This is a resubmission. In this version I have:
+
+* added \value to .Rd files regarding exported methods and explained the functions results in the documentation for 
+- anaBiv-data.frame-character-method.Rd
+- anaBiv-listVar-character-method.Rd
+- ft_ana_biv.Rd
+- ft_desc_tab.Rd
+- ft_parse.Rd
+- parseClassFun-parseClass-method.Rd
+* Wrote about the structure of the output (class) and also what the output means. 
