@@ -154,7 +154,7 @@ methods::setGeneric("parseClassFun", function(table, col.order = NULL,
 #' Make the LaTeX/HTML table
 #'
 #' This functions takes the S4 output of descTab to create an HTML parsed table
-#' @inheritParams parseClassFun
+#' @inherit parseClassFun
 #' @export
 methods::setMethod("parseClassFun", "parseClass", function(table, col.order = NULL,
                                                   levels_to_keep = NULL,

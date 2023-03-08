@@ -1,5 +1,6 @@
 #' This function is depreciated, please use [parseClassFun()]
 #' @param ... None
+#' @return No return value, depreciated
 #' @export
 ft_parse<-function(...)
 {

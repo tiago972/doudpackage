@@ -9,6 +9,9 @@ ft_desc_tab(...)
 \arguments{
 \item{...}{None}
 }
+\value{
+No return value, depreciated
+}
 \description{
 This function is depreciated, please use anaBiv(). \code{\link[=descTab]{descTab()}}
 }

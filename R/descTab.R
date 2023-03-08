@@ -28,7 +28,7 @@ varType<-function(data, normality){
 #' @param digits.ql Integer. Significant digits for proportions
 #' @param normality One of "assess", "normal", "manual", "non normal". See details
 #'
-#' @return A S4 objects containing the main table accessible by \["table"\] subscript.
+#' @return A S4 objects [parseClass()] containing the main table accessible by \["table"\] subscript.
 #' @export
 #'
 #' @examples

@@ -13,6 +13,9 @@
 
 \item{...}{digits.p can be specified as descTab}
 }
+\value{
+A list of VarGroup object or data.frame
+}
 \description{
-anaBiv data.frame function
+Generic function of anaBiv which gives bivariate analysis according to group
 }

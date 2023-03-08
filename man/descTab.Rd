@@ -33,7 +33,7 @@ descTab(
 \item{normality}{One of "assess", "normal", "manual", "non normal". See details}
 }
 \value{
-A S4 objects containing the main table accessible by ["table"] subscript.
+A S4 objects \code{\link[=parseClass]{parseClass()}} containing the main table accessible by ["table"] subscript.
 }
 \description{
 This function allows you to display all together all univariate analysis (median/mean; IQR/SD; proportions)

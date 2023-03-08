@@ -20,7 +20,7 @@
 library(devtools)
 setwd("/Users/tiago2/BF/doudpackage")
 tryCatch({
-  .rs.restartR()
+  #.rs.restartR()
   devtools::unload(package = "doudpackage")
 },
 error=function(e){

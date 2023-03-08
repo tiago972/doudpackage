@@ -1,5 +1,6 @@
 #' This function is depreciated, please use anaBiv(). [descTab()]
 #' @param ... None
+#' @return No return value, depreciated
 #' @export
 ft_desc_tab<-function(...)
 {

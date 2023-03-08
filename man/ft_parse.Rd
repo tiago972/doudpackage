@@ -9,6 +9,9 @@ ft_parse(...)
 \arguments{
 \item{...}{None}
 }
+\value{
+No return value, depreciated
+}
 \description{
 This function is depreciated, please use \code{\link[=parseClassFun]{parseClassFun()}}
 }
