@@ -24,6 +24,6 @@ testParse<-parseClassFun(iris_test, levels_to_keep = list("fact_2" =  "1"),
                          group_rows_labels = list("Size" = c("Petal.Length", "Petal.Width"),
                         "My_f" = c("num", "fact_2", "fact_3")))
 
-
+testParse
 iris_test_table2<-filter(iris_test_table, !(Total %in% "0 (0)" & grepl(".*Missing values", iris_test_table$var)))
 

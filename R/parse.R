@@ -55,6 +55,31 @@ orderRowForGroupLabels<-function(table, group_rows_labels){
   return(table@table)
 }
 
+## Function to rename columns according to the counts of each sub-group
+getPopGroups<-function(table)
+{
+  if (is.null(table@group))
+    return(table@table)
+
+  col.names<-lapply(colnames(table@table), function(col, table){
+    factor<-levels(table@data[,table@group])
+    if (col %in% factor){
+      t<-table(table@data[,table@group], useNA = "always")
+      prop_table<-round(prop.table(t) * 100,
+                        digits = table@digits.ql)
+      col<-paste("n = ", t[col], " (", prop_table[col], ")" , sep = "")
+    }
+    else if (col == "Total")
+      col<-paste("n = ", nrow(table@data), sep = "")
+    else if (col == "var")
+      col<-""
+    return(col)
+
+  }, table)
+  colnames(table@table)<-unlist(col.names)
+  return(table@table)
+}
+
 #' @import tidyr
 #' @import kableExtra
 makeKableExtra<-function(table, col.order, group_rows_labels){
@@ -91,35 +116,11 @@ makeKableExtra<-function(table, col.order, group_rows_labels){
 
   if (table@na.print == TRUE){
     res_parsed<-res_parsed %>%
-      kableExtra::add_indent(ident)
+      kableExtra::add_indent(ident, level_of_indent = 1)
   }
   return(res_parsed)
 }
 
-## Function to rename columns according to the counts of each sub-group
-getPopGroups<-function(table)
-{
-  if (is.null(table@group))
-    return(table@table)
-
-  col.names<-lapply(colnames(table@table), function(col, table){
-    factor<-levels(table@data[,table@group])
-    if (col %in% factor){
-      t<-table(table@data[,table@group], useNA = "always")
-      prop_table<-round(prop.table(t) * 100,
-                        digits = table@digits.ql)
-      col<-paste("n = ", t[col], " (", prop_table[col], ")" , sep = "")
-    }
-    else if (col == "Total")
-      col<-paste("n = ", nrow(table@data), sep = "")
-    else if (col == "var")
-      col<-""
-    return(col)
-
-  }, table)
-  colnames(table@table)<-unlist(col.names)
-  return(table@table)
-}
 
 #### Main parsing Function #######
 #' Make the LaTeX/HTML table. Generic function
