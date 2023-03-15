@@ -1,8 +1,5 @@
 # doudpackage 2.1.0
-## Major change
 * Parallel processing added as an option
-
-## Minor changes
 * Bug correction when parsing table if only the group variable had two levels
 * Removing rows with NA regarding group variable
 
