@@ -1,17 +1,22 @@
 ######### Checking tools ##############################"
 ##### Assess variables in DescTab
-checkVarDescTab<-function(data, group, quanti, quali, na.print, pvalue, digits.p, digits.qt, digits.ql, normality){
+checkVarDescTab<-function(data, group, quanti, quali, na.print, pvalue, digits.p,
+                          digits.qt, digits.ql, normality, parallel, mc.cores){
   if(!is.data.frame(data)  && !tibble::is.tibble(data))
     stop(sprintf("data is not a data.frame: %s", class(data)))
-  if (any(!c(class(quanti), class(quali), class(na.print), class(pvalue)) %in% "logical"))
-    stop(sprintf("quanti, quali, na.print, pvalue not logical:
+  if (any(!c(class(quanti), class(quali), class(na.print), class(pvalue), class(parallel)) %in% "logical"))
+    stop(sprintf("quanti, quali, na.print, pvalue not logical, parallel:
                  quanti is %s, quali is %s, na.print is %s, pvalu is %s",
                  class(quanti), class(quali), class(na.print), class(pvalue)))
   if(any(!c(class(digits.p), class(digits.qt), class(digits.ql)) %in% c('integer', 'numeric')))
     stop(sprintf("digits.p, digits.ql and digits.qt must be integer: %s, %s, %s",
                  class(digits.p), class(digits.qt), class(digits.ql)))
   if(!normality %in% c("assess", "normal", "manual", "non normal"))
-    stop(sprintf('normality must be one of "assess",  "normal", "manual", "not normal" not "%s"', normality))
+    stop(sprintf('normality must be one of "assess",
+                 "normal", "manual", "not normal" not "%s"', normality))
+  if (isTRUE(parallel))
+    if (!class(mc.cores) %in% c('integer', 'numeric'))
+      stop(sprintf("mc.cores must be integer or numeric, is %s", class(mc.cores)))
 }
 
 ## Assess variables in parseClasseFun
@@ -43,6 +48,7 @@ checkVarParseClassFun<-function(levels_to_keep, col.order, group_rows_labels, ta
   }
 }
 #####################################################################
+############### Parse tools ##################
 # Function to get rows indexes to make row labels
 getGroupMinMax<-function(group_rows_labels, table){
   if (is.null(group_rows_labels))
@@ -56,17 +62,19 @@ getGroupMinMax<-function(group_rows_labels, table){
   return(df)
 }
 
-#### Function to create dataframe with uni and bivariate analysis ######
+################# DF Tools ##############################################
+# Function to create dataframe with uni and bivariate analysis ######
 #' @import tidyr
-makeTable<-function(quali.Univ_list.Global, group, pvalue, na.print){
+makeTable<-function(quali.Univ_list.Global, group, pvalue, na.print,
+                    parallel, mc.cores){
   ## Makes df out of the list
-  df<-dplyr::bind_rows(lapply(quali.Univ_list.Global, function(x){
+  df<-dplyr::bind_rows(parallelFun(parallel, X = quali.Univ_list.Global, FUN = function(x){
     tmp_df<-tibble::tibble("var" = c(x@parsed_name, x@missing.value.name),
                    "group_var" = c(x@value, x@missing.value), pvalue=c(x@pvalue, NA))
 
     names(tmp_df)[names(tmp_df) == "group_var"]<-x@group_var
     return(tmp_df)
-  }))
+  }, mc.cores = mc.cores))
 
   df<-subset(df, df[,"var"] != "")
   #Keep only full columns and merge
@@ -87,4 +95,17 @@ makeTable<-function(quali.Univ_list.Global, group, pvalue, na.print){
     tmp_df<-tmp_df[!grepl(".*Missing values", tmp_df[,1]),]
   df<-tmp_df
   return (list("df" = df, "pvalue"= pvalue))
+}
+
+####### Parallel tools ############################
+### Function to send the pointer to function
+#' @import parallel
+parallelFun<-function(parallel, ...){
+  args<-list(...)
+  if (parallel == "TRUE")
+    return(do.call(parallel::mclapply, args))
+  else{
+    args[["mc.cores"]]<-NULL
+    return(do.call(lapply, args))
+  }
 }

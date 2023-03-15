@@ -18,7 +18,7 @@ iris[n_na, "num"]<-NA
 summary(iris)
 load_all(".")
 
-iris_test<-descTab(iris, group = "Species", na.print = TRUE)
+iris_test<-descTab(iris, group = "Species", na.print = TRUE, parallel = TRUE)
 iris_test_table<-iris_test@table
 testParse<-parseClassFun(iris_test, levels_to_keep = list("fact_2" =  "1"),
                          group_rows_labels = list("Size" = c("Petal.Length", "Petal.Width"),

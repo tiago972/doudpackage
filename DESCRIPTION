@@ -15,6 +15,7 @@ Imports:
     dplyr,
     kableExtra,
     methods,
+    parallel,
     purrr,
     stats,
     stringi,

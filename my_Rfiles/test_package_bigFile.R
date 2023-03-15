@@ -35,29 +35,33 @@ test_df2<-test_df
 r<-sapply(n_col, function(x, test_df){
   tryCatch({
     env$test_df2[,x]<-as.numeric(test_df[,x])
-  }, 
+  },
   warning=function(w){
     env$test_df2[,x]<-as.factor(test_df[,x])
   })
   return(env$test_df2[,x])
 }, test_df)
 rm(r, env, n_col, value)
-# 
+#
 for (i in 1:ncol(test_df2)){
   if (is.factor(test_df2[,i]) && nlevels(test_df2[,i]) == 2)
     print(i)
 }
 rm(i, k, n)
 Sys.time()
-library(doudpackage)
+# library(doudpackage)
 setwd("/Users/tiago2/BF/doudpackage/old/R")
 files.sources = list.files()
 sapply(files.sources, source)
 library(tictoc)
 tic("old")
 old<-ft_desc_tab(test_df2, group = "10")
-toc("end of old")
+toc()
 Sys.sleep(3)
-tic("new")
+tic("new one process")
 new<-descTab(test_df2, group = "10")
-toc("end of new")
+toc()
+
+tic("new multi process")
+new<-descTab(test_df2, group = "10", parallel = TRUE)
+toc()

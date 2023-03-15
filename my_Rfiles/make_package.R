@@ -16,6 +16,8 @@
 # use_package("stats")
 # use_package("methods")
 # use_package("tidyr")
+# usethis::use_package("parallel")
+
 
 library(devtools)
 setwd("/Users/tiago2/BF/doudpackage")
