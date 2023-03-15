@@ -1,6 +1,4 @@
 # doudpackage 2.1.0
-
-# doupackage 2.1.2
 ## Major change
 * Parallel processing added as an option
 
