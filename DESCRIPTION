@@ -1,6 +1,6 @@
 Package: doudpackage
 Title: Create Elegant Table 1 in HTML/'LaTeX' for Bio-Statistics
-Version: 2.0.1
+Version: 2.1.0
 Authors@R: 
     person("Edouard", "Baudouin", , "edouardpierre.baudouin@aphp.fr", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-8324-6908"))
