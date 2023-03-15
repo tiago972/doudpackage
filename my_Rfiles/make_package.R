@@ -18,11 +18,12 @@
 # use_package("tidyr")
 # usethis::use_package("parallel")
 
+usethis::use_version()
 
 library(devtools)
 setwd("/Users/tiago2/BF/doudpackage")
 tryCatch({
-  #.rs.restartR()
+  .rs.restartR()
   devtools::unload(package = "doudpackage")
 },
 error=function(e){
@@ -37,3 +38,4 @@ devtools::check_win_release(".")
 
 library(rhub)
 devtools::check_rhub()
+

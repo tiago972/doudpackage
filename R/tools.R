@@ -1,4 +1,10 @@
-######### Checking tools ##############################"
+######### Checking tools ##############################
+##### Remove NA in group var ####
+checkData<-function(data, group){
+  if (!is.null(group) && table(data[,group], useNA = "always")[nlevels(data[,group]) + 1] != 0)
+    warning(paste(table(data[,group], useNA = "always")[nlevels(data[,group]) + 1], " rows have been deleted due to missing values in the defined group" ,sep = ""))
+  data<-data[!is.na(data[,group]),]
+}
 ##### Assess variables in DescTab
 checkVarDescTab<-function(data, group, quanti, quali, na.print, pvalue, digits.p,
                           digits.qt, digits.ql, normality, parallel, mc.cores){
@@ -62,40 +68,6 @@ getGroupMinMax<-function(group_rows_labels, table){
   return(df)
 }
 
-################# DF Tools ##############################################
-# Function to create dataframe with uni and bivariate analysis ######
-#' @import tidyr
-makeTable<-function(quali.Univ_list.Global, group, pvalue, na.print,
-                    parallel, mc.cores){
-  ## Makes df out of the list
-  df<-dplyr::bind_rows(parallelFun(parallel, X = quali.Univ_list.Global, FUN = function(x){
-    tmp_df<-tibble::tibble("var" = c(x@parsed_name, x@missing.value.name),
-                   "group_var" = c(x@value, x@missing.value), pvalue=c(x@pvalue, NA))
-
-    names(tmp_df)[names(tmp_df) == "group_var"]<-x@group_var
-    return(tmp_df)
-  }, mc.cores = mc.cores))
-
-  df<-subset(df, df[,"var"] != "")
-  #Keep only full columns and merge
-  for (n in colnames(df)){
-    if (n == "var" || n == "pvalue")
-      next
-    tmp<-df[!is.na(df[, n]), ] %>% dplyr::select_if(~ !any(is.na(.)))
-    if(!exists("tmp_df", inherits = FALSE))
-      tmp_df<-tmp
-    else
-      tmp_df<-merge(tmp_df, tmp, by = "var")
-  }
-  if (!is.null(group) && pvalue == TRUE)
-    tmp_df<-merge(tmp_df, unique(dplyr::select(df, "var", "pvalue"), by = "var"))
-  else
-    pvalue = FALSE
-  if (na.print == FALSE)
-    tmp_df<-tmp_df[!grepl(".*Missing values", tmp_df[,1]),]
-  df<-tmp_df
-  return (list("df" = df, "pvalue"= pvalue))
-}
 
 ####### Parallel tools ############################
 ### Function to send the pointer to function

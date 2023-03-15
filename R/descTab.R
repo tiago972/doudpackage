@@ -57,6 +57,7 @@ descTab<-function(data, group=NULL, quanti=TRUE, quali=TRUE, na.print = FALSE,
     stop(sprintf("group needs to be a factor, %s is %s", group, class(data[, group])))
   if (isTRUE(parallel) && mc.cores == 0)
     mc.cores = parallel::detectCores() - 1
+  data<-checkData(data, group)
   var_list<-varType(data, normality)
   ana.biv_list<-anaBiv(var_list, parallel, data = data, group = group,
                        digits.p = digits.p, mc.cores = mc.cores)

@@ -48,7 +48,6 @@ for (i in 1:ncol(test_df2)){
     print(i)
 }
 rm(i, k, n)
-Sys.time()
 # library(doudpackage)
 setwd("/Users/tiago2/BF/doudpackage/old/R")
 files.sources = list.files()
