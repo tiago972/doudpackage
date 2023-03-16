@@ -21,7 +21,7 @@
 usethis::use_version()
 
 library(devtools)
-setwd("/Users/tiago2/BF/doudpackage")
+setwd("/Users/Tiago/doudpackage")
 tryCatch({
   .rs.restartR()
   devtools::unload(package = "doudpackage")
