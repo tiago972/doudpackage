@@ -68,11 +68,13 @@ quantiUnivFun<-function(x, data_sub, group, digits.qt, digits.ql){
   missing.value.name = paste(x@name, "Missing values", sep = ".")
   parsed_name = x@name
   if (x@normal == TRUE){
+    parsed_name = paste(x@name, "mean (SD)", sep = " ")
     "mean"<-round(mean(data_sub[,x@name], na.rm = T), digits = digits.qt)
     "sd"<-round(sd(data_sub[,x@name], na.rm = T), digits = digits.qt)
     value = paste(mean, " (", sd, ")", sep = "")
   }
   else{
+    parsed_name = paste(x@name, "median (IQR)", sep = " ")
     "median"<-round(stats::median(data_sub[,x@name], na.rm = T), digits = digits.qt)
     "iqr"<-round(stats::IQR(data_sub[,x@name], na.rm = T), digits = digits.qt)
     value = paste(median, " (", iqr, ")", sep = "")
