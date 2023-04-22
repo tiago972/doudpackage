@@ -4,6 +4,7 @@ checkData<-function(data, group){
   if (!is.null(group) && table(data[,group], useNA = "always")[nlevels(data[,group]) + 1] != 0)
     warning(paste(table(data[,group], useNA = "always")[nlevels(data[,group]) + 1], " rows have been deleted due to missing values in the defined group" ,sep = ""))
   data<-data[!is.na(data[,group]),]
+  return(data)
 }
 ##### Assess variables in DescTab
 checkVarDescTab<-function(data, group, quanti, quali, na.print, pvalue, digits.p,
