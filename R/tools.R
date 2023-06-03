@@ -20,7 +20,7 @@ checkVarDescTab<-function(data, group, quanti, quali, na.print, pvalue, digits.p
                  class(digits.p), class(digits.qt), class(digits.ql)))
   if(!normality %in% c("assess", "normal", "manual", "non normal"))
     stop(sprintf('normality must be one of "assess",
-                 "normal", "manual", "not normal" not "%s"', normality))
+                 "normal", "manual", "non normal" not "%s"', normality))
   if (isTRUE(parallel))
     if (!class(mc.cores) %in% c('integer', 'numeric'))
       stop(sprintf("mc.cores must be integer or numeric, is %s", class(mc.cores)))
