@@ -43,7 +43,7 @@ quantiMoreLevelsFun<-function(x, data, group){
   }
   else if (x@normal == FALSE){
     tryCatch({
-      my_env$p<-stats::kruskal.test(x@name~group, data = data)$p.value
+      my_env$p<-stats::kruskal.test(data[,x@name]~data[,group])$p.value
     },
     warning=function(w){
       warning(paste(w), x@name)
