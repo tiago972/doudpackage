@@ -47,13 +47,15 @@ varType<-function(data, normality){
 #' n_na<-sample(1:150, 5)
 #' iris[n_na, "num"]<-NA
 #' iris_test<-descTab(iris, group = "Species", na.print = TRUE)
-descTab<-function(data, group=NULL, quanti=TRUE, quali=TRUE, na.print = FALSE,
+descTab<-function(data, group="", quanti=TRUE, quali=TRUE, na.print = FALSE,
                       pvalue=TRUE, digits.p=3L, digits.qt = 1L,
                   digits.ql = 1L, normality = "normal", parallel = FALSE, mc.cores = 0)
 {
+  
   checkVarDescTab(data, group, quanti, quali, na.print, pvalue, digits.p, digits.qt,
            digits.ql, normality, parallel, mc.cores)
-  if (!is.null(group) && !is.factor(data[, group]))
+  
+  if (group != "" && !is.factor(data[, group]))
     stop(sprintf("group needs to be a factor, %s is %s", group, class(data[, group])))
   if (isTRUE(parallel) && mc.cores == 0)
     mc.cores = parallel::detectCores() - 1
@@ -69,7 +71,7 @@ descTab<-function(data, group=NULL, quanti=TRUE, quali=TRUE, na.print = FALSE,
                          digits.ql = digits.ql, quali = quali, quanti = quanti,
                          mc.cores = mc.cores)
   return<-makeTable(ana.univ_list, group, pvalue, na.print, parallel, mc.cores)
-
+  # print(return$df)
   return.table<-parseClass(table = return$df, group = group, quanti = quanti,
                            quali = quali, na.print = na.print,
                            pvalue = return$pvalue,

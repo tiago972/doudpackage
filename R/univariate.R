@@ -34,7 +34,7 @@ qualiUnivFun<-function(x, data_sub, group, digits.ql){
 }
 
 lapplyQuali<-function(group, data, factor_list, digits.ql, parallel, mc.cores){
-  if (!is.null(group)){
+  if (group != ""){
     for (i in 1:nlevels(data[,group])){
       data_sub<-data[data[,group] == levels(data[,group])[i],]
       quali.Univ_list.tmp<-purrr::compact(parallelFun(parallel, X = factor_list@List, FUN = qualiUnivFun, data_sub = data_sub,
@@ -90,7 +90,7 @@ quantiUnivFun<-function(x, data_sub, group, digits.qt, digits.ql){
 }
 
 lapplyQuanti<-function(group, data, numeric_list, digits.qt, digits.ql, parallel, mc.cores){
-  if (!is.null(group)){
+  if (group != ""){
     for (i in 1:nlevels(data[,group])){
       data_sub<-data[data[,group] == levels(data[,group])[i],]
       quanti.Univ_list.tmp<-purrr::compact(parallelFun(parallel, X = numeric_list@List, FUN = quantiUnivFun,
@@ -124,7 +124,7 @@ setMethod("anaUniv", "listVar", function(var, group, data,
                                          digits.qt, digits.ql, quali, quanti,
                                          parallel, mc.cores){
   numeric_list<-purrr::compact(lapply(var@List, function(x){if("numeric" %in% x@type) return(x)}))
-  if (!is.null(group))
+  if (group != "")
     factor_list<-purrr::compact(lapply(var@List, function(x){if("factor" %in% x@type &&
                                                           x@name != group) return(x)}))
   else

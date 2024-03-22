@@ -112,7 +112,7 @@ setGeneric("anaBiv", function(var, group, parallel,...) {
 #' anaBiv data.frame function
 #' @inherit anaBiv
 setMethod("anaBiv", c(var = "listVar", group = "character"), function(var, group, parallel, ...){
-  if (!is.null(group)){
+  if (group != ""){
     lst_VarGroup.Biv<-parallelFun(parallel, X = var@List, FUN = function(x, group, data, digits.p){
       if (x@type == "factor" && x@name != group)
         quali.Biv<-qualiBivFun(x, group, data, digits.p)
@@ -135,7 +135,7 @@ setMethod("anaBiv", c(var = "listVar", group = "character"), function(var, group
 #' @inherit anaBiv
 #' @export
 setMethod("anaBiv", c(var = "data.frame", group = "character"), function(var, group, parallel, ...) {
-  if (!is.null(group) && !is.factor(var[, group]))
+  if (group != "" && !is.factor(var[, group]))
     stop(sprintf("group needs to be a factor, %s is %s", group, class(var[, group])))
   var_list<-varType(var, normality = "assess")
   ana.biv_list<-anaBiv(var_list, group = group, parallel, ...)

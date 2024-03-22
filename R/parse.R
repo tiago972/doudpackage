@@ -58,11 +58,11 @@ orderRowForGroupLabels<-function(table, group_rows_labels){
 ## Function to rename columns according to the counts of each sub-group
 getPopGroups<-function(table)
 {
-  if (is.null(table@group))
-    return(table@table)
-
   col.names<-lapply(colnames(table@table), function(col, table){
-    factor<-levels(table@data[,table@group])
+    if (table@group != "")
+      factor<-levels(table@data[,table@group])
+    else
+      factor<-""
     if (col %in% factor){
       t<-table(table@data[,table@group], useNA = "always")
       prop_table<-round(prop.table(t) * 100,
@@ -175,6 +175,8 @@ methods::setMethod("parseClassFun", "parseClass", function(table, col.order = NU
   }
   else
     col.order<-colnames(table@table)
+  print(table@table) ## L'erreur est dans le if
+  
   table@table<-getPopGroups(table)
   parsed_table<-makeKableExtra(table, col.order, group_rows_labels)
   return(parsed_table)
