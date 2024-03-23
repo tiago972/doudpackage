@@ -169,8 +169,7 @@ methods::setMethod("parseClassFun", "parseClass", function(table, col.order = NU
                                             "< 0.001", table@table$pvalue)))
 
   table@table<-parseQuali(table, levels_to_keep)
-  print(table@table) ## L'erreur est ici
-  
+
   table@table<-orderRowForGroupLabels(table, group_rows_labels)
   
   if (!is.null(col.order)){
