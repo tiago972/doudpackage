@@ -32,7 +32,8 @@ parseQuali<-function(table, levels_to_keep){
       return(NULL)
   }, table@data, table@table, levels_to_keep))
   if (length(var) != 0)
-    table@table<-table@table[-which(table@table[,"var"] %in% unlist(var)),]
+    table@table<-table@table %>%
+      filter(!var %in% !!(unlist(var)))
   return(table@table)
 }
 ########################################
@@ -159,13 +160,19 @@ methods::setGeneric("parseClassFun", function(table, col.order = NULL,
 methods::setMethod("parseClassFun", "parseClass", function(table, col.order = NULL,
                                                   levels_to_keep = NULL,
                                                   group_rows_labels = NULL){
+  
   checkVarParseClassFun(levels_to_keep, col.order, group_rows_labels, table)
+  
   if (table@pvalue == TRUE)
     table@table$pvalue<-as.character(ifelse(is.na(table@table$pvalue), "",
                                                   ifelse(table@table$pvalue < 0.001,
                                             "< 0.001", table@table$pvalue)))
+
   table@table<-parseQuali(table, levels_to_keep)
+  print(table@table) ## L'erreur est ici
+  
   table@table<-orderRowForGroupLabels(table, group_rows_labels)
+  
   if (!is.null(col.order)){
     if (!"var" %in% col.order)
       col.order<-c("var", col.order)
@@ -175,7 +182,6 @@ methods::setMethod("parseClassFun", "parseClass", function(table, col.order = NU
   }
   else
     col.order<-colnames(table@table)
-  print(table@table) ## L'erreur est dans le if
   
   table@table<-getPopGroups(table)
   parsed_table<-makeKableExtra(table, col.order, group_rows_labels)

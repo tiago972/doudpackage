@@ -71,7 +71,8 @@ descTab<-function(data, group="", quanti=TRUE, quali=TRUE, na.print = FALSE,
                          digits.ql = digits.ql, quali = quali, quanti = quanti,
                          mc.cores = mc.cores)
   return<-makeTable(ana.univ_list, group, pvalue, na.print, parallel, mc.cores)
-  # print(return$df)
+  if(group == "")
+    pvalue = F
   return.table<-parseClass(table = return$df, group = group, quanti = quanti,
                            quali = quali, na.print = na.print,
                            pvalue = return$pvalue,
