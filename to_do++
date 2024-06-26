@@ -1,0 +1,5 @@
+1/ L'order n'est pas celui choisi avec group_rows_labels
+2/ Il y a parfois un bug dans la même option: i ne prend pas une variable
+3/ Changer mean (SD) pour ,mean (SD)
+4/ Un bug dans l'afficage de variable binaire où 0 a été pris au lieu de 1
+
