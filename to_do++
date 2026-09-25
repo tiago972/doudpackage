@@ -1,0 +1,28 @@
+# FAIT en 2.2.0
+1/ L'ordre n'est pas celui choisi avec group_rows_labels
+   -> orderRowForGroupLabels() suit l'ordre des labels, spans contigus, test dedie
+2/ Il y a parfois un bug dans la meme option: i ne prend pas une variable
+   -> c'etait la correspondance par sous-chaine (age avalait age_group) + le
+      -which() vide qui vidait le tableau. Correspondance exacte via rowVarName()
+5/ Check for normality for each variable
+   -> normality = "assess" (Shapiro-Wilk par variable)
+11/ add option for font
+   -> parseClassFun(font = "...")
+
+# PAS REPRODUIT
+4/ Un bug dans l'affichage de variable binaire ou 0 a ete pris au lieu de 1
+   -> teste avec des facteurs 0/1, No/Yes, FALSE/TRUE, avec et sans NA, avec et
+      sans levels_to_keep : c'est toujours le dernier niveau qui est garde, comme
+      la doc l'annonce. Il faut un exemple concret pour aller plus loin.
+
+# RESTE A FAIRE
+3/ Changer "mean (SD)" pour ", mean (SD)"
+   -> choix d'affichage, pas un bug : a decider. rowVarName() accepte deja les
+      deux formes, donc c'est une ligne a changer dans quantiUnivFun()
+6/ Diminish memory consumption on descTab output (does not contain initial dataset)
+7/ Output option to display mean(SD)/median(IQR) for quantitative variable
+8/ Add options for indent in group_row_levels
+9/ Add automatic group_rows with factors with more than 2 levels
+   (pack_rows(label_row_css = "padding-left: 2em"))
+10/ Add option to indent group_rows
+12/ add a star/italic for significant pvalue

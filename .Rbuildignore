@@ -11,3 +11,11 @@ cran-comments\.md
 ^revdep$
 ^README\.Rmd$
 ^CRAN-SUBMISSION$
+^SMD\.R$
+^to_do\+\+$
+^doudpackage\.Rcheck$
+^doudpackage.*\.tar\.gz$
+^\.github$
+^R/R\.Rproj$
+^R/\.Rhistory$
+^R/\.Rproj\.user$
