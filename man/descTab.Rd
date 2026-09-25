@@ -2,11 +2,11 @@
 % Please edit documentation in R/descTab.R
 \name{descTab}
 \alias{descTab}
-\title{Generic function to create a table of descriptive analysis of a dataset}
+\title{Create a table of descriptive analysis of a dataset}
 \usage{
 descTab(
   data,
-  group = NULL,
+  group = "",
   quanti = TRUE,
   quali = TRUE,
   na.print = FALSE,
@@ -20,9 +20,11 @@ descTab(
 )
 }
 \arguments{
-\item{data}{A datasaset. Needs to be a data.frame/tibble object}
+\item{data}{A dataset. Needs to be a data.frame or a tibble.}
 
-\item{group}{Optional. The name of the variable to make sub-groups comparisons.}
+\item{group}{Optional. The name of the factor variable to make sub-groups
+comparisons with. Rows with a missing value for it are dropped, and its
+unused levels are dropped, both with a warning.}
 
 \item{quanti, quali, na.print, pvalue}{Logical. If false, won't display quantitative/qualitative/Missing values/pvalues variable results}
 
@@ -32,7 +34,11 @@ descTab(
 
 \item{digits.ql}{Integer. Significant digits for proportions}
 
-\item{normality}{One of "assess", "normal", "manual", "non normal". See details}
+\item{normality}{One of "normal", "non normal" or "assess". "normal" applies
+the parametric tests (mean (SD), t test/ANOVA) to every quantitative
+variable, "non normal" the non parametric ones (median (IQR),
+Wilcoxon/Kruskal-Wallis), and "assess" decides variable by variable with a
+Shapiro-Wilk test at the 5\% level.}
 
 \item{parallel}{Logical. Make analysis using parallel from \code{\link[parallel:mclapply]{parallel::mclapply()}}.}
 
@@ -42,22 +48,32 @@ descTab(
 A S4 objects \code{\link[=parseClass]{parseClass()}} containing the main table accessible by ["table"] subscript.
 }
 \description{
-This function allows you to display all together all univariate analysis (median/mean; IQR/SD; proportions)
-and bivariates analysis (Wilcoxon, Chi² or Fisher).
-The univariate analysis can be sub-grouped by a variable of interest of n levels. Appropriate statistics test will be applied
+Displays together the univariate analysis (mean/median; SD/IQR; proportions)
+and the bivariate analysis (t test/Wilcoxon, ANOVA/Kruskal-Wallis, Chi2 or
+Fisher) of every variable of a dataset. The univariate analysis can be
+sub-grouped by a variable of interest of n levels; the test applied to each
+variable follows from its type and from \code{normality}.
+}
+\details{
+Only numeric, integer and factor (including ordered factor) variables are
+described. A variable of any other type is ignored with a warning, as is a
+variable whose test cannot be computed: its p value is then \code{NA} and the rest
+of the table is still produced.
 }
 \examples{
 data(iris)
-library(stringi)
-iris$fact_1<-as.factor(as.character(sample(1:5, 150, replace = TRUE)))
-n_na<-sample(1:150, 30)
-iris[n_na, "fact_1"]<-NA
-iris$fact_2<-as.factor(as.character(sample(1:2, 150, replace = TRUE)))
-n_na<-sample(1:150, 10)
-iris[n_na, "fact_2"]<-NA
-iris$fact_3<-as.factor(as.character(stri_rand_strings(150, 1, '[A-B]')))
-iris$num<-runif(150, min = 0, max = 100)
-n_na<-sample(1:150, 5)
-iris[n_na, "num"]<-NA
-iris_test<-descTab(iris, group = "Species", na.print = TRUE)
+iris$fact_1 <- as.factor(sample(1:5, 150, replace = TRUE))
+iris$fact_1[sample(1:150, 30)] <- NA
+iris$num <- runif(150, min = 0, max = 100)
+iris$num[sample(1:150, 5)] <- NA
+
+# One column per species, plus a Total column and the p values
+iris_test <- descTab(iris, group = "Species", na.print = TRUE)
+iris_test["table"]
+
+# Let a Shapiro-Wilk test decide mean (SD) or median (IQR) variable by variable
+descTab(iris, group = "Species", normality = "assess")["table"]
+}
+\seealso{
+\code{\link[=parseClassFun]{parseClassFun()}} to turn the result into an HTML/LaTeX table.
 }

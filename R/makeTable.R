@@ -26,11 +26,12 @@ makeTable<-function(quali.Univ_list.Global, group, pvalue, na.print,
       tmp_df<-merge(tmp_df, tmp, by = "var")
   }
   if (group != "" && pvalue == TRUE)
-    tmp_df<-merge(tmp_df, unique(dplyr::select(df, "var", "pvalue"), by = "var"))
+    tmp_df<-merge(tmp_df, unique(dplyr::select(df, "var", "pvalue")), by = "var")
   else
     pvalue = FALSE
   if (na.print == FALSE)
     tmp_df<-tmp_df[!grepl(".*Missing values", tmp_df$var),]
   df<-tmp_df
+  rownames(df)<-NULL
   return (list("df" = df, "pvalue"= pvalue))
 }

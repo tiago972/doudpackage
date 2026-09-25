@@ -24,10 +24,11 @@ methods::setMethod("initialize",
           "Var",
           function(.Object, name, type, normal) {
             .Object@name <- name
-            type<-as.character(ifelse(type == "numeric" | type == "integer", "numeric",
-                                      ifelse(type == "factor", "factor",
-                                             stop(sprintf("Type unrecognised %s of %s", type, name)))))
-            .Object@type <- type
+            resolved<-resolveType(type, name)
+            if (is.na(resolved))
+              warning(sprintf("Type unrecognised %s of %s: variable will be ignored",
+                              paste(type, collapse = "/"), name))
+            .Object@type <- as.character(resolved)
             .Object@normal <- normal
             return(.Object)
           })

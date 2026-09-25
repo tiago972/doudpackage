@@ -8,7 +8,8 @@ parseClassFun(
   table,
   col.order = NULL,
   levels_to_keep = NULL,
-  group_rows_labels = NULL
+  group_rows_labels = NULL,
+  font = "arial"
 )
 }
 \arguments{
@@ -18,7 +19,9 @@ parseClassFun(
 
 \item{levels_to_keep}{Optional, named list. If the variable is binary, which level to keep. Default is the last level of levels(variable). Must be as: list("variable name" = "level to keep").}
 
-\item{group_rows_labels}{Optional, named list. Create row labels in order to regroup them. Must be as list("label" = c("var1", "var2), "label2" = c("var3", "var4")).}
+\item{group_rows_labels}{Optional, named list. Create row labels in order to regroup them. Must be as list("label" = c("var1", "var2), "label2" = c("var3", "var4")). Rows are reordered to follow the order of the labels and of the variables within each label.}
+
+\item{font}{The HTML font of the table. Default "arial".}
 }
 \value{
 An HTML/LaTex file which can be used directly in Rmarkdown and copy paste
@@ -28,16 +31,19 @@ Make the LaTeX/HTML table. Generic function
 }
 \examples{
 data(iris)
-library(stringi)
-iris$fact_1<-as.factor(as.character(sample(1:5, 150, replace = TRUE)))
-n_na<-sample(1:150, 30)
-iris[n_na, "fact_1"]<-NA
-iris$fact_2<-as.factor(as.character(stri_rand_strings(150, 1, '[A-B]')))
-iris$num<-runif(150, min = 0, max = 100)
-n_na<-sample(1:150, 5)
-iris[n_na, "num"]<-NA
-iris_test<-descTab(iris, group = "Species", na.print = TRUE)
-testParse<-parseClassFun(iris_test, levels_to_keep = list("fact_2" =  "A"),
-group_rows_labels = list("Size" = c("Petal.Length", "Petal.Width"),
-"My_f" = c("num", "fact_2")))
+iris$fact_1 <- as.factor(sample(1:5, 150, replace = TRUE))
+iris$fact_1[sample(1:150, 30)] <- NA
+iris$fact_2 <- as.factor(sample(c("A", "B"), 150, replace = TRUE))
+iris$num <- runif(150, min = 0, max = 100)
+iris$num[sample(1:150, 5)] <- NA
+iris_test <- descTab(iris, group = "Species", na.print = TRUE)
+
+# fact_2 is binary: keep the "A" line only, and group rows under two labels
+parseClassFun(iris_test,
+              levels_to_keep = list("fact_2" = "A"),
+              group_rows_labels = list("Size" = c("Petal.Length", "Petal.Width"),
+                                       "My_f" = c("num", "fact_2")))
+}
+\seealso{
+\code{\link[=descTab]{descTab()}} which produces the object this function renders.
 }

@@ -1,32 +1,29 @@
+## Submission
+
+This is an update of doudpackage (2.1.0 -> 2.2.0).
+
+It is mostly a bug fix release. The most important change is that a statistical
+test which cannot be computed (a constant variable, a factor with an empty
+level, an all-NA column...) no longer aborts the whole table: the p value is NA,
+a warning names the variable, and the table is still produced.
+
+It also implements `normality = "assess"` and repairs the `anaBiv()` method for
+data.frame, both of which previously raised an error for every input. The value
+`normality = "manual"` has been removed; it had never done anything but raise an
+error.
+
+See NEWS.md for the complete list.
+
 ## R CMD check results
-The package was built on MacOs 10.15.7 Catalina. There were no ERRORs, WARNINGs nor NOTEs. 
 
-## Environnements
-I tested the installation with devtools::check_win_release() without any ERRORs, WARNINGs. 
-There was 1 NOTE:
-* checking CRAN incoming feasibility ... NOTE
+Local check with `devtools::check(args = "--as-cran")` on macOS (R 4.6.0):
+0 ERRORs, 0 WARNINGs, 0 NOTEs.
 
-I tested rhub::check() on  Debian Linux, R-devel, clang, without ERRORs, WARNINGs nor NOTEs
+## Tests
 
-I tested rhub::check() on Oracle Solaris 10, x86, 32 bit, R-release with one ERRORs:
-* Package required but not available: 'kableExtra'
+The package now ships a testthat suite; it passes with no failure and no
+warning.
 
-With devtools::check_rhub(), the following NOTEs came up with Windows Server 2022, R-devel, 64 bit:
-* checking for detritus in the temp directory ... NOTE
-  Found the following files/directories:
-    'lastMiKTeXException'
+## Reverse dependencies
 
-There was no ERRORs, WARNINGs nor NOTEs with Ubuntu Linux 20.04.1 LTS, R-release, GCC and Fedora Linux, R-devel, clang, gfortran.
-
-## Resubmission
-
-This is a resubmission. In this version I have:
-
-* added \value to .Rd files regarding exported methods and explained the functions results in the documentation for 
-- anaBiv-data.frame-character-method.Rd
-- anaBiv-listVar-character-method.Rd
-- ft_ana_biv.Rd
-- ft_desc_tab.Rd
-- ft_parse.Rd
-- parseClassFun-parseClass-method.Rd
-* Wrote about the structure of the output (class) and also what the output means. 
+There are no reverse dependencies.

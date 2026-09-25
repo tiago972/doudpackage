@@ -2,95 +2,58 @@
 ################ Quantitative #######################
 ### Function to calculate pvalue if group levels == 2
 quantiTwoLevelsFun<-function(x, data, group){
-  my_env<-environment()
-  if (x@normal == TRUE){
-    tryCatch({
-      my_env$p<-stats::t.test(data[,x@name]~data[,group])$p.value
-    },
-    error=function(e){
-      warning(paste(e), x@name,  "in quantiTwoLevelsFun")
-    })
-  }
-  else if (x@normal == FALSE){
-    tryCatch({
-      my_env$p<-stats::wilcox.test(data[,x@name]~data[,group])$p.value
-    },
-    warning=function(w){
-      my_env$p<-stats::wilcox.test(data[,x@name]~data[,group], exact = F)$p.value
-    },
-    error=function(e){
-      warning(paste(e), x@name, " in quantiTwoLevelsFun")
-    })
-  }
-  else
-    stop(sprintf("Unknown normality %s for %s", x@normal, x@name))
-  return(my_env$p)
+  if (isTRUE(x@normal))
+    return(safePvalue(function() stats::t.test(data[, x@name] ~ data[, group])$p.value,
+                      x@name, "t.test"))
+  if (isFALSE(x@normal))
+    return(safePvalue(function() stats::wilcox.test(data[, x@name] ~ data[, group],
+                                                    exact = FALSE)$p.value,
+                      x@name, "wilcox.test"))
+  stop(sprintf("Unknown normality %s for %s", x@normal, x@name))
 }
 
 quantiMoreLevelsFun<-function(x, data, group){
-  my_env<-environment()
-  if (x@normal == TRUE){
-    tryCatch({
-      aov_res<-unlist(summary(stats::aov(data[,x@name]~data[,group])))
-      my_env$p<-aov_res["Pr(>F)1"]
-    },
-    warning=function(w){
-      warning(paste(w), x@name, " in quantiMoreLevelsFun")
-    },
-    error=function(e){
-      warning(paste(e), x@name, " in quantiMoreLevelsFun")
-    })
-  }
-  else if (x@normal == FALSE){
-    tryCatch({
-      my_env$p<-stats::kruskal.test(data[,x@name]~data[,group])$p.value
-    },
-    warning=function(w){
-      warning(paste(w), x@name)
-    },
-    error=function(e){
-      warning(paste(e), x@name, " in quantiMoreLevelsFun")
-    })
-  }
-  else
-    stop(sprintf("Unknown normality %s for %s", x@normal, x@name))
-  return(my_env$p)
+  if (isTRUE(x@normal))
+    return(safePvalue(function(){
+      aov_res<-unlist(summary(stats::aov(data[, x@name] ~ data[, group])))
+      return(aov_res["Pr(>F)1"])
+    }, x@name, "aov"))
+  if (isFALSE(x@normal))
+    return(safePvalue(function() stats::kruskal.test(data[, x@name] ~ data[, group])$p.value,
+                      x@name, "kruskal.test"))
+  stop(sprintf("Unknown normality %s for %s", x@normal, x@name))
 }
 
 ## Just a hub to assess nlevels
 quantiBivFun<-function(x, group, data, digits.p){
-  my_env<-environment()
   if (nlevels(data[, group]) == 2)
-    p = quantiTwoLevelsFun(x, data, group)
-  else if (nlevels(data[,group]) > 2)
-    p = quantiMoreLevelsFun(x, data, group)
+    p<-quantiTwoLevelsFun(x, data, group)
+  else if (nlevels(data[, group]) > 2)
+    p<-quantiMoreLevelsFun(x, data, group)
   else
-    stop(sprintf("Group levels must be at least two: %d for %s", nlevels(data[,group]), group))
+    stop(sprintf("Group levels must be at least two: %d for %s", nlevels(data[, group]), group))
 
-  var.p<-VarGroup(group_var = "Total", pvalue = round(p, digits.p),
-                  x = x)
-  return(var.p)
+  return(VarGroup(group_var = "Total", pvalue = round(p, digits.p), x = x))
 }
 #############################################
 
 ################ Qualitative ################
 ### Function to calculate pvalue for qualitative variables
 qualiBivFun<-function(x, group, data, digits.p){
-  my_env<-environment()
-  tryCatch({
-    my_env$p<-stats::chisq.test(data[,x@name], data[,group], correct=FALSE)$p.value},
-    error=function(e){
-      warning(paste(e), x@name, " in qualiBivFun")
-    },
-    warning=function(w){
-      tryCatch({
-        my_env$p<-stats::fisher.test(data[,x@name], data[,group], simulate.p.value = TRUE)$p.value},
-      error=function(e){
-        warning(paste(e), x@name, " in qualiBivFun")})
+  # chisq.test warns when its approximation is unreliable: fall back on Fisher
+  approximate<-FALSE
+  p<-withCallingHandlers(
+    tryCatch(stats::chisq.test(data[, x@name], data[, group], correct = FALSE)$p.value,
+             error = function(e) NA_real_),
+    warning = function(w){
+      approximate<<-TRUE
+      invokeRestart("muffleWarning")
     })
-  var.p<-VarGroup(group_var = "Total", pvalue = round(my_env$p, digits.p),
-                  x = x)
-  return(var.p)
+  if (isTRUE(approximate) || is.null(p) || length(p) != 1 || is.na(p))
+    p<-safePvalue(function() stats::fisher.test(data[, x@name], data[, group],
+                                                simulate.p.value = TRUE)$p.value,
+                  x@name, "fisher.test")
+  return(VarGroup(group_var = "Total", pvalue = round(p, digits.p), x = x))
 }
 
 ########### Class Methods #########################
@@ -121,7 +84,7 @@ setMethod("anaBiv", c(var = "listVar", group = "character"), function(var, group
       else if (x@name == group)
         return(NULL)
       else
-        stop(sprintf("Uknown type for %s", x@name))
+        stop(sprintf("Unknown type for %s", x@name))
     }, group = group, ...)
     lst_VarGroup.Biv<-purrr::compact(lst_VarGroup.Biv)
     return(lst_VarGroup.Biv)
@@ -133,11 +96,20 @@ setMethod("anaBiv", c(var = "listVar", group = "character"), function(var, group
 #' anaBiv data.frame function
 #'
 #' @inherit anaBiv
+#' @param normality One of "normal", "non normal" or "assess", as in [descTab()].
+#' @param digits.p Integer. Significant digits for p value.
 #' @export
-setMethod("anaBiv", c(var = "data.frame", group = "character"), function(var, group, parallel, ...) {
+setMethod("anaBiv", c(var = "data.frame", group = "character"),
+          function(var, group, parallel, normality = "normal", digits.p = 3L, ...) {
+  var<-as.data.frame(var, stringsAsFactors = FALSE)
+  if (group != "" && !group %in% colnames(var))
+    stop(sprintf("group is not a variable of var: \"%s\" not in %s",
+                 group, paste(colnames(var), collapse = ", ")))
   if (group != "" && !is.factor(var[, group]))
-    stop(sprintf("group needs to be a factor, %s is %s", group, class(var[, group])))
-  var_list<-varType(var, normality = "assess")
-  ana.biv_list<-anaBiv(var_list, group = group, parallel, ...)
-  return(ana.biv_list)
+    stop(sprintf("group needs to be a factor, %s is %s",
+                 group, paste(class(var[, group]), collapse = "/")))
+  var<-checkData(var, group)
+  var_list<-varType(var, normality = normality)
+  return(anaBiv(var_list, group = group, parallel = parallel, data = var,
+                digits.p = digits.p, ...))
 })

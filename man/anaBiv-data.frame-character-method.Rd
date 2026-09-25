@@ -4,7 +4,7 @@
 \alias{anaBiv,data.frame,character-method}
 \title{anaBiv data.frame function}
 \usage{
-\S4method{anaBiv}{data.frame,character}(var, group, parallel, ...)
+\S4method{anaBiv}{data.frame,character}(var, group, parallel, normality = "normal", digits.p = 3L, ...)
 }
 \arguments{
 \item{var}{listVar object or data.frame}
@@ -12,6 +12,10 @@
 \item{group}{Variable to make subgroups with}
 
 \item{parallel}{Logical. Make analysis using parallel from \code{\link[parallel:mclapply]{parallel::mclapply()}}.}
+
+\item{normality}{One of "normal", "non normal" or "assess", as in \code{\link[=descTab]{descTab()}}.}
+
+\item{digits.p}{Integer. Significant digits for p value.}
 
 \item{...}{digits.p can be specified as descTab}
 }
