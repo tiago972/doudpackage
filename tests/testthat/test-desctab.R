@@ -22,6 +22,13 @@ test_that("a tibble is accepted", {
   expect_s4_class(descTab(tibble::as_tibble(iris), group = "Species"), "parseClass")
 })
 
+test_that("the table is a plain data.frame, with or without a group", {
+  for (res in list(descTab(testData()), descTab(testData(), group = "Species"),
+                   descTab(tibble::as_tibble(testData())),
+                   descTab(testData(), group = "Species", quali = FALSE)))
+    expect_identical(class(res["table"]), "data.frame")
+})
+
 test_that("unused levels of the group are dropped instead of yielding a NaN column", {
   sub <- iris[iris$Species != "setosa", ]
   expect_warning(res <- descTab(sub, group = "Species"), "Unused level")

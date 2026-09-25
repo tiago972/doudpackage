@@ -62,9 +62,13 @@ varType<-function(data, normality, data.normality = data){
 #'
 #' @param data A dataset. Needs to be a data.frame or a tibble.
 #' @param group Optional. The name of the factor variable to make sub-groups
-#'   comparisons with. Rows with a missing value for it are dropped, and its
-#'   unused levels are dropped, both with a warning.
-#' @param quanti,quali,na.print,pvalue Logical. If false, won't display quantitative/qualitative/Missing values/pvalues variable results
+#'   comparisons with; it must have at least two non empty levels. Omitted,
+#'   `""` or `NULL`, the table has a single Total column. Rows with a missing
+#'   value for it are dropped, and its unused levels are dropped, both with a
+#'   warning.
+#' @param quanti,quali,na.print,pvalue Logical. If false, won't display
+#'   quantitative/qualitative/Missing values/pvalues variable results. `quanti`
+#'   and `quali` cannot both be `FALSE`.
 #' @param digits.p Integer. Significant digits for p value
 #' @param digits.qt Integer. Significant digits for mean/median, SD/IQR
 #' @param digits.ql Integer. Significant digits for proportions
@@ -74,25 +78,44 @@ varType<-function(data, normality, data.normality = data){
 #'   Wilcoxon/Kruskal-Wallis), and "assess" decides variable by variable with a
 #'   Shapiro-Wilk test at the 5% level.
 #' @param parallel Logical. Make analysis using parallel from [parallel::mclapply()].
-#' @param mc.cores If parallel is TRUE, how many Cores to used.
+#' @param mc.cores If parallel is TRUE, how many cores to use. The default, 0,
+#'   uses all the cores but one.
 #'
-#' @return A S4 objects [parseClass()] containing the main table accessible by \["table"\] subscript.
+#' @return An S4 object of class `parseClass`. Its `["table"]` element is a
+#'   `data.frame` (whether or not there is a group, and also when `data` is a
+#'   tibble) with a `var` column, one column per level of `group`, a `Total`
+#'   column and, if there is a group and `pvalue = TRUE`, a `pvalue` column.
 #' @seealso [parseClassFun()] to turn the result into an HTML/LaTeX table.
 #' @export
 #'
 #' @examples
-#' data(iris)
-#' iris$fact_1 <- as.factor(sample(1:5, 150, replace = TRUE))
-#' iris$fact_1[sample(1:150, 30)] <- NA
-#' iris$num <- runif(150, min = 0, max = 100)
-#' iris$num[sample(1:150, 5)] <- NA
+#' # A small simulated clinical trial
+#' set.seed(42)
+#' n <- 200
+#' patients <- data.frame(
+#'   arm      = factor(sample(c("Placebo", "Treatment"), n, replace = TRUE)),
+#'   age      = round(rnorm(n, mean = 65, sd = 10)),
+#'   crp      = round(rlnorm(n, meanlog = 2, sdlog = 1), 1),
+#'   sex      = factor(sample(c("Female", "Male"), n, replace = TRUE)),
+#'   diabetes = factor(sample(c("No", "Yes"), n, replace = TRUE, prob = c(0.7, 0.3))),
+#'   nyha     = factor(sample(c("I", "II", "III", "IV"), n, replace = TRUE),
+#'                     ordered = TRUE)
+#' )
+#' patients$crp[sample(n, 15)] <- NA
 #'
-#' # One column per species, plus a Total column and the p values
-#' iris_test <- descTab(iris, group = "Species", na.print = TRUE)
-#' iris_test["table"]
+#' # Compare the two arms. With normality = "assess", age (normal) is described
+#' # by mean (SD) with a t test, crp (skewed) by median (IQR) with a Wilcoxon test
+#' tab <- descTab(patients, group = "arm", normality = "assess", na.print = TRUE)
+#' tab["table"]
 #'
-#' # Let a Shapiro-Wilk test decide mean (SD) or median (IQR) variable by variable
-#' descTab(iris, group = "Species", normality = "assess")["table"]
+#' # No group: a single Total column, no test
+#' descTab(patients)["table"]
+#'
+#' # Quantitative variables only, two decimals
+#' descTab(patients, group = "arm", quali = FALSE, digits.qt = 2)["table"]
+#'
+#' # Render it (see parseClassFun() for the layout options)
+#' parseClassFun(tab)
 descTab<-function(data, group="", quanti=TRUE, quali=TRUE, na.print = FALSE,
                       pvalue=TRUE, digits.p=3L, digits.qt = 1L,
                   digits.ql = 1L, normality = "normal", parallel = FALSE, mc.cores = 0)

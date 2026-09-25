@@ -63,9 +63,9 @@ qualiBivFun<-function(x, group, data, digits.p){
 #' Generic function of anaBiv which gives bivariate analysis according to group
 #'
 #' @param var listVar object or data.frame
-#' @param group  Variable to make subgroups with
+#' @param group  Name of the factor variable to make subgroups with
 #' @param parallel Logical. Make analysis using parallel from [parallel::mclapply()].
-#' @param ... digits.p can be specified as descTab
+#' @param ... Further arguments: `normality` and `digits.p`, as in [descTab()].
 #'
 #' @return A list of VarGroup object or data.frame
 setGeneric("anaBiv", function(var, group, parallel,...) {
@@ -99,6 +99,25 @@ setMethod("anaBiv", c(var = "listVar", group = "character"), function(var, group
 #' @param normality One of "normal", "non normal" or "assess", as in [descTab()].
 #' @param digits.p Integer. Significant digits for p value.
 #' @export
+#' @examples
+#' # A small simulated clinical trial
+#' set.seed(42)
+#' n <- 200
+#' patients <- data.frame(
+#'   arm      = factor(sample(c("Placebo", "Treatment"), n, replace = TRUE)),
+#'   age      = round(rnorm(n, mean = 65, sd = 10)),
+#'   crp      = round(rlnorm(n, meanlog = 2, sdlog = 1), 1),
+#'   sex      = factor(sample(c("Female", "Male"), n, replace = TRUE)),
+#'   diabetes = factor(sample(c("No", "Yes"), n, replace = TRUE, prob = c(0.7, 0.3))),
+#'   nyha     = factor(sample(c("I", "II", "III", "IV"), n, replace = TRUE),
+#'                     ordered = TRUE)
+#' )
+#' patients$crp[sample(n, 15)] <- NA
+#'
+#' # p values only, without the descriptive table
+#' res <- anaBiv(patients, group = "arm", parallel = FALSE, normality = "assess")
+#' data.frame(variable = sapply(res, function(x) x["name"]),
+#'            pvalue = sapply(res, function(x) x["pvalue"]))
 setMethod("anaBiv", c(var = "data.frame", group = "character"),
           function(var, group, parallel, normality = "normal", digits.p = 3L, ...) {
   var<-as.data.frame(var, stringsAsFactors = FALSE)

@@ -23,10 +23,14 @@ descTab(
 \item{data}{A dataset. Needs to be a data.frame or a tibble.}
 
 \item{group}{Optional. The name of the factor variable to make sub-groups
-comparisons with. Rows with a missing value for it are dropped, and its
-unused levels are dropped, both with a warning.}
+comparisons with; it must have at least two non empty levels. Omitted,
+\code{""} or \code{NULL}, the table has a single Total column. Rows with a missing
+value for it are dropped, and its unused levels are dropped, both with a
+warning.}
 
-\item{quanti, quali, na.print, pvalue}{Logical. If false, won't display quantitative/qualitative/Missing values/pvalues variable results}
+\item{quanti, quali, na.print, pvalue}{Logical. If false, won't display
+quantitative/qualitative/Missing values/pvalues variable results. \code{quanti}
+and \code{quali} cannot both be \code{FALSE}.}
 
 \item{digits.p}{Integer. Significant digits for p value}
 
@@ -42,10 +46,14 @@ Shapiro-Wilk test at the 5\% level.}
 
 \item{parallel}{Logical. Make analysis using parallel from \code{\link[parallel:mclapply]{parallel::mclapply()}}.}
 
-\item{mc.cores}{If parallel is TRUE, how many Cores to used.}
+\item{mc.cores}{If parallel is TRUE, how many cores to use. The default, 0,
+uses all the cores but one.}
 }
 \value{
-A S4 objects \code{\link[=parseClass]{parseClass()}} containing the main table accessible by ["table"] subscript.
+An S4 object of class \code{parseClass}. Its \verb{["table"]} element is a
+\code{data.frame} (whether or not there is a group, and also when \code{data} is a
+tibble) with a \code{var} column, one column per level of \code{group}, a \code{Total}
+column and, if there is a group and \code{pvalue = TRUE}, a \code{pvalue} column.
 }
 \description{
 Displays together the univariate analysis (mean/median; SD/IQR; proportions)
@@ -61,18 +69,33 @@ variable whose test cannot be computed: its p value is then \code{NA} and the re
 of the table is still produced.
 }
 \examples{
-data(iris)
-iris$fact_1 <- as.factor(sample(1:5, 150, replace = TRUE))
-iris$fact_1[sample(1:150, 30)] <- NA
-iris$num <- runif(150, min = 0, max = 100)
-iris$num[sample(1:150, 5)] <- NA
+# A small simulated clinical trial
+set.seed(42)
+n <- 200
+patients <- data.frame(
+  arm      = factor(sample(c("Placebo", "Treatment"), n, replace = TRUE)),
+  age      = round(rnorm(n, mean = 65, sd = 10)),
+  crp      = round(rlnorm(n, meanlog = 2, sdlog = 1), 1),
+  sex      = factor(sample(c("Female", "Male"), n, replace = TRUE)),
+  diabetes = factor(sample(c("No", "Yes"), n, replace = TRUE, prob = c(0.7, 0.3))),
+  nyha     = factor(sample(c("I", "II", "III", "IV"), n, replace = TRUE),
+                    ordered = TRUE)
+)
+patients$crp[sample(n, 15)] <- NA
 
-# One column per species, plus a Total column and the p values
-iris_test <- descTab(iris, group = "Species", na.print = TRUE)
-iris_test["table"]
+# Compare the two arms. With normality = "assess", age (normal) is described
+# by mean (SD) with a t test, crp (skewed) by median (IQR) with a Wilcoxon test
+tab <- descTab(patients, group = "arm", normality = "assess", na.print = TRUE)
+tab["table"]
 
-# Let a Shapiro-Wilk test decide mean (SD) or median (IQR) variable by variable
-descTab(iris, group = "Species", normality = "assess")["table"]
+# No group: a single Total column, no test
+descTab(patients)["table"]
+
+# Quantitative variables only, two decimals
+descTab(patients, group = "arm", quali = FALSE, digits.qt = 2)["table"]
+
+# Render it (see parseClassFun() for the layout options)
+parseClassFun(tab)
 }
 \seealso{
 \code{\link[=parseClassFun]{parseClassFun()}} to turn the result into an HTML/LaTeX table.

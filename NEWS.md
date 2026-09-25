@@ -24,6 +24,7 @@
 * `digits.ql` was ignored for the Total column of the missing values of a
   quantitative variable.
 * A `tibble` is accepted, as the documentation already claimed.
+* `["table"]` is always a `data.frame`; without a group it used to be a tibble.
 * `group = NULL` now means the same as no group.
 * `quali = FALSE` together with `quanti = FALSE` is reported as such instead of
   failing with `object 'lst_VarGroup.quanti' not found`.
@@ -45,6 +46,8 @@
   parametric one.
 * `anaBiv()` on a `data.frame` works; it accepts `normality` and `digits.p`. It
   previously failed for every input.
+* `[` on a `VarGroup` (the elements returned by `anaBiv()`) also gives access to
+  `"name"`, `"type"` and `"normal"`.
 * `parseClassFun()` takes a `font` argument, instead of always using arial.
 * Parallel processing added as an option (`parallel`, `mc.cores`).
 
@@ -63,7 +66,7 @@
 
 ## Major changes
 * Added more than 2 sub-groups
-* Choice between normal and non normal variables to use either t.test/Wilcox or AOV/Krusall.wallis
+* Choice between normal and non normal variables to use either t test/Wilcoxon or ANOVA/Kruskal-Wallis
 
 ## Minor changes
 * Faster implementation (no loop used)

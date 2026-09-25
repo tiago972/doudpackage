@@ -172,6 +172,8 @@ methods::setMethod("[", "VarGroup", function(x, i) {
     return(x@missing.value)
   else if (i == "missing.value.name")
     return(x@missing.value.name)
+  else if (i %in% c("name", "type", "normal"))
+    return(methods::slot(x, i))
 })
 
 #' Method to access S4 Var elements
