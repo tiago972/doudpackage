@@ -15,7 +15,8 @@
   var_list,
   data,
   digits.qt,
-  digits.ql
+  digits.ql,
+  weights = numeric(0)
 )
 }
 \arguments{
@@ -32,6 +33,8 @@
 \item{data}{The dataset provided in descTab}
 
 \item{digits.qt, digits.ql}{As provided in descTab}
+
+\item{weights}{The weights of the rows of data, empty when not weighted}
 }
 \value{
 parseClass object

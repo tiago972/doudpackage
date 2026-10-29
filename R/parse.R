@@ -75,14 +75,20 @@ getPopGroups<-function(table)
       factor<-levels(table@data[,table@group])
     else
       factor<-""
+    weighted<-length(table@weights) != 0
     if (col %in% factor){
-      t<-table(table@data[,table@group], useNA = "always")
+      if (weighted)
+        t<-wCounts(table@data[,table@group], table@weights)
+      else
+        t<-table(table@data[,table@group], useNA = "always")
       prop_table<-round(prop.table(t) * 100,
                         digits = table@digits.ql)
-      col<-paste("n = ", t[col], " (", prop_table[col], ")" , sep = "")
+      n<-if (weighted) round(t[col], table@digits.ql) else t[col]
+      col<-paste("n = ", n, " (", prop_table[col], ")" , sep = "")
     }
     else if (col == "Total")
-      col<-paste("n = ", nrow(table@data), sep = "")
+      col<-paste("n = ", if (weighted) round(sum(table@weights), table@digits.ql)
+                 else nrow(table@data), sep = "")
     else if (col == "var")
       col<-""
     return(col)
@@ -117,6 +123,7 @@ makeKableExtra<-function(table, col.order, spans, font){
   names(headers)<-col.order
   names(headers)[names(headers) == "var"]<- ' '
   names(headers)[names(headers) == "pvalue"]<- ' '
+  names(headers)[names(headers) == "SMD"]<- ' '
 
   res_parsed<-kableExtra::kable(table@table) %>%
         kableExtra::kable_paper(html_font = font) %>%
@@ -139,7 +146,7 @@ makeKableExtra<-function(table, col.order, spans, font){
 #' Make the LaTeX/HTML table. Generic function
 #'
 #' @param table The output of [descTab()] or [anaBiv()], an S4 object.
-#' @param col.order Optional. A vector containing the column order. If set, must contain at least all levels of group, without duplicates. Three columns created are "var", "Total", and "pvalue" which can be present in the vector
+#' @param col.order Optional. A vector containing the column order. If set, must contain at least all levels of group, without duplicates. The columns created are "var", "Total", "pvalue" and "SMD" (when present) which can be present in the vector
 #' @param levels_to_keep Optional, named list. If the variable is binary, which level to keep. Default is the last level of levels(variable). Must be as: list("variable name" = "level to keep").
 #' @param group_rows_labels Optional, named list. Create row labels in order to regroup them. Must be as list("label" = c("var1", "var2"), "label2" = c("var3", "var4")). Variable names are matched exactly, and a variable with no row in the table is an error. Rows are reordered to follow the order of the labels and of the variables within each label.
 #' @param font The HTML font of the table. Default "arial".
@@ -200,6 +207,9 @@ methods::setMethod("parseClassFun", "parseClass", function(table, col.order = NU
                                             ifelse(table@table$pvalue < 0.001,
                                                    "< 0.001", table@table$pvalue)))
 
+  if ("SMD" %in% colnames(table@table))
+    table@table$SMD<-as.character(ifelse(is.na(table@table$SMD), "", table@table$SMD))
+
   table@table<-parseQuali(table, levels_to_keep)
 
   if (table@na.print == TRUE)
@@ -213,6 +223,8 @@ methods::setMethod("parseClassFun", "parseClass", function(table, col.order = NU
       col.order<-c("var", col.order)
     if ("pvalue" %in% colnames(table@table) && !"pvalue" %in% col.order)
       col.order<-c(col.order, "pvalue")
+    if ("SMD" %in% colnames(table@table) && !"SMD" %in% col.order)
+      col.order<-c(col.order, "SMD")
     table@table<-table@table[, col.order]
   }
   else

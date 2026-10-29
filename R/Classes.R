@@ -220,12 +220,14 @@ methods::setAs(
 #' @slot var_list An object of listVar [listVar-class()]
 #' @slot data The dataset provided in descTab
 #' @slot digits.qt,digits.ql As provided in descTab
+#' @slot weights The weights of the rows of data, empty when not weighted
 methods::setClass("parseClass",
          slots = c(table = "data.frame", group = "character",
                    pvalue = "logical", na.print = "logical",
                    quanti = "logical", quali = "logical",
                    var_list = "listVar", data = "data.frame",
-                   digits.qt = "numeric", digits.ql = "numeric"))
+                   digits.qt = "numeric", digits.ql = "numeric",
+                   weights = "numeric"))
 
 #' S4 class initialization function
 #'
@@ -238,12 +240,14 @@ methods::setClass("parseClass",
 #' @param var_list An object of listVar [listVar-class()]
 #' @param data The dataset provided in descTab
 #' @param digits.qt,digits.ql As provided in descTab
+#' @param weights The weights of the rows of data, empty when not weighted
 #'
 #' @return parseClass object
 methods::setMethod("initialize",
           "parseClass",
           function(.Object, table, group, pvalue, na.print,
-                   quanti, quali, var_list, data, digits.qt, digits.ql) {
+                   quanti, quali, var_list, data, digits.qt, digits.ql,
+                   weights = numeric(0)) {
             .Object@table<-table
             .Object@group <-group
             .Object@pvalue<-pvalue
@@ -254,6 +258,7 @@ methods::setMethod("initialize",
             .Object@data<-data
             .Object@digits.qt<-digits.qt
             .Object@digits.ql<-digits.ql
+            .Object@weights<-weights
 
             return(.Object)
           })
@@ -268,13 +273,16 @@ methods::setMethod("initialize",
 #' @param var_list An object of listVar [listVar-class()]
 #' @param data The dataset provided in descTab
 #' @param digits.qt,digits.ql As provided in descTab
+#' @param weights The weights of the rows of data, empty when not weighted
 #'
 #' @return parseClass object
 parseClass <- function(table, group, pvalue, na.print,
-                       quanti, quali, var_list, data, digits.qt, digits.ql) {
+                       quanti, quali, var_list, data, digits.qt, digits.ql,
+                       weights = numeric(0)) {
   return(methods::new("parseClass", table = table, group = group, pvalue = pvalue,
              na.print = na.print, quanti = quanti, quali = quali,
-             var_list = var_list, data = data, digits.qt = digits.qt, digits.ql = digits.ql))
+             var_list = var_list, data = data, digits.qt = digits.qt, digits.ql = digits.ql,
+             weights = weights))
 }
 
 #' Method to access S4 Var elements
@@ -305,6 +313,8 @@ methods::setMethod("[", "parseClass", function(x, i) {
     return(x@digits.qt)
   else if (i == "digits.ql")
     return(x@digits.ql)
+  else if (i == "weights")
+    return(x@weights)
   return(x)
 })
 

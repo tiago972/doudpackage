@@ -80,6 +80,40 @@ varType<-function(data, normality, data.normality = data){
 #' @param parallel Logical. Make analysis using parallel from [parallel::mclapply()].
 #' @param mc.cores If parallel is TRUE, how many cores to use. The default, 0,
 #'   uses all the cores but one.
+#' @param weights Optional. Weights to describe a weighted (pseudo-)population,
+#'   typically after inverse probability of treatment weighting (IPTW) or
+#'   matching. One of: the name of a numeric column of `data`, a numeric vector
+#'   with one weight per row of `data`, or a `matchit` (MatchIt) or `weightit`
+#'   (WeightIt) object, whose `$weights` are used. With MatchIt/WeightIt, give
+#'   the full data the model was fitted on (not `match.data()`): unmatched rows
+#'   have a weight of 0 and are not described. See Details.
+#' @param smd Logical. Add a `SMD` column with the absolute standardized mean
+#'   difference of every variable between the levels of `group`. Defaults to
+#'   `TRUE` when `weights` is given. Needs a group.
+#'
+#' @details
+#' **Weights.** With `weights`, means, standard deviations, medians, IQR,
+#' counts and proportions are weighted, and so are the counts in the header of
+#' [parseClassFun()]. Counts are then sums of weights, rounded to `digits.ql`.
+#' The standard deviation uses the reliability weights correction, so that with
+#' matching weights of 0/1 it is the usual standard deviation of the matched
+#' sample. The normality assessment is not weighted.
+#'
+#' Balance after weighting or matching is assessed with standardized mean
+#' differences rather than tests, so `pvalue` defaults to `FALSE` with weights.
+#' Set `pvalue = TRUE` to get design based tests from the survey package
+#' (Rao-Scott chi-squared `svychisq`, `svyttest` or a Wald test of `svyglm` for
+#' more than two groups, `svyranktest` for non normal variables).
+#'
+#' **SMD.** For a quantitative variable,
+#' \eqn{|m_1 - m_0| / \sqrt{(s_1^2 + s_0^2)/2}}; for a factor, the
+#' multivariate SMD of Yang and Dalton (2012), which is the usual SMD of a
+#' proportion for a binary factor. Means and proportions are weighted; the
+#' standard deviations (or the variances of the proportions) of the denominator
+#' are computed on the unweighted data, as cobalt does with
+#' `s.d.denom = "pooled"`, so that the denominator is the same before and after
+#' weighting. With more than two groups, the largest pairwise SMD is shown. It
+#' is rounded to `digits.p`.
 #'
 #' @return An S4 object of class `parseClass`. Its `["table"]` element is a
 #'   `data.frame` (whether or not there is a group, and also when `data` is a
@@ -116,9 +150,28 @@ varType<-function(data, normality, data.normality = data){
 #'
 #' # Render it (see parseClassFun() for the layout options)
 #' parseClassFun(tab)
+#'
+#' # Inverse probability of treatment weighting (ATE weights): weighted
+#' # description and SMD instead of p values
+#' ps <- glm(arm ~ age + sex + diabetes, data = patients,
+#'           family = binomial)$fitted.values
+#' patients$iptw <- ifelse(patients$arm == "Treatment", 1 / ps, 1 / (1 - ps))
+#' descTab(patients, group = "arm", weights = "iptw")["table"]
+#'
+#' # The same table with the SMD of the crude data, for comparison
+#' descTab(patients, group = "arm", smd = TRUE)["table"]
+#'
+#' \donttest{
+#' # From MatchIt: give the matchit object and the full data
+#' if (requireNamespace("MatchIt", quietly = TRUE)) {
+#'   m <- MatchIt::matchit(arm ~ age + sex + diabetes, data = patients)
+#'   descTab(patients, group = "arm", weights = m)["table"]
+#' }
+#' }
 descTab<-function(data, group="", quanti=TRUE, quali=TRUE, na.print = FALSE,
-                      pvalue=TRUE, digits.p=3L, digits.qt = 1L,
-                  digits.ql = 1L, normality = "normal", parallel = FALSE, mc.cores = 0)
+                      pvalue=is.null(weights), digits.p=3L, digits.qt = 1L,
+                  digits.ql = 1L, normality = "normal", parallel = FALSE, mc.cores = 0,
+                  weights = NULL, smd = !is.null(weights))
 {
   
   if (is.null(group))
@@ -126,13 +179,32 @@ descTab<-function(data, group="", quanti=TRUE, quali=TRUE, na.print = FALSE,
   data<-as.data.frame(data, stringsAsFactors = FALSE)
   checkVarDescTab(data, group, quanti, quali, na.print, pvalue, digits.p, digits.qt,
            digits.ql, normality, parallel, mc.cores)
+  if (!is.logical(smd) || length(smd) != 1 || is.na(smd))
+    stop(sprintf("smd must be TRUE or FALSE, not %s", paste(smd, collapse = ", ")))
 
   if (isTRUE(parallel) && mc.cores == 0)
     mc.cores = parallel::detectCores() - 1
+  # The weights travel with the rows in an internal column, so that they
+  # follow every subset of the data
+  w<-resolveWeights(weights, data)
+  weighted<-!is.null(w)
+  if (weighted)
+    data[, weightCol]<-w
   data<-checkData(data, group)
-  var_list<-varType(data, normality, data.normality = data)
+  if (weighted && group != ""){
+    w.group<-tapply(data[, weightCol], data[, group], sum)
+    if (any(w.group == 0))
+      stop(sprintf("Every level of %s needs a positive sum of weights: %s",
+                   group, paste(names(w.group)[w.group == 0], collapse = ", ")))
+  }
+  # Neither the weights nor the column they come from are described
+  described<-setdiff(colnames(data), c(weightCol, if (is.character(weights)) weights))
+  data.normality<-if (weighted) data[data[, weightCol] > 0, , drop = FALSE] else data
+  var_list<-varType(data[, described, drop = FALSE], normality,
+                    data.normality = data.normality)
+  test<-if (!weighted) "classic" else if (isTRUE(pvalue)) "survey" else "none"
   ana.biv_list<-anaBiv(var_list, parallel, data = data, group = group,
-                       digits.p = digits.p, mc.cores = mc.cores)
+                       digits.p = digits.p, mc.cores = mc.cores, test = test)
   if (is.null(ana.biv_list))
     ana.biv_list<-lapply(var_list@List, methods::as, Class = "VarGroup")
   ana.biv_list<-methods::new("listVar", List = ana.biv_list)
@@ -143,10 +215,19 @@ descTab<-function(data, group="", quanti=TRUE, quali=TRUE, na.print = FALSE,
   return<-makeTable(ana.univ_list, group, pvalue, na.print, parallel, mc.cores)
   if(group == "")
     pvalue = F
+  if (isTRUE(smd) && group != "")
+    return$df<-addSmdColumn(return$df, var_list, data, group, digits.p)
+  if (weighted){
+    w<-data[, weightCol]
+    data[, weightCol]<-NULL
+  }
+  else
+    w<-numeric(0)
   return.table<-parseClass(table = return$df, group = group, quanti = quanti,
                            quali = quali, na.print = na.print,
                            pvalue = return$pvalue,
                            var_list = var_list, data = data,
-                           digits.qt = digits.qt, digits.ql = digits.ql)
+                           digits.qt = digits.qt, digits.ql = digits.ql,
+                           weights = w)
   return(return.table)
 }
