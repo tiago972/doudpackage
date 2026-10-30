@@ -25,8 +25,12 @@ quantiMoreLevelsFun<-function(x, data, group){
 }
 
 ## Just a hub to assess nlevels
-quantiBivFun<-function(x, group, data, digits.p){
-  if (nlevels(data[, group]) == 2)
+quantiBivFun<-function(x, group, data, digits.p, test = "classic"){
+  if (test == "none")
+    p<-NA_real_
+  else if (test == "survey")
+    p<-surveyQuantiPvalue(x, data, group)
+  else if (nlevels(data[, group]) == 2)
     p<-quantiTwoLevelsFun(x, data, group)
   else if (nlevels(data[, group]) > 2)
     p<-quantiMoreLevelsFun(x, data, group)
@@ -39,7 +43,12 @@ quantiBivFun<-function(x, group, data, digits.p){
 
 ################ Qualitative ################
 ### Function to calculate pvalue for qualitative variables
-qualiBivFun<-function(x, group, data, digits.p){
+qualiBivFun<-function(x, group, data, digits.p, test = "classic"){
+  if (test == "none")
+    return(VarGroup(group_var = "Total", pvalue = NA_real_, x = x))
+  if (test == "survey")
+    return(VarGroup(group_var = "Total", pvalue = round(surveyQualiPvalue(x, data, group), digits.p),
+                    x = x))
   # chisq.test warns when its approximation is unreliable: fall back on Fisher
   approximate<-FALSE
   p<-withCallingHandlers(
@@ -76,11 +85,12 @@ setGeneric("anaBiv", function(var, group, parallel,...) {
 #' @inherit anaBiv
 setMethod("anaBiv", c(var = "listVar", group = "character"), function(var, group, parallel, ...){
   if (group != ""){
-    lst_VarGroup.Biv<-parallelFun(parallel, X = var@List, FUN = function(x, group, data, digits.p){
+    lst_VarGroup.Biv<-parallelFun(parallel, X = var@List, FUN = function(x, group, data, digits.p,
+                                                                       test = "classic"){
       if (x@type == "factor" && x@name != group)
-        quali.Biv<-qualiBivFun(x, group, data, digits.p)
+        quali.Biv<-qualiBivFun(x, group, data, digits.p, test)
       else if (x@type == "numeric")
-        quanti.Biv<-quantiBivFun(x, group, data, digits.p)
+        quanti.Biv<-quantiBivFun(x, group, data, digits.p, test)
       else if (x@name == group)
         return(NULL)
       else

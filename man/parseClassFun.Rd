@@ -15,7 +15,7 @@ parseClassFun(
 \arguments{
 \item{table}{The output of \code{\link[=descTab]{descTab()}} or \code{\link[=anaBiv]{anaBiv()}}, an S4 object.}
 
-\item{col.order}{Optional. A vector containing the column order. If set, must contain at least all levels of group, without duplicates. Three columns created are "var", "Total", and "pvalue" which can be present in the vector}
+\item{col.order}{Optional. A vector containing the column order. If set, must contain at least all levels of group, without duplicates. The columns created are "var", "Total", "pvalue" and "SMD" (when present) which can be present in the vector}
 
 \item{levels_to_keep}{Optional, named list. If the variable is binary, which level to keep. Default is the last level of levels(variable). Must be as: list("variable name" = "level to keep").}
 

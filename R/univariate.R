@@ -1,8 +1,12 @@
 ##### Quali Univ Fun ###
 qualiUnivFun<-function(x, data_sub, group, digits.ql){
+  w<-getWeights(data_sub)
   for (i in 1:nlevels(data_sub[, x@name])){
-    tab = table(data_sub[, x@name], useNA = "always")
-    n = tab[i]
+    if (is.null(w))
+      tab = table(data_sub[, x@name], useNA = "always")
+    else
+      tab = wCounts(data_sub[, x@name], w)
+    n = if (is.null(w)) tab[i] else round(tab[i], digits.ql)
     prop = round(prop.table(tab) * 100, digits.ql)[i]
 
     parsed_name = paste(x@name, levels(data_sub[, x@name])[i], sep = ", ")
@@ -11,6 +15,8 @@ qualiUnivFun<-function(x, data_sub, group, digits.ql){
 
     if (i == nlevels(data_sub[, x@name])){
       n.missing.value = tab[(nlevels(data_sub[, x@name]) + 1)]
+      if (!is.null(w))
+        n.missing.value = round(n.missing.value, digits.ql)
       prop.missing.value = round(prop.table(tab) * 100, digits = digits.ql)[(nlevels(data_sub[, x@name]) + 1)]
       missing.value = paste(n.missing.value, " (", prop.missing.value, ")", sep = "")
       missing.value.name = paste(x@name , "Missing values", sep = ".")
@@ -59,15 +65,26 @@ lapplyQuali<-function(group, data, factor_list, digits.ql, parallel, mc.cores){
 ######### QuantiFun ##################
 quantiUnivFun<-function(x, data_sub, group, digits.qt, digits.ql){
   group_var<-as.character(ifelse(is.null(group), "Total", group))
-  tab.missing = table(is.na(data_sub[, x@name]))
-  n.missing.value = as.numeric(ifelse(is.na(tab.missing[2]), 0, tab.missing[2]))
-  prop.missing.value<-as.numeric(ifelse(n.missing.value == 0, 0,
-                                        round(prop.table(tab.missing)[2] * 100,
-                                        digits = digits.ql)))
+  w<-getWeights(data_sub)
+  if (is.null(w)){
+    tab.missing = table(is.na(data_sub[, x@name]))
+    n.missing.value = as.numeric(ifelse(is.na(tab.missing[2]), 0, tab.missing[2]))
+    prop.missing.value<-as.numeric(ifelse(n.missing.value == 0, 0,
+                                          round(prop.table(tab.missing)[2] * 100,
+                                          digits = digits.ql)))
+  }
+  else{
+    w.missing<-sum(w[is.na(data_sub[, x@name])])
+    n.missing.value<-round(w.missing, digits.ql)
+    prop.missing.value<-round(w.missing / sum(w) * 100, digits = digits.ql)
+  }
   missing.value<-paste(n.missing.value, " (", prop.missing.value, ")", sep = "")
   missing.value.name = paste(x@name, "Missing values", sep = ".")
   parsed_name = x@name
   values<-data_sub[, x@name]
+  # Rows of weight 0 (unmatched) are not described
+  if (!is.null(w))
+    values[w == 0]<-NA
   if (all(is.na(values))){
     return(VarGroup(x = x, group_var = group_var, pvalue = x@pvalue,
                     parsed_name = paste(x@name,
@@ -77,13 +94,26 @@ quantiUnivFun<-function(x, data_sub, group, digits.qt, digits.ql){
   }
   if (x@normal == TRUE){
     parsed_name = paste(x@name, "mean (SD)", sep = " ")
-    center<-round(mean(values, na.rm = TRUE), digits = digits.qt)
-    spread<-round(stats::sd(values, na.rm = TRUE), digits = digits.qt)
+    if (is.null(w)){
+      center<-round(mean(values, na.rm = TRUE), digits = digits.qt)
+      spread<-round(stats::sd(values, na.rm = TRUE), digits = digits.qt)
+    }
+    else{
+      center<-round(wMean(values, w), digits = digits.qt)
+      spread<-round(sqrt(wVar(values, w)), digits = digits.qt)
+    }
   }
   else{
     parsed_name = paste(x@name, "median (IQR)", sep = " ")
-    center<-round(stats::median(values, na.rm = TRUE), digits = digits.qt)
-    spread<-round(stats::IQR(values, na.rm = TRUE), digits = digits.qt)
+    if (is.null(w)){
+      center<-round(stats::median(values, na.rm = TRUE), digits = digits.qt)
+      spread<-round(stats::IQR(values, na.rm = TRUE), digits = digits.qt)
+    }
+    else{
+      q<-wQuantile(values, w, c(0.25, 0.5, 0.75))
+      center<-round(q[2], digits = digits.qt)
+      spread<-round(q[3] - q[1], digits = digits.qt)
+    }
   }
   value = paste(center, " (", spread, ")", sep = "")
 

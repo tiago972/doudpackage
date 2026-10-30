@@ -10,13 +10,15 @@ descTab(
   quanti = TRUE,
   quali = TRUE,
   na.print = FALSE,
-  pvalue = TRUE,
+  pvalue = is.null(weights),
   digits.p = 3L,
   digits.qt = 1L,
   digits.ql = 1L,
   normality = "normal",
   parallel = FALSE,
-  mc.cores = 0
+  mc.cores = 0,
+  weights = NULL,
+  smd = !is.null(weights)
 )
 }
 \arguments{
@@ -48,6 +50,18 @@ Shapiro-Wilk test at the 5\% level.}
 
 \item{mc.cores}{If parallel is TRUE, how many cores to use. The default, 0,
 uses all the cores but one.}
+
+\item{weights}{Optional. Weights to describe a weighted (pseudo-)population,
+typically after inverse probability of treatment weighting (IPTW) or
+matching. One of: the name of a numeric column of \code{data}, a numeric vector
+with one weight per row of \code{data}, or a \code{matchit} (MatchIt) or \code{weightit}
+(WeightIt) object, whose \verb{$weights} are used. With MatchIt/WeightIt, give
+the full data the model was fitted on (not \code{match.data()}): unmatched rows
+have a weight of 0 and are not described. See Details.}
+
+\item{smd}{Logical. Add a \code{SMD} column with the absolute standardized mean
+difference of every variable between the levels of \code{group}. Defaults to
+\code{TRUE} when \code{weights} is given. Needs a group.}
 }
 \value{
 An S4 object of class \code{parseClass}. Its \verb{["table"]} element is a
@@ -67,6 +81,29 @@ Only numeric, integer and factor (including ordered factor) variables are
 described. A variable of any other type is ignored with a warning, as is a
 variable whose test cannot be computed: its p value is then \code{NA} and the rest
 of the table is still produced.
+
+\strong{Weights.} With \code{weights}, means, standard deviations, medians, IQR,
+counts and proportions are weighted, and so are the counts in the header of
+\code{\link[=parseClassFun]{parseClassFun()}}. Counts are then sums of weights, rounded to \code{digits.ql}.
+The standard deviation uses the reliability weights correction, so that with
+matching weights of 0/1 it is the usual standard deviation of the matched
+sample. The normality assessment is not weighted.
+
+Balance after weighting or matching is assessed with standardized mean
+differences rather than tests, so \code{pvalue} defaults to \code{FALSE} with weights.
+Set \code{pvalue = TRUE} to get design based tests from the survey package
+(Rao-Scott chi-squared \code{svychisq}, \code{svyttest} or a Wald test of \code{svyglm} for
+more than two groups, \code{svyranktest} for non normal variables).
+
+\strong{SMD.} For a quantitative variable,
+\eqn{|m_1 - m_0| / \sqrt{(s_1^2 + s_0^2)/2}}; for a factor, the
+multivariate SMD of Yang and Dalton (2012), which is the usual SMD of a
+proportion for a binary factor. Means and proportions are weighted; the
+standard deviations (or the variances of the proportions) of the denominator
+are computed on the unweighted data, as cobalt does with
+\code{s.d.denom = "pooled"}, so that the denominator is the same before and after
+weighting. With more than two groups, the largest pairwise SMD is shown. It
+is rounded to \code{digits.p}.
 }
 \examples{
 # A small simulated clinical trial
@@ -96,6 +133,24 @@ descTab(patients, group = "arm", quali = FALSE, digits.qt = 2)["table"]
 
 # Render it (see parseClassFun() for the layout options)
 parseClassFun(tab)
+
+# Inverse probability of treatment weighting (ATE weights): weighted
+# description and SMD instead of p values
+ps <- glm(arm ~ age + sex + diabetes, data = patients,
+          family = binomial)$fitted.values
+patients$iptw <- ifelse(patients$arm == "Treatment", 1 / ps, 1 / (1 - ps))
+descTab(patients, group = "arm", weights = "iptw")["table"]
+
+# The same table with the SMD of the crude data, for comparison
+descTab(patients, group = "arm", smd = TRUE)["table"]
+
+\donttest{
+# From MatchIt: give the matchit object and the full data
+if (requireNamespace("MatchIt", quietly = TRUE)) {
+  m <- MatchIt::matchit(arm ~ age + sex + diabetes, data = patients)
+  descTab(patients, group = "arm", weights = m)["table"]
+}
+}
 }
 \seealso{
 \code{\link[=parseClassFun]{parseClassFun()}} to turn the result into an HTML/LaTeX table.

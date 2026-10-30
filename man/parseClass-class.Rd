@@ -22,5 +22,7 @@ the missing values and the group for which it was calculated
 \item{\code{data}}{The dataset provided in descTab}
 
 \item{\code{digits.qt,digits.ql}}{As provided in descTab}
+
+\item{\code{weights}}{The weights of the rows of data, empty when not weighted}
 }}
 

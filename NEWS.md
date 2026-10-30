@@ -1,3 +1,20 @@
+# doudpackage (development version)
+
+## New features
+
+* `descTab()` gains a `weights` argument to describe a weighted population,
+  typically after inverse probability of treatment weighting (IPTW) or
+  matching. It takes the name of a column, a numeric vector, or directly a
+  `matchit` (MatchIt) or `weightit` (WeightIt) object. Means, SD, medians, IQR,
+  counts and proportions are weighted, and so are the counts in the header of
+  `parseClassFun()`.
+* `descTab()` gains a `smd` argument that adds a `SMD` column (absolute
+  standardized mean difference, multivariate for factors of more than two
+  levels, largest pairwise for more than two groups). It is on by default with
+  weights, and can be used without weights to show the crude imbalance.
+* With weights, p values are off by default; `pvalue = TRUE` gives design based
+  tests from the survey package (now in Suggests).
+
 # doudpackage 2.2.0
 
 ## Bug fixes
