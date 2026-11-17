@@ -99,6 +99,71 @@ parseClassFun(
 )
 ```
 
+## Weighted populations: IPTW and matching
+
+After inverse probability of treatment weighting (IPTW) or matching,
+give the weights to `descTab()`. Every statistic is then computed on the
+weighted population, and balance is shown with standardized mean
+differences (SMD) instead of p values.
+
+``` r
+set.seed(1)
+n <- 500
+cohort <- data.frame(
+  age      = round(rnorm(n, mean = 65, sd = 10)),
+  sex      = factor(sample(c("Female", "Male"), n, replace = TRUE)),
+  diabetes = factor(sample(c("No", "Yes"), n, replace = TRUE, prob = c(0.7, 0.3)))
+)
+# Older and diabetic patients are treated more often: the groups are unbalanced
+p.treat <- plogis(-4 + 0.05 * cohort$age + 0.8 * (cohort$diabetes == "Yes"))
+cohort$treated <- factor(ifelse(runif(n) < p.treat, "Treated", "Control"))
+
+# Crude table, with the SMD to show the imbalance
+descTab(cohort, group = "treated", smd = TRUE)["table"]
+#>             var    Control     Treated       Total pvalue   SMD
+#> 1 age mean (SD) 62.9 (9.4) 68.7 (10.2) 65.2 (10.1)  0.000 0.581
+#> 2  diabetes, No 229 (76.3)  115 (57.5)  344 (68.8)  0.000 0.409
+#> 3 diabetes, Yes  71 (23.7)   85 (42.5)  156 (31.2)  0.000 0.409
+#> 4   sex, Female 142 (47.3)     98 (49)    240 (48)  0.715 0.033
+#> 5     sex, Male 158 (52.7)    102 (51)    260 (52)  0.715 0.033
+
+# Propensity score and ATE weights
+ps <- glm(treated ~ age + sex + diabetes, data = cohort,
+          family = binomial)$fitted.values
+cohort$iptw <- ifelse(cohort$treated == "Treated", 1 / ps, 1 / (1 - ps))
+
+# Weighted table: the SMD are now close to 0
+tab.w <- descTab(cohort, group = "treated", weights = "iptw")
+tab.w["table"]
+#>             var      Control      Treated        Total   SMD
+#> 1 age mean (SD)   64.8 (9.5)  65.1 (10.5)    64.9 (10) 0.028
+#> 2  diabetes, No 343.5 (69.6) 343.9 (68.4)   687.4 (69) 0.025
+#> 3 diabetes, Yes 150.2 (30.4) 158.6 (31.6)   308.8 (31) 0.025
+#> 4   sex, Female 235.6 (47.7) 256.7 (51.1) 492.4 (49.4) 0.067
+#> 5     sex, Male 258.1 (52.3) 245.8 (48.9) 503.9 (50.6) 0.067
+```
+
+The weights column (`iptw`) is not described. Counts are sums of
+weights, also in the header of `parseClassFun(tab.w)`. An SMD below 0.1
+is the usual mark of a good balance.
+
+`weights` also takes a numeric vector, or directly a `matchit` (MatchIt)
+or `weightit` (WeightIt) object. Give the full data the model was fitted
+on, not `match.data()`: unmatched patients have a weight of 0 and are
+left out.
+
+``` r
+m <- MatchIt::matchit(treated ~ age + sex + diabetes, data = cohort)
+descTab(cohort, group = "treated", weights = m)
+
+w <- WeightIt::weightit(treated ~ age + sex + diabetes, data = cohort, estimand = "ATE")
+descTab(cohort, group = "treated", weights = w)
+```
+
+P values are off by default with weights. `pvalue = TRUE` gives design
+based tests from the [survey](https://CRAN.R-project.org/package=survey)
+package.
+
 Useful `descTab()` arguments:
 
 | Argument | Effect |
@@ -106,6 +171,8 @@ Useful `descTab()` arguments:
 | `group` | the factor defining the columns; omit it for a single Total column |
 | `na.print` | add a “Missing values” row under each variable |
 | `pvalue` | drop the p value column |
+| `weights` | IPTW or matching weights: a column name, a vector, or a `matchit`/`weightit` object |
+| `smd` | add a standardized mean difference column (default with `weights`) |
 | `quanti`, `quali` | restrict the table to one kind of variable |
 | `digits.p`, `digits.qt`, `digits.ql` | rounding for p values, mean/SD, proportions |
 | `parallel`, `mc.cores` | compute the analyses with `parallel::mclapply()` |
